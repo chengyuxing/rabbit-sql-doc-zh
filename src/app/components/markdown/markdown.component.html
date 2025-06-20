@@ -1,0 +1,33 @@
+<div class="markdown">
+  @if (content) {
+    <main>
+      @if (title1) {
+        <h1 [style.top]="top()">
+          @if (title23456; as titles) {
+            <button mat-icon-button class="outline-menu" [matMenuTriggerFor]="menu">
+              <mat-icon>list</mat-icon>
+            </button>
+            <mat-menu #menu=matMenu>
+              @for (title of titles; track title.id) {
+                <a [routerLink]="[]" [fragment]="title.id" [class.active]="title.id === currentHash"
+                   mat-menu-item>{{ title.content }}</a>
+              }
+            </mat-menu>
+          }
+          <span>{{ title1.content }}</span>
+        </h1>
+      }
+      <article [innerHTML]="content | safehtml"></article>
+    </main>
+    @if (title23456; as titles) {
+      <div class="outline">
+        <div class="header"><b>导航大纲</b></div>
+        <nav>
+          @for (title of titles; track title.id) {
+            <a [routerLink]="[]" [fragment]="title.id" [class.active]="title.id === currentHash">{{ title.content }}</a>
+          }
+        </nav>
+      </div>
+    }
+  }
+</div>

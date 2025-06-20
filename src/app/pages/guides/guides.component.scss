@@ -1,0 +1,18 @@
+.guides {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 48px;
+
+  .card-link {
+    margin: 16px;
+
+    mat-card {
+      height: 230px;
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+}

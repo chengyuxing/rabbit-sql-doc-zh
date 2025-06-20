@@ -1,0 +1,151 @@
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background-color: #ebd0ff;
+  z-index: 1;
+
+  &:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url(../../../../public/images/rabbit-sql.svg) no-repeat center center;
+    background-size: cover;
+    opacity: 0.1;
+    z-index: -1;
+  }
+
+  .container {
+    margin: 95px auto 0;
+    padding: 0 10px;
+    max-width: 902px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    h1 {
+      text-align: center;
+      font-size: 72px;
+      line-height: 81px;
+      letter-spacing: -1.5px;
+      font-weight: 600;
+      padding-bottom: 8px;
+      margin-bottom: 0;
+    }
+
+    p {
+      text-align: center;
+      font-size: 18px;
+      max-width: 600px;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: row;
+
+      & a + a {
+        margin-left: 40px;
+      }
+    }
+
+    .big-logo {
+      width: 100%;
+      max-width: 220px;
+      margin: 80px;
+    }
+  }
+
+}
+
+main {
+  width: 75%;
+  max-width: 1080px;
+  padding: 50px 10px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-divider {
+  width: 100%;
+}
+
+.stretch {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.introduction {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 50px;
+
+  .column {
+    width: 32%;
+    display: flex;
+    flex-direction: column;
+
+    & + .column {
+      margin-left: 2%;
+    }
+  }
+
+  .description {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .snapshot {
+    width: 75%;
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 850px) {
+  .introduction {
+    flex-direction: column;
+
+    .column {
+      width: 100%;
+
+      & + .column {
+        margin-left: 0;
+      }
+    }
+
+    .description {
+      width: 100%;
+    }
+
+    .snapshot {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    .container {
+      h1 {
+        font-size: 42px;
+        line-height: 51px;
+      }
+    }
+  }
+}
+
+footer {
+  background-color: rgb(41, 41, 41);
+  padding: 50px;
+  color: white;
+}
+

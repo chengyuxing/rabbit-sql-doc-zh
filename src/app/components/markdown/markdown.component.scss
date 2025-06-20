@@ -1,0 +1,138 @@
+.markdown {
+  display: flex;
+  align-items: flex-start;
+
+  .outline-menu {
+    display: none;
+  }
+
+  main {
+    padding: 20px 30px;
+    outline: currentColor;
+    flex-grow: 1;
+    width: 75%;
+
+    > h1 {
+      display: flex;
+      align-items: center;
+      border-bottom: 2px solid #ae67e7;
+      padding-bottom: 8px;
+      padding-top: 8px;
+      position: sticky;
+      background-color: white;
+      z-index: 1;
+    }
+
+    > article {
+      #md-outline-0 {
+        display: none;
+      }
+
+      .md-outline {
+        display: flex;
+        align-items: center;
+        min-height: 26px;
+
+        &:hover {
+          .title-link {
+            display: block;
+          }
+        }
+
+        .title-link {
+          display: none;
+          height: 100%;
+          padding: 0;
+        }
+      }
+
+      p {
+        code {
+          background-color: #f1e5fb;
+          padding: 4px 6px;
+          border-radius: 4px;
+          color: #191919;
+        }
+      }
+
+      pre {
+        line-height: 1.6;
+        position: relative;
+        border: 1px solid #a97acf;
+        border-radius: 4px;
+        padding-right: 40px;
+
+        > .code-copy {
+          position: absolute;
+          color: rgb(144, 144, 144);
+          right: 0;
+          top: 2px;
+
+          &:hover {
+            color: #191919;
+          }
+        }
+
+        > .hljs {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+
+  .outline {
+    position: sticky;
+    top: 100px;
+    border-left: 4px solid #b787de;
+    padding: 8px 0 8px 16px;
+    box-sizing: border-box;
+
+    .header {
+      margin-bottom: 5px;
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+
+      a {
+        text-decoration: none;
+        font-size: 14px;
+        color: rgb(32, 32, 32);
+        padding: 4px 0;
+
+        &:hover {
+          color: #8632ca;
+        }
+
+        &.active {
+          color: #8632ca;
+          background-color: transparent !important;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 880px) {
+    .outline {
+      display: none;
+    }
+    .outline-menu {
+      display: initial;
+    }
+  }
+  @media (max-width: 768px) {
+    main {
+      padding-left: 0;
+      padding-right: 0;
+
+      > h1 {
+        font-size: 1.5em;
+      }
+
+      > article {
+        padding: 0 20px;
+      }
+    }
+  }
+}

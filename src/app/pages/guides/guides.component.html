@@ -1,0 +1,12 @@
+<div class="guides">
+  @for (guide of allGuides; track guide.id) {
+    <a mat-ripple class="card-link" [routerLink]="[guide.id]">
+      <mat-card>
+        <mat-card-content>
+          <h3 mat-card-title>{{ guide.title }}</h3>
+          <p>{{ guide.description }}</p>
+        </mat-card-content>
+      </mat-card>
+    </a>
+  }
+</div>

@@ -1,0 +1,44 @@
+mat-sidenav-container {
+  position: absolute;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  > mat-sidenav {
+    width: 260px;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        border-width: 0;
+        display: flex;
+        outline: none;
+        cursor: pointer;
+        text-decoration: none;
+
+        a {
+          display: block;
+          width: 100%;
+          padding: 16px 20px;
+          text-decoration: none;
+          color: #191919;
+          transition: background-color 0.2s ease;
+
+          &:hover {
+            background-color: rgba(48, 48, 48, 0.15);
+          }
+        }
+      }
+    }
+  }
+
+  > mat-sidenav-content {
+    .content {
+      padding: 32px;
+    }
+  }
+}

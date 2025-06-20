@@ -1,1 +1,63 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+$primary: mat.m2-define-palette(mat.$m2-purple-palette);
+$accent: mat.m2-define-palette(mat.$m2-purple-palette);
+$warn: mat.m2-define-palette(mat.$m2-purple-palette);
+
+$theme: mat.m2-define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+  )
+));
+
+@include mat.all-component-themes($theme);
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+p {
+  line-height: 28px;
+  margin: 10px 0;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.active {
+  background-color: rgba(0, 0, 0, .2) !important;
+}
+
+p, h2, h3 {
+  color: rgb(68, 71, 78);
+}
+
+.card-link {
+  padding: 4px;
+  margin-bottom: 10px;
+  text-decoration: none;
+
+  mat-card {
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+:root {
+  @include mat.toolbar-overrides((
+    container-background-color: #7e2dbf,
+    container-text-color: #ffffff,
+  ));
+}

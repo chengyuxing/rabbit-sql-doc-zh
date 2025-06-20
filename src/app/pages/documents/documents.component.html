@@ -1,0 +1,17 @@
+<mat-sidenav-container>
+  <mat-sidenav mode="side" [opened]="isOpen">
+    <ul>
+      @for (document of documents; track document.id) {
+        <li><a mat-ripple [routerLink]="['/documents', document.id]" routerLinkActive="active">{{ document.title }}</a>
+        </li>
+      }
+    </ul>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content">
+      @if (id()) {
+        <rabbit-sql-markdown [url]="url" (anAction)="onAnAction($event)"/>
+      }
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

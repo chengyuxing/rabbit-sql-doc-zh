@@ -1,0 +1,36 @@
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  height: 64px;
+
+  > .menusMenu {
+    display: none;
+  }
+
+  > .settings {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  button {
+    color: white;
+
+    & + button {
+      margin-left: 4px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  mat-toolbar {
+    > .menus {
+      display: none;
+    }
+
+    > .menusMenu {
+      display: block;
+    }
+  }
+}

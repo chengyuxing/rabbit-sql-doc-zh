@@ -1,0 +1,17 @@
+import {Docs, Guide} from './types';
+
+export const github = 'https://github.com/chengyuxing/rabbit-sql';
+
+export const docs: Docs[] = [
+  {id: 'initialization', title: '介绍', type: 'readme'}
+];
+
+export const guides: Guide[] = [
+  {id: 'initialization', title: '初始化', description: '添加 Rabbit-SQL 框架到项目中配置初始化。'},
+  {
+    id: 'spring-boot-starter',
+    title: '集成 Spring boot',
+    description: '通过集成 Spring boot 来快速搭建项目，利用自动配置来更进一步简化开发。'
+  },
+  {id: 'dynamic-sql', title: '动态 SQL', description: '了解和使用动态 SQL 脚本引擎来满足复杂的 SQL 拼接需求。'},
+]
