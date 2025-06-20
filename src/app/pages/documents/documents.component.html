@@ -1,17 +1,18 @@
-<mat-sidenav-container>
-  <mat-sidenav mode="side" [opened]="isOpen">
-    <ul>
-      @for (document of documents; track document.id) {
-        <li><a mat-ripple [routerLink]="['/documents', document.id]" routerLinkActive="active">{{ document.title }}</a>
-        </li>
-      }
-    </ul>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <div class="content">
-      @if (id()) {
-        <rabbit-sql-markdown [url]="url" (anAction)="onAnAction($event)"/>
-      }
+<main>
+  <nav [class.close]="!isOpen">
+    <div class="navs">
+      <ul>
+        @for (doc of docs; track doc.id) {
+          <li><a mat-ripple [routerLink]="['/documents', doc.id]"
+                 routerLinkActive="doc-active">{{ doc.title }}</a>
+          </li>
+        }
+      </ul>
     </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </nav>
+  <div class="content">
+    @if (id()) {
+      <rabbit-sql-markdown [url]="url" top="64px" (anAction)="onAnAction($event)"/>
+    }
+  </div>
+</main>

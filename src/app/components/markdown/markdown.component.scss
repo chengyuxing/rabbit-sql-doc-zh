@@ -1,3 +1,5 @@
+@use "src/variables" as variables;
+
 .markdown {
   display: flex;
   align-items: flex-start;
@@ -7,15 +9,15 @@
   }
 
   main {
-    padding: 20px 30px;
+    padding: 20px 50px;
     outline: currentColor;
     flex-grow: 1;
-    width: 75%;
+    min-width: 0;
 
     > h1 {
       display: flex;
       align-items: center;
-      border-bottom: 2px solid #ae67e7;
+      border-bottom: 1px solid variables.$purple-10;
       padding-bottom: 8px;
       padding-top: 8px;
       position: sticky;
@@ -47,6 +49,8 @@
       }
 
       p {
+        overflow-wrap: anywhere;
+
         code {
           background-color: #f1e5fb;
           padding: 4px 6px;
@@ -58,7 +62,7 @@
       pre {
         line-height: 1.6;
         position: relative;
-        border: 1px solid #a97acf;
+        border: 1px solid variables.$purple-10;
         border-radius: 4px;
         padding-right: 40px;
 
@@ -83,9 +87,12 @@
   .outline {
     position: sticky;
     top: 100px;
-    border-left: 4px solid #b787de;
-    padding: 8px 0 8px 16px;
+    border-left: 3px solid variables.$purple-10;
+    padding: 8px 8px 8px 16px;
     box-sizing: border-box;
+    flex: 0 0 260px;
+    overflow-y: auto;
+    max-height: calc(100vh - 136px);
 
     .header {
       margin-bottom: 5px;

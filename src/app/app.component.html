@@ -1,8 +1,16 @@
 <mat-toolbar>
   @if (showToggleButton) {
-    <button mat-icon-button (click)="toggleSideNav()">
+    <button mat-icon-button (click)="toggleSideNav()" class="btn-doc-outline-toggle">
       <mat-icon>dehaze</mat-icon>
     </button>
+    <button mat-icon-button [matMenuTriggerFor]="outlineMenu" class="btn-doc-outline-menus">
+      <mat-icon>dehaze</mat-icon>
+    </button>
+    <mat-menu #outlineMenu=matMenu>
+      @for (doc of docs; track doc.id) {
+        <button mat-menu-item [routerLink]="['documents', doc.id]" routerLinkActive="active">{{ doc.title }}</button>
+      }
+    </mat-menu>
   }
   <button mat-icon-button [routerLink]="['main']">
     <mat-icon svgIcon="rabbit-sql"></mat-icon>

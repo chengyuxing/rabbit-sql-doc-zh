@@ -1,44 +1,81 @@
-mat-sidenav-container {
-  position: absolute;
-  top: 64px;
-  bottom: 0;
-  left: 0;
-  right: 0;
+@use "src/variables" as variables;
 
-  > mat-sidenav {
-    width: 260px;
+main {
+  display: flex;
+  align-items: flex-start;
+  flex: 1;
 
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
+  > nav {
+    position: sticky;
+    top: 64px;
+    height: calc(100vh - 64px);
+    overflow: auto;
+    box-sizing: border-box;
+    flex: 0 0 260px;
 
-      li {
-        border-width: 0;
-        display: flex;
-        outline: none;
-        cursor: pointer;
-        text-decoration: none;
+    .navs {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
 
-        a {
-          display: block;
-          width: 100%;
-          padding: 16px 20px;
+      ul {
+        height: calc(100% - 72px);
+        overflow: auto;
+        border-right: 1px solid variables.$purple-10;
+
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+          padding: 0 14px 0 16px;
+          border-width: 0;
+          display: flex;
+          outline: none;
+          cursor: pointer;
           text-decoration: none;
-          color: #191919;
-          transition: background-color 0.2s ease;
 
-          &:hover {
-            background-color: rgba(48, 48, 48, 0.15);
+          a {
+            display: block;
+            width: 100%;
+            padding: 12px 14px;
+            text-decoration: none;
+            color: #4e4e4e;
+            transition: color 0.2s ease;
+
+
+            &.doc-active {
+              position: relative;
+              left: -2px;
+              color: variables.$purple-10;
+              border-left: 2px solid variables.$purple-10;
+            }
+
+            &:hover {
+              color: variables.$purple-50;
+            }
           }
         }
       }
     }
+
   }
 
-  > mat-sidenav-content {
-    .content {
-      padding: 32px;
+  > nav.close {
+    flex-basis: 0;
+  }
+
+  .content {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 1140px) {
+  main {
+    > nav {
+      display: none;
     }
   }
 }

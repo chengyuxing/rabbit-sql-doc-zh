@@ -7,7 +7,7 @@ import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from 
 import {filter} from 'rxjs';
 import {UiStatesService} from './common/ui-states.service';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
-import {github} from './common/resources';
+import {docs, github} from './common/resources';
 
 @Component({
   selector: 'rabbit-sql-root',
@@ -45,4 +45,6 @@ export class AppComponent implements OnInit {
     const currentState = this.uiStatesService.currentDocumentToggleState;
     this.uiStatesService.setShowDocumentToggleBtn(!currentState);
   }
+
+  protected readonly docs = docs;
 }

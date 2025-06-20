@@ -4,6 +4,10 @@ mat-toolbar {
   z-index: 999;
   height: 64px;
 
+  > .btn-doc-outline-menus {
+    display: none;
+  }
+
   > .menusMenu {
     display: none;
   }
@@ -16,9 +20,18 @@ mat-toolbar {
 
   button {
     color: white;
+    margin-left: 4px;
+  }
+}
 
-    & + button {
-      margin-left: 4px;
+@media (max-width: 1140px) {
+  mat-toolbar {
+    > .btn-doc-outline-toggle {
+      display: none;
+    }
+
+    > .btn-doc-outline-menus {
+      display: block;
     }
   }
 }

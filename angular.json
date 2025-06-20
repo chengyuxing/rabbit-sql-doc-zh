@@ -59,7 +59,8 @@
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
               "highlight.js/styles/default.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/_variables.scss"
             ],
             "scripts": []
           },
