@@ -38,6 +38,18 @@ p, h2, h3 {
   color: rgb(68, 71, 78);
 }
 
+.slide-container {
+  transition: width 150ms cubic-bezier(0.25, 0.8, 0.25, 1), transform 180ms cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  > div {
+    visibility: visible;
+  }
+}
+
+.slide-container.close {
+  @include variables.side-push-close;
+}
+
 .card-link {
   padding: 4px;
   margin-bottom: 10px;

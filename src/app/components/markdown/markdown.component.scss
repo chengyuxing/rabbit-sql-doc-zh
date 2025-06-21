@@ -11,7 +11,7 @@
   main {
     padding: 20px 50px;
     outline: currentColor;
-    flex-grow: 1;
+    flex: 1;
     min-width: 0;
 
     > h1 {
@@ -87,34 +87,37 @@
   .outline {
     position: sticky;
     top: 100px;
-    border-left: 3px solid variables.$purple-10;
-    padding: 8px 8px 8px 16px;
     box-sizing: border-box;
-    flex: 0 0 260px;
+    width: 260px;
     overflow-y: auto;
     max-height: calc(100vh - 136px);
 
-    .header {
-      margin-bottom: 5px;
-    }
+    .content {
+      border-left: 3px solid variables.$purple-10;
+      padding: 8px 8px 8px 16px;
 
-    nav {
-      display: flex;
-      flex-direction: column;
+      .header {
+        margin-bottom: 5px;
+      }
 
-      a {
-        text-decoration: none;
-        font-size: 14px;
-        color: rgb(32, 32, 32);
-        padding: 4px 0;
+      nav {
+        display: flex;
+        flex-direction: column;
 
-        &:hover {
-          color: #8632ca;
-        }
+        a {
+          text-decoration: none;
+          font-size: 14px;
+          color: rgb(32, 32, 32);
+          padding: 4px 0;
 
-        &.active {
-          color: #8632ca;
-          background-color: transparent !important;
+          &:hover {
+            color: #8632ca;
+          }
+
+          &.active {
+            color: #8632ca;
+            background-color: transparent !important;
+          }
         }
       }
     }
@@ -122,12 +125,14 @@
 
   @media (max-width: 880px) {
     .outline {
-      display: none;
+      @include variables.side-push-close;
     }
+
     .outline-menu {
       display: initial;
     }
   }
+
   @media (max-width: 768px) {
     main {
       padding-left: 0;

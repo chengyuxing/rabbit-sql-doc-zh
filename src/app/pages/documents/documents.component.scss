@@ -11,9 +11,9 @@ main {
     height: calc(100vh - 64px);
     overflow: auto;
     box-sizing: border-box;
-    flex: 0 0 260px;
+    width: 260px;
 
-    .navs {
+    > .navs {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -59,11 +59,6 @@ main {
         }
       }
     }
-
-  }
-
-  > nav.close {
-    flex-basis: 0;
   }
 
   .content {
@@ -75,7 +70,7 @@ main {
 @media (max-width: 1140px) {
   main {
     > nav {
-      display: none;
+      @include variables.side-push-close;
     }
   }
 }

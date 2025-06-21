@@ -20,13 +20,16 @@
       <article [innerHTML]="content | safehtml"></article>
     </main>
     @if (title23456; as titles) {
-      <div class="outline">
-        <div class="header"><b>导航大纲</b></div>
-        <nav>
-          @for (title of titles; track title.id) {
-            <a [routerLink]="[]" [fragment]="title.id" [class.active]="title.id === currentHash">{{ title.content }}</a>
-          }
-        </nav>
+      <div class="outline slide-container">
+        <div class="content">
+          <div class="header"><b>导航大纲</b></div>
+          <nav>
+            @for (title of titles; track title.id) {
+              <a [routerLink]="[]" [fragment]="title.id"
+                 [class.active]="title.id === currentHash">{{ title.content }}</a>
+            }
+          </nav>
+        </div>
       </div>
     }
   }
