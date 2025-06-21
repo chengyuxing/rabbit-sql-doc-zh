@@ -11,8 +11,8 @@
     </div>
   </nav>
   <div class="content">
-    @if (id()) {
-      <rabbit-sql-markdown [url]="url" top="64px" (anAction)="onAnAction($event)"/>
+    @if (id(); as id) {
+      <rabbit-sql-markdown [url]="resourceService.geDocFileUrl(id)" top="64px" (anAction)="onAnAction($event)"/>
     }
   </div>
 </main>

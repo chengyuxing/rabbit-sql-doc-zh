@@ -4,7 +4,7 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 import {MatRipple} from '@angular/material/core';
 import {MarkdownComponent} from '../../components/markdown/markdown.component';
 import {ScrollService} from '../../common/scroll.service';
-import {docs} from '../../common/resources';
+import {ResourceService} from '../../common/resource.service';
 
 @Component({
   selector: 'rabbit-sql-documents',
@@ -21,14 +21,14 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
   id = input<string>();
 
   scrollService = inject(ScrollService);
-
-  get url() {
-    return `docs/guides/${this.id()}.md`;
-  }
-
+  resourceService = inject(ResourceService);
   uiStatesService = inject(UiStatesService);
 
   isOpen = false;
+
+  get docs() {
+    return this.resourceService.docs;
+  }
 
   ngOnInit(): void {
     this.uiStatesService.showDocumentToggleBtn.subscribe(toggle => {
@@ -44,5 +44,4 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     this.scrollService.scrollTo(id, 140)
   }
 
-  protected readonly docs = docs;
 }

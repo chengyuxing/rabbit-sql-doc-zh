@@ -1,3 +1,11 @@
+mat-progress-bar {
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
 mat-toolbar {
   position: sticky;
   top: 0;

@@ -16,6 +16,7 @@ import {MatIcon} from '@angular/material/icon';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {MarkDownHead} from '../../common/types';
+import {LoadingService} from '../../common/loading.service';
 
 @Component({
   selector: 'rabbit-sql-markdown',
@@ -40,6 +41,7 @@ export class MarkdownComponent implements OnInit, AfterViewInit {
   http = inject(HttpClient);
   route = inject(ActivatedRoute);
   router = inject(Router);
+  loadingService = inject(LoadingService);
 
   content?: string;
   titles: MarkDownHead[] = [];
@@ -85,6 +87,7 @@ export class MarkdownComponent implements OnInit, AfterViewInit {
   }
 
   loadReadmeContent(url: string) {
+    this.loadingService.loading();
     this.http.get(url, {
       responseType: 'text',
       observe: 'response'
@@ -93,6 +96,7 @@ export class MarkdownComponent implements OnInit, AfterViewInit {
         const html = marked(res.body) as string;
         this.content = this.parsing(html);
       }
+      this.loadingService.loaded();
     });
   }
 

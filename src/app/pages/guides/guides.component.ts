@@ -1,9 +1,8 @@
-import {Component} from '@angular/core';
-import {guides} from '../../common/resources';
-import {Guide} from '../../common/types';
+import {Component, inject} from '@angular/core';
 import {MatRipple} from '@angular/material/core';
 import {RouterLink} from '@angular/router';
 import {MatCard, MatCardContent, MatCardTitle} from '@angular/material/card';
+import {ResourceService} from '../../common/resource.service';
 
 @Component({
   selector: 'rabbit-sql-guides',
@@ -18,7 +17,9 @@ import {MatCard, MatCardContent, MatCardTitle} from '@angular/material/card';
   styleUrl: './guides.component.scss'
 })
 export class GuidesComponent {
-  get allGuides(): Array<Guide> {
-    return guides;
+  resourceService = inject(ResourceService);
+
+  get allGuides() {
+    return this.resourceService.guides;
   }
 }

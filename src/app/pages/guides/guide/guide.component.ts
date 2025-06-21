@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, inject, input} from '@angular/core';
 import {MarkdownComponent} from '../../../components/markdown/markdown.component';
 import {ScrollService} from '../../../common/scroll.service';
+import {ResourceService} from '../../../common/resource.service';
 
 @Component({
   selector: 'rabbit-sql-guide',
@@ -14,10 +15,7 @@ export class GuideComponent implements AfterViewInit {
   id = input.required<string>();
 
   scrollService = inject(ScrollService);
-
-  get url() {
-    return `docs/guides/${this.id()}.md`;
-  }
+  resourceService = inject(ResourceService);
 
   ngAfterViewInit(): void {
     this.scrollService.scrollToCurrentHash(140);

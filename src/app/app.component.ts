@@ -7,23 +7,33 @@ import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from 
 import {filter} from 'rxjs';
 import {UiStatesService} from './common/ui-states.service';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
-import {docs, github} from './common/resources';
+import {github} from './common/global';
+import {ResourceService} from './common/resource.service';
+import {MatProgressBar} from '@angular/material/progress-bar';
+import {LoadingService} from './common/loading.service';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'rabbit-sql-root',
-  imports: [MatToolbar, MatIconButton, MatIcon, MatIconAnchor, RouterOutlet, RouterLink, MatButton, RouterLinkActive, MatMenu, MatMenuItem, MatMenuTrigger],
+  imports: [MatToolbar, MatIconButton, MatIcon, MatIconAnchor, RouterOutlet, RouterLink, MatButton, RouterLinkActive, MatMenu, MatMenuItem, MatMenuTrigger, MatProgressBar, AsyncPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   router = inject(Router);
   uiStatesService = inject(UiStatesService);
+  resourceService = inject(ResourceService);
+  loadingService = inject(LoadingService);
 
   title = 'Rabbit-SQL';
   document = '文档';
   guides = '指南';
 
   showToggleButton = false;
+
+  get docs() {
+    return this.resourceService.docs;
+  }
 
   constructor(iconRegister: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegister.addSvgIcon('rabbit-sql', sanitizer.bypassSecurityTrustResourceUrl('images/rabbit-sql.svg'));
@@ -45,6 +55,4 @@ export class AppComponent implements OnInit {
     const currentState = this.uiStatesService.currentDocumentToggleState;
     this.uiStatesService.setShowDocumentToggleBtn(!currentState);
   }
-
-  protected readonly docs = docs;
 }
