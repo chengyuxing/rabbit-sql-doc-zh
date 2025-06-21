@@ -26,22 +26,23 @@
     }
 
     > article {
-      #md-outline-0 {
+      // 隐藏md文件的第一个标题，提取出来进行更细粒度的调整
+      #md-head-0 {
         display: none;
       }
 
-      .md-outline {
+      .md-head {
         display: flex;
         align-items: center;
         min-height: 26px;
 
         &:hover {
-          .title-link {
+          .head-link {
             display: block;
           }
         }
 
-        .title-link {
+        .head-link {
           display: none;
           height: 100%;
           padding: 0;
@@ -140,6 +141,8 @@
 
       > h1 {
         font-size: 1.5em;
+        padding-left: 20px;
+        padding-right: 10px;
       }
 
       > article {

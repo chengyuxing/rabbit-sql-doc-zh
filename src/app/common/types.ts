@@ -12,8 +12,8 @@ export interface Docs {
   type: DocType;
 }
 
-export interface MarkDownOutline {
+export interface MarkDownHead {
   id: string;
-  name: string;
+  level: string;
   content: string;
 }

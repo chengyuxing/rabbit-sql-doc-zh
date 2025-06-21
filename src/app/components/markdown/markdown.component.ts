@@ -11,11 +11,11 @@ import {HttpClient} from '@angular/common/http';
 import {marked} from 'marked';
 import {SafehtmlPipe} from '../../pipes/safehtml.pipe';
 import hljs from 'highlight.js';
-import {MarkDownOutline} from '../../common/types';
 import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {MarkDownHead} from '../../common/types';
 
 @Component({
   selector: 'rabbit-sql-markdown',
@@ -42,23 +42,9 @@ export class MarkdownComponent implements OnInit, AfterViewInit {
   router = inject(Router);
 
   content?: string;
-  outlines: MarkDownOutline[] = [];
+  titles: MarkDownHead[] = [];
 
   currentHash = location.hash.replace('#', '');
-
-  get title1() {
-    if (this.outlines.length < 1) {
-      return null;
-    }
-    return this.outlines[0];
-  }
-
-  get title23456() {
-    if (this.outlines.length < 1) {
-      return null;
-    }
-    return this.outlines.slice(1);
-  }
 
   ngOnInit(): void {
     const url = this.url();
@@ -90,7 +76,7 @@ export class MarkdownComponent implements OnInit, AfterViewInit {
       }
       return;
     }
-    if (classList.contains('title-link')) {
+    if (classList.contains('head-link')) {
       const id = target.parentElement?.id;
       if (id) {
         this.router.navigate([], {fragment: id});
@@ -113,25 +99,25 @@ export class MarkdownComponent implements OnInit, AfterViewInit {
   parsing(content: string): string {
     const div = document.createElement('div');
     div.innerHTML = content;
-    const outlines: MarkDownOutline[] = [];
+    const titles: MarkDownHead[] = [];
     let idx = 0;
     for (const child of div.children) {
       if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(child.tagName)) {
-        const id = `md-outline-${idx++}`;
+        const id = `md-head-${idx++}`;
         child.id = id;
-        child.className = 'md-outline';
-        outlines.push({
+        child.className = 'md-head';
+        titles.push({
           id: id,
-          name: child.tagName,
+          level: child.tagName,
           content: child.innerHTML
         });
         const link = document.createElement('a');
-        link.className = 'material-icons mat-mdc-icon-button title-link';
+        link.className = 'material-icons mat-mdc-icon-button head-link';
         link.innerHTML = 'link';
         child.appendChild(link);
       }
     }
-    this.outlines = outlines;
+    this.titles = titles;
 
     const codeBlocks = div.getElementsByTagName('code');
     if (codeBlocks && codeBlocks.length > 0) {
@@ -170,5 +156,15 @@ export class MarkdownComponent implements OnInit, AfterViewInit {
       }
     }
     return null;
+  }
+
+  download() {
+    const a = document.createElement('a');
+    const href = this.url();
+    a.href = href;
+    a.download = href.substring(href.lastIndexOf('/') + 1);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 }

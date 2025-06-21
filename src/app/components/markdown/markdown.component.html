@@ -1,32 +1,36 @@
 <div class="markdown">
   @if (content) {
     <main>
-      @if (title1) {
+      @if (titles[0]; as title) {
         <h1 [style.top]="top()">
-          @if (title23456; as titles) {
-            <button mat-icon-button class="outline-menu" [matMenuTriggerFor]="menu">
+          <span>{{ title.content }}</span>
+          <span class="spacer"></span>
+          <button mat-icon-button (click)="download()" title="下载">
+            <mat-icon>download</mat-icon>
+          </button>
+          @if (titles.slice(1); as subtitles) {
+            <button mat-icon-button class="outline-menu" [matMenuTriggerFor]="menu" title="导航大纲">
               <mat-icon>list</mat-icon>
             </button>
             <mat-menu #menu=matMenu>
-              @for (title of titles; track title.id) {
-                <a [routerLink]="[]" [fragment]="title.id" [class.active]="title.id === currentHash"
-                   mat-menu-item>{{ title.content }}</a>
+              @for (subtitle of subtitles; track subtitle.id) {
+                <a [routerLink]="[]" [fragment]="subtitle.id" [class.active]="subtitle.id === currentHash"
+                   mat-menu-item>{{ subtitle.content }}</a>
               }
             </mat-menu>
           }
-          <span>{{ title1.content }}</span>
         </h1>
       }
       <article [innerHTML]="content | safehtml"></article>
     </main>
-    @if (title23456; as titles) {
+    @if (titles.slice(1); as subtitles) {
       <div class="outline slide-container">
         <div class="content">
           <div class="header"><b>导航大纲</b></div>
           <nav>
-            @for (title of titles; track title.id) {
-              <a [routerLink]="[]" [fragment]="title.id"
-                 [class.active]="title.id === currentHash">{{ title.content }}</a>
+            @for (subtitle of subtitles; track subtitle.id) {
+              <a [routerLink]="[]" [fragment]="subtitle.id"
+                 [class.active]="subtitle.id === currentHash">{{ subtitle.content }}</a>
             }
           </nav>
         </div>
