@@ -52,12 +52,30 @@
       p {
         overflow-wrap: anywhere;
 
-        code {
-          background-color: #f1e5fb;
-          padding: 4px 6px;
-          border-radius: 4px;
-          color: #191919;
+      }
+
+      ul {
+        li {
+          margin: 10px 0;
+          line-height: 1.6;
         }
+      }
+
+      blockquote {
+        border-left: 4px solid #888888;
+        margin: 14px 0;
+        padding: 0 10px;
+
+        p {
+          color: #888888;
+        }
+      }
+
+      code:not(.hljs) {
+        background-color: #f1e5fb;
+        padding: 4px 6px;
+        border-radius: 4px;
+        color: #191919;
       }
 
       pre {
@@ -66,6 +84,14 @@
         border: 1px solid variables.$purple-10;
         border-radius: 4px;
         padding-right: 40px;
+
+        &.mermaid {
+          border: none;
+          padding: 0;
+          margin: 20px 0;
+          display: flex;
+          justify-content: center;
+        }
 
         > .code-copy {
           position: absolute;
@@ -80,6 +106,47 @@
 
         > .hljs {
           background-color: transparent;
+        }
+      }
+
+      table {
+        min-width: 100%;
+        border: 0;
+        border-spacing: 0;
+        table-layout: auto;
+        white-space: normal;
+        border-collapse: collapse;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+
+        tr {
+          height: 52px;
+
+          th {
+            padding: 0 16px;
+            border-bottom-color: rgba(0, 0, 0, 0.12);
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            letter-spacing: 0.006rem;
+            font-weight: 500;
+            box-sizing: border-box;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            outline: none;
+            text-align: left;
+            word-break: break-word;
+            line-height: 1.6;
+          }
+
+          td {
+            padding: 0 16px;
+            border-bottom-color: rgba(0, 0, 0, 0.12);
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            letter-spacing: 0.015rem;
+            word-break: break-word;
+            line-height: 1.6;
+          }
         }
       }
     }

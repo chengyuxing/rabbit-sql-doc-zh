@@ -1,6 +1,6 @@
 import {
   AfterViewInit,
-  Component,
+  Component, effect,
   HostListener,
   inject,
   input,
@@ -17,6 +17,9 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {MarkDownHead} from '../../common/types';
 import {LoadingService} from '../../common/loading.service';
+import {catchError, of} from 'rxjs';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import mermaid from 'mermaid';
 
 @Component({
   selector: 'rabbit-sql-markdown',
@@ -33,7 +36,7 @@ import {LoadingService} from '../../common/loading.service';
   styleUrl: './markdown.component.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class MarkdownComponent implements OnInit, AfterViewInit {
+export class MarkdownComponent implements AfterViewInit {
   top = input<string>('0px');
   url = input.required<string>();
   anAction = output<string>();
@@ -42,17 +45,20 @@ export class MarkdownComponent implements OnInit, AfterViewInit {
   route = inject(ActivatedRoute);
   router = inject(Router);
   loadingService = inject(LoadingService);
+  snack = inject(MatSnackBar);
 
   content?: string;
   titles: MarkDownHead[] = [];
 
   currentHash = location.hash.replace('#', '');
 
-  ngOnInit(): void {
-    const url = this.url();
-    if (url) {
-      this.loadReadmeContent(url);
-    }
+  constructor() {
+    effect(() => {
+      const currentUrl = this.url();
+      if (currentUrl) {
+        this.loadReadmeContent(currentUrl);
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -64,6 +70,7 @@ export class MarkdownComponent implements OnInit, AfterViewInit {
         }
       }
     });
+    mermaid.initialize({startOnLoad: true});
   }
 
   @HostListener('click', ['$event', '$event.target', '$event.target.classList'])
@@ -89,12 +96,15 @@ export class MarkdownComponent implements OnInit, AfterViewInit {
   loadReadmeContent(url: string) {
     this.loadingService.loading();
     this.http.get(url, {
-      responseType: 'text',
-      observe: 'response'
-    }).subscribe(res => {
-      if (res.status === 200 && res.body) {
-        const html = marked(res.body) as string;
+      responseType: 'text'
+    }).pipe(catchError((err: any) => {
+      this.snack.open(err.statusText, 'x', {duration: 3000});
+      return of(null);
+    })).subscribe(res => {
+      if (res !== null) {
+        const html = marked(res) as string;
         this.content = this.parsing(html);
+        setTimeout(() => mermaid.contentLoaded(), 50);
       }
       this.loadingService.loaded();
     });
@@ -131,17 +141,23 @@ export class MarkdownComponent implements OnInit, AfterViewInit {
         if (lang) {
           if (lang === 'mermaid') {
             if (parent && parent.tagName === 'PRE') {
-              parent.innerHTML = codeBlock.innerHTML;
+              const mermaidPre = document.createElement('pre');
+              mermaidPre.className = "mermaid";
+              mermaidPre.innerHTML = codeBlock.innerHTML;
+              parent.style.display = 'none';
+              parent.insertAdjacentElement('beforebegin', mermaidPre);
             }
-          } else if (hljs.autoDetection(lang)) {
+            continue;
+          }
+          if (hljs.autoDetection(lang)) {
             codeBlock.innerHTML = hljs.highlight(codeBlock.innerHTML, {
               language: lang,
               ignoreIllegals: true,
             }).value;
           }
         }
-        codeBlock.classList.add('hljs');
         if (parent && parent.tagName === 'PRE') {
+          codeBlock.classList.add('hljs');
           const copy = document.createElement('span');
           copy.className = 'material-icons mat-mdc-icon-button code-copy';
           copy.innerHTML = 'content_copy';
