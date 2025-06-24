@@ -1,0 +1,40 @@
+@use "src/variables" as variables;
+
+.container {
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+
+  .about {
+    display: flex;
+    align-items: center;
+
+    .code {
+      padding: 0 20px;
+
+      pre {
+        line-height: 1.6;
+        border-radius: 4px;
+
+        code {
+          border: 1px solid variables.$purple-10;
+          border-radius: 4px;
+          background-color: transparent;
+          color: #191919;
+        }
+      }
+    }
+  }
+
+  table {
+    width: 100%;
+  }
+}
+
+@media (max-width: 840px) {
+  .container {
+    .about {
+      display: block;
+    }
+  }
+}

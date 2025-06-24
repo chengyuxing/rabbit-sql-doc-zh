@@ -1,0 +1,55 @@
+<div class="container">
+  <h1>关于 Rabbit SQL</h1>
+  <div class="about">
+    <div class="description">
+      <p>
+        这是一个轻量级的持久层框架，提供了完整的数据库操作解决方案，通过封装和抽象，简化了数据库访问的复杂性，同时也为开发者提供了灵活性和可扩展性，以追求简单稳定高效为目标。</p>
+      <p>虽然目前已有几大主流强大且成熟的的数据库持久层框架例如 MyBatis、JPA（Hibernate），Spring JDBC
+        Template...，那 <b>Rabbit SQL</b> 的出现是不是多余呢？带着这些疑问，来看看这个框架的由来。
+      </p>
+      <p>隔离内网环境开发，无法做到像互联网开发一样轻而易举的获取各种依赖资源，集成其他 ORM 框架困难，另外在面对复杂的业务系统开发，ORM
+        完全不现实，加上<b>信创</b>和<b>国产化</b>的到来，需要专业 DBA
+        面对不同的<b>国产数据库</b>针对性优化 SQL，为 DBA 调优 SQL 配合开发者提供更多的便利，以满足统一管理、便于调用、调试、直观的特性，所以一个
+        SQL 小工具出现了，随着时间扩展功能，<b>Rabbit SQL</b> 由此诞生。</p>
+    </div>
+    <div class="code">
+      <pre>
+        <code class="language-sql hljs" [innerHTML]="highlightCode | safehtml"></code>
+      </pre>
+    </div>
+  </div>
+
+  <table mat-table [dataSource]="datasource">
+
+    <ng-container matColumnDef="feature">
+      <th mat-header-cell *matHeaderCellDef>特性</th>
+      <td mat-cell *matCellDef="let item">{{ item.feature }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="rabbit">
+      <th mat-header-cell *matHeaderCellDef>Rabbit SQL</th>
+      <td mat-cell *matCellDef="let item">{{ item.rabbit }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="mybatis">
+      <th mat-header-cell *matHeaderCellDef>MyBatis</th>
+      <td mat-cell *matCellDef="let item">{{ item.mybatis }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="jpa">
+      <th mat-header-cell *matHeaderCellDef>JPA</th>
+      <td mat-cell *matCellDef="let item">{{ item.jpa }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <h2>值得吗？</h2>
+  <p>这并不是说去替代其他的 ORM 框架，可以是另一个选择，也可以是融合使用（例如单表操作交给 JPA ，复杂查询交给 Rabbit
+    SQL），并不冲突，各有优缺点。所以，我给出的建议是可以在自己的小项目或不太重要的功能点中试用，再进一步做出选择。</p>
+  <p>Rabbit SQL 最终目标是帮您简化开发流程、提高工作效率、解决现用 ORM 的一些痛点，希望大家多多支持！</p>
+  <h2>最后</h2>
+  <p>焓变为负，熵变为正，即使世界绝对零度，爱你依然自发。</p>
+  <p>作者：Cheng Yuxing</p>
+  <p>邮箱：chengyuxingo&#64;gmail.com</p>
+</div>
