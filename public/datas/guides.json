@@ -15,6 +15,11 @@
       "id": "plugin",
       "title": "IDEA 插件",
       "description": "通过安装插件来为使用 Rabbit SQL 进一步提供便利，本地测试动态 SQL。"
+    },
+    {
+      "id": "utils",
+      "title": "工具类",
+      "description": "整理了一些框架内在使用的实用工具类"
     }
   ]
 }
