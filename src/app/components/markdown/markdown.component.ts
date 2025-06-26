@@ -4,7 +4,7 @@ import {
   HostListener,
   inject,
   input,
-  OnInit, output,
+  output,
   ViewEncapsulation
 } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
@@ -56,6 +56,7 @@ export class MarkdownComponent implements AfterViewInit {
     effect(() => {
       const currentUrl = this.url();
       if (currentUrl) {
+        this.currentHash = '';
         this.loadReadmeContent(currentUrl);
       }
     });
@@ -78,7 +79,7 @@ export class MarkdownComponent implements AfterViewInit {
     if (classList.contains('code-copy')) {
       const code = target.parentElement?.getElementsByTagName('code');
       if (code && code.length > 0) {
-        navigator.clipboard.writeText(code[0].innerText).then(() => {
+        navigator.clipboard.writeText(code[0].textContent || '').then(() => {
           target.innerHTML = 'check';
           setTimeout(() => target.innerHTML = 'content_copy', 1500);
         });
@@ -122,7 +123,7 @@ export class MarkdownComponent implements AfterViewInit {
         child.className = 'md-head';
         titles.push({
           id: id,
-          level: child.tagName,
+          level: child.tagName.toLowerCase(),
           content: child.innerHTML
         });
         const link = document.createElement('a');
@@ -150,7 +151,7 @@ export class MarkdownComponent implements AfterViewInit {
             continue;
           }
           if (hljs.autoDetection(lang)) {
-            codeBlock.innerHTML = hljs.highlight(codeBlock.innerHTML, {
+            codeBlock.innerHTML = hljs.highlight(codeBlock.textContent || '', {
               language: lang,
               ignoreIllegals: true,
             }).value;
@@ -166,7 +167,7 @@ export class MarkdownComponent implements AfterViewInit {
         }
       }
     }
-    return div.innerHTML.replace(/&amp;/g, '&');
+    return div.innerHTML;
   }
 
   getLanguageName(classList: DOMTokenList) {

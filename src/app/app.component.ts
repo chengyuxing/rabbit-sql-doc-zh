@@ -7,15 +7,16 @@ import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from 
 import {filter} from 'rxjs';
 import {UiStatesService} from './common/ui-states.service';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
-import {github} from './common/global';
+import {gitee, github} from './common/global';
 import {ResourceService} from './common/resource.service';
 import {MatProgressBar} from '@angular/material/progress-bar';
 import {LoadingService} from './common/loading.service';
 import {AsyncPipe} from '@angular/common';
+import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
   selector: 'rabbit-sql-root',
-  imports: [MatToolbar, MatIconButton, MatIcon, MatIconAnchor, RouterOutlet, RouterLink, MatButton, RouterLinkActive, MatMenu, MatMenuItem, MatMenuTrigger, MatProgressBar, AsyncPipe],
+  imports: [MatToolbar, MatIconButton, MatIcon, MatIconAnchor, RouterOutlet, RouterLink, MatButton, RouterLinkActive, MatMenu, MatMenuItem, MatMenuTrigger, MatProgressBar, AsyncPipe, MatTooltip],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -38,6 +39,7 @@ export class AppComponent implements OnInit {
   constructor(iconRegister: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegister.addSvgIcon('rabbit-sql', sanitizer.bypassSecurityTrustResourceUrl('images/rabbit-sql.svg'));
     iconRegister.addSvgIcon('github', sanitizer.bypassSecurityTrustResourceUrl('images/github.svg'));
+    iconRegister.addSvgIcon('gitee', sanitizer.bypassSecurityTrustResourceUrl('images/gitee.svg'));
   }
 
   ngOnInit(): void {
@@ -50,9 +52,11 @@ export class AppComponent implements OnInit {
   }
 
   protected readonly github = github;
+  protected readonly gitee = gitee;
 
   toggleSideNav() {
     const currentState = this.uiStatesService.currentDocumentToggleState;
     this.uiStatesService.setShowDocumentToggleBtn(!currentState);
   }
+
 }

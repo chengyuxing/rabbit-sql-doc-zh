@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Docs, Guide} from './types';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {catchError, of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -28,24 +29,24 @@ export class ResourceService {
 
   constructor(private http: HttpClient, private snack: MatSnackBar) {
     this.http.get<{ host: string, resources: Docs[] }>('datas/docs.json', {
-      responseType: 'json',
-      observe: 'response'
-    }).subscribe((res) => {
-      if (res.status === 200 && res.body) {
-        this._docs = res.body;
-        return;
+      responseType: 'json'
+    }).pipe(catchError(err => {
+      snack.open(`[${err.status}] 加载资源错误：${err.statusText}`, 'x', {duration: 3000});
+      return of(null)
+    })).subscribe((res) => {
+      if (res) {
+        this._docs = res;
       }
-      snack.open(`加载资源错误[${res.status}]：${res.statusText}`);
     });
     this.http.get<{ host: string, resources: Guide[] }>('datas/guides.json', {
-      responseType: 'json',
-      observe: 'response'
-    }).subscribe((res) => {
-      if (res.status === 200 && res.body) {
-        this._guides = res.body;
-        return;
+      responseType: 'json'
+    }).pipe(catchError(err => {
+      snack.open(`[${err.status}] 加载资源错误：${err.statusText}`, 'x', {duration: 3000});
+      return of(null);
+    })).subscribe((res) => {
+      if (res) {
+        this._guides = res;
       }
-      snack.open(`加载资源错误[${res.status}]：${res.statusText}`);
     })
   }
 }

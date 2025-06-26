@@ -9,7 +9,6 @@ import {
   MatRowDef,
   MatTable
 } from '@angular/material/table';
-import {MatDivider} from '@angular/material/divider';
 import hljs from 'highlight.js';
 import {SafehtmlPipe} from '../../../pipes/safehtml.pipe';
 
@@ -26,7 +25,6 @@ import {SafehtmlPipe} from '../../../pipes/safehtml.pipe';
     MatHeaderCell,
     MatCell,
     MatCellDef,
-    MatDivider,
     SafehtmlPipe
   ],
   templateUrl: './about.component.html',

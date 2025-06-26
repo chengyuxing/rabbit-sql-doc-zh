@@ -35,16 +35,12 @@
   </div>
   <span class="spacer"></span>
   <div class="settings">
-    <button mat-button [matMenuTriggerFor]="versionsMenu">
-      <mat-icon>arrow_drop_down</mat-icon>
-      版本
-    </button>
-    <mat-menu #versionsMenu="matMenu" xPosition="before">
-      <button mat-menu-item>9.0.14</button>
-    </mat-menu>
-    <a mat-icon-button [href]="github" target="_blank">
-      <mat-icon svgIcon="github"></mat-icon>
+    <a mat-icon-button [href]="gitee" target="_blank" matTooltip="Gitee">
+      <mat-icon svgIcon="gitee"></mat-icon>
     </a>
+    <a mat-icon-button [href]="github" target="_blank" matTooltip="Github">
+    <mat-icon svgIcon="github"></mat-icon>
+  </a>
   </div>
 </mat-toolbar>
 <router-outlet/>

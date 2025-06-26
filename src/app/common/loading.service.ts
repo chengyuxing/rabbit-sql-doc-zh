@@ -8,11 +8,11 @@ export class LoadingService {
   private readonly loadingStatus = new BehaviorSubject<boolean>(false);
 
   loading() {
-    this.loadingStatus.next(true);
+    setTimeout(()=>this.loadingStatus.next(true));
   }
 
   loaded() {
-    this.loadingStatus.next(false);
+    setTimeout(()=>this.loadingStatus.next(false));
   }
 
   status() {

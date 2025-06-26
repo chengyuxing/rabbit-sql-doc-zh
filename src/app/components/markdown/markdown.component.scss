@@ -49,6 +49,10 @@
         }
       }
 
+      a {
+        color: variables.$purple-50;
+      }
+
       p {
         overflow-wrap: anywhere;
 
@@ -59,6 +63,19 @@
           margin: 10px 0;
           line-height: 1.6;
         }
+      }
+
+      img {
+        width: 100%;
+      }
+
+      kbd {
+        border: 1px solid #8d8d8d;
+        border-radius: 4px;
+        padding: 2px 4px;
+        box-shadow: 0 1px 0 0 #aaaaaa;
+        position: relative;
+        top: -2px;
       }
 
       blockquote {
@@ -107,6 +124,13 @@
         > .hljs {
           background-color: transparent;
         }
+      }
+
+      iframe {
+        margin: 0;
+        padding: 0;
+        border: none;
+        max-width: 100%;
       }
 
       table {
@@ -164,8 +188,27 @@
       border-left: 3px solid variables.$purple-10;
       padding: 8px 8px 8px 16px;
 
-      .header {
+      > .header {
         margin-bottom: 5px;
+
+      }
+
+      > nav {
+        .h3 {
+          text-indent: 1em;
+        }
+
+        .h4 {
+          text-indent: 2em;
+        }
+
+        .h5 {
+          text-indent: 3em;
+        }
+
+        .h6 {
+          text-indent: 4em;
+        }
       }
 
       nav {

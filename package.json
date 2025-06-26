@@ -24,7 +24,8 @@
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0",
     "highlight.js": "11.8.0",
-    "marked": "^15.0.12"
+    "marked": "^15.0.12",
+    "mermaid": "^11.7.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.0.1",

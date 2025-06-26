@@ -12,9 +12,9 @@
       "description": "通过集成 Spring boot 来快速搭建项目，利用自动配置来更进一步简化开发。"
     },
     {
-      "id": "dynamic-sql",
-      "title": "动态 SQL",
-      "description": "了解和使用动态 SQL 脚本引擎来满足复杂的 SQL 拼接需求。"
+      "id": "plugin",
+      "title": "IDEA 插件",
+      "description": "通过安装插件来为使用 Rabbit SQL 进一步提供便利，本地测试动态 SQL。"
     }
   ]
 }

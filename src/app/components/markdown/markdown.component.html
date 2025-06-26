@@ -29,7 +29,7 @@
           <div class="header"><b>导航大纲</b></div>
           <nav>
             @for (subtitle of subtitles; track subtitle.id) {
-              <a [routerLink]="[]" [fragment]="subtitle.id"
+              <a [class]="subtitle.level" [routerLink]="[]" [fragment]="subtitle.id"
                  [class.active]="subtitle.id === currentHash">{{ subtitle.content }}</a>
             }
           </nav>

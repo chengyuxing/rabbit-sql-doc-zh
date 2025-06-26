@@ -2,80 +2,48 @@
   "host": "docs/",
   "resources": [
     {
-      "id": "initialization",
-      "title": "初始化"
+      "id": "baki",
+      "title": "核心接口 Baki"
     },
     {
-      "id": "initialization1",
-      "title": "啊啊啊啊啊"
+      "id": "with-spring-boot",
+      "title": "集成 Spring Boot"
     },
     {
-      "id": "initialization2",
-      "title": "疯狂疯狂疯狂"
+      "id": "jpa-support",
+      "title": "JPA 基本支持"
     },
     {
-      "id": "initialization3",
-      "title": "11疯狂疯狂"
+      "id": "xql-interface-mapping",
+      "title": "接口映射"
     },
     {
-      "id": "initialization4",
-      "title": "v句拒绝"
+      "id": "transaction",
+      "title": "事务"
     },
     {
-      "id": "initialization5",
-      "title": "介绍啊可视角度看"
+      "id": "dynamic-sql",
+      "title": "动态 SQL"
     },
     {
-      "id": "initialization5",
-      "title": "介绍啊可视大口大口角度看"
+      "id": "sql-params",
+      "title": "SQL 参数占位符"
     },
     {
-      "id": "initialization11",
-      "title": "阿拉了可呃呃"
+      "id": "xql-file-manager",
+      "title": "XQL 文件管理器"
     },
     {
-      "id": "initialization22",
-      "title": "介绍啊可视角高杠杆度看"
+      "id": "query-cache-manage",
+      "title": "查询缓存管理"
     },
     {
-      "id": "initializationd",
-      "title": "介绍啊可视角度看"
+      "id": "best-practice",
+      "title": "最佳实践"
     },
     {
-      "id": "initialization66",
-      "title": "反复思考"
-    },
-    {
-      "id": "initialization77",
-      "title": "父母方法解放军"
-    },
-    {
-      "id": "initialization88",
-      "title": "阿拉坎坎坷坷"
-    },
-    {
-      "id": "initialization54",
-      "title": "反反复复"
-    },
-    {
-      "id": "initialization13",
-      "title": "v那就啊就啊姐姐"
-    },
-    {
-      "id": "initialization57",
-      "title": "我i起哦看看"
-    },
-    {
-      "id": "initialization86",
-      "title": "阿卡就啊姐姐副局级"
-    },
-    {
-      "id": "initialization665",
-      "title": "啊啊姐姐啊就斤斤计较"
-    },
-    {
-      "id": "initialization444",
-      "title": "到了大口大口大开口"
+      "id": "api-config",
+      "title": "配置项"
     }
   ]
 }
