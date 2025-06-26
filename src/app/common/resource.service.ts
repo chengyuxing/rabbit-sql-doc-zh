@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Docs, Guide} from './types';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -8,6 +8,9 @@ import {catchError, of} from 'rxjs';
   providedIn: 'root'
 })
 export class ResourceService {
+  http = inject(HttpClient);
+  snack = inject(MatSnackBar);
+
   private _docs: { host: string, resources: Docs[] } = {host: '', resources: []};
   private _guides: { host: string, resources: Guide[] } = {host: '', resources: []};
 
@@ -27,11 +30,11 @@ export class ResourceService {
     return `${this._guides.host}${id}.md`;
   }
 
-  constructor(private http: HttpClient, private snack: MatSnackBar) {
+  constructor() {
     this.http.get<{ host: string, resources: Docs[] }>('datas/docs.json', {
       responseType: 'json'
     }).pipe(catchError(err => {
-      snack.open(`[${err.status}] 加载资源错误：${err.statusText}`, 'x', {duration: 3000});
+      this.snack.open(`[${err.status}] 加载资源错误：${err.statusText}`, 'x', {duration: 3000});
       return of(null)
     })).subscribe((res) => {
       if (res) {
@@ -41,7 +44,7 @@ export class ResourceService {
     this.http.get<{ host: string, resources: Guide[] }>('datas/guides.json', {
       responseType: 'json'
     }).pipe(catchError(err => {
-      snack.open(`[${err.status}] 加载资源错误：${err.statusText}`, 'x', {duration: 3000});
+      this.snack.open(`[${err.status}] 加载资源错误：${err.statusText}`, 'x', {duration: 3000});
       return of(null);
     })).subscribe((res) => {
       if (res) {

@@ -25,6 +25,8 @@ export class AppComponent implements OnInit {
   uiStatesService = inject(UiStatesService);
   resourceService = inject(ResourceService);
   loadingService = inject(LoadingService);
+  iconRegister = inject(MatIconRegistry);
+  sanitizer = inject(DomSanitizer);
 
   title = 'Rabbit-SQL';
   document = '文档';
@@ -36,10 +38,10 @@ export class AppComponent implements OnInit {
     return this.resourceService.docs;
   }
 
-  constructor(iconRegister: MatIconRegistry, sanitizer: DomSanitizer) {
-    iconRegister.addSvgIcon('rabbit-sql', sanitizer.bypassSecurityTrustResourceUrl('images/rabbit-sql.svg'));
-    iconRegister.addSvgIcon('github', sanitizer.bypassSecurityTrustResourceUrl('images/github.svg'));
-    iconRegister.addSvgIcon('gitee', sanitizer.bypassSecurityTrustResourceUrl('images/gitee.svg'));
+  constructor() {
+    this.iconRegister.addSvgIcon('rabbit-sql', this.sanitizer.bypassSecurityTrustResourceUrl('images/rabbit-sql.svg'));
+    this.iconRegister.addSvgIcon('github', this.sanitizer.bypassSecurityTrustResourceUrl('images/github.svg'));
+    this.iconRegister.addSvgIcon('gitee', this.sanitizer.bypassSecurityTrustResourceUrl('images/gitee.svg'));
   }
 
   ngOnInit(): void {
