@@ -10,7 +10,7 @@ import {
 import {HttpClient} from '@angular/common/http';
 import {marked} from 'marked';
 import {SafehtmlPipe} from '../../pipes/safehtml.pipe';
-import hljs from 'highlight.js';
+import hljs from 'highlight.js/lib/common';
 import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
