@@ -1,1 +1,9 @@
-<rabbit-sql-markdown [url]="resourceService.geDocFileUrl(id())" top="64px" (anAction)="onAnAction($event)"/>
+@defer {
+  <rabbit-sql-markdown [url]="resourceService.geDocFileUrl(id())" top="64px" (anAction)="onAnAction($event)"/>
+} @placeholder {
+  <p style="padding: 40px">☕️ 正在准备文档...</p>
+} @loading {
+  <p style="padding: 40px">🚀 文档加载中...</p>
+} @error {
+  <p style="padding: 40px">加载失败，请稍后重试。</p>
+}

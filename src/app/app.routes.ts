@@ -1,9 +1,7 @@
 import {Routes} from '@angular/router';
-import {MainComponent} from './pages/main/main.component';
-import {NotFoundComponent} from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
-  {path: 'main', component: MainComponent},
+  {path: 'main', loadComponent: () => import('./pages/main/main.component').then(c => c.MainComponent)},
   {
     path: 'documents',
     loadChildren: () => import('./pages/documents/documents.routes').then(m => m.routes)
@@ -12,5 +10,5 @@ export const routes: Routes = [
     loadChildren: () => import('./pages/guides/guides.routes').then(m => m.routes)
   },
   {path: '', redirectTo: 'main', pathMatch: 'full'},
-  {path: '**', component: NotFoundComponent}
+  {path: '**', loadComponent: () => import('./pages/not-found/not-found.component').then(c => c.NotFoundComponent)},
 ];
