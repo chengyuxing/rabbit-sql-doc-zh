@@ -1,5 +1,8 @@
+@if (loading) {
+  <mat-progress-bar mode="indeterminate" color="warn"/>
+}
 @if (loadingService.status() | async) {
-  <mat-progress-bar mode="query" color="warn"/>
+  <mat-progress-bar mode="query" color="accent"/>
 }
 <mat-toolbar>
   @if (showToggleButton) {
@@ -39,8 +42,8 @@
       <mat-icon svgIcon="gitee"></mat-icon>
     </a>
     <a mat-icon-button [href]="github" target="_blank" matTooltip="Github">
-    <mat-icon svgIcon="github"></mat-icon>
-  </a>
+      <mat-icon svgIcon="github"></mat-icon>
+    </a>
   </div>
 </mat-toolbar>
 <router-outlet/>

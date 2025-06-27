@@ -1,25 +1,33 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MatToolbar} from '@angular/material/toolbar';
 import {MatIcon, MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatButton, MatIconAnchor, MatIconButton} from '@angular/material/button';
-import {NavigationEnd, NavigationStart, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {
+  NavigationCancel,
+  NavigationEnd, NavigationError,
+  NavigationStart,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet
+} from '@angular/router';
 import {UiStatesService} from './common/ui-states.service';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {gitee, github} from './common/global';
 import {ResourceService} from './common/resource.service';
 import {MatProgressBar} from '@angular/material/progress-bar';
 import {LoadingService} from './common/loading.service';
-import {AsyncPipe} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
   selector: 'rabbit-sql-root',
-  imports: [MatToolbar, MatIconButton, MatIcon, MatIconAnchor, RouterOutlet, RouterLink, MatButton, RouterLinkActive, MatMenu, MatMenuItem, MatMenuTrigger, MatProgressBar, AsyncPipe, MatTooltip],
+  imports: [CommonModule, MatToolbar, MatIconButton, MatIcon, MatIconAnchor, RouterOutlet, RouterLink, MatButton, RouterLinkActive, MatMenu, MatMenuItem, MatMenuTrigger, MatProgressBar, MatTooltip],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   router = inject(Router);
   uiStatesService = inject(UiStatesService);
   resourceService = inject(ResourceService);
@@ -33,28 +41,29 @@ export class AppComponent implements OnInit {
 
   showToggleButton = false;
 
+  loading = false;
+
   get docs() {
     return this.resourceService.docs;
   }
 
   constructor() {
-    this.iconRegister.addSvgIcon('rabbit-sql', this.sanitizer.bypassSecurityTrustResourceUrl('images/rabbit-sql.svg'));
-    this.iconRegister.addSvgIcon('github', this.sanitizer.bypassSecurityTrustResourceUrl('images/github.svg'));
-    this.iconRegister.addSvgIcon('gitee', this.sanitizer.bypassSecurityTrustResourceUrl('images/gitee.svg'));
-  }
-
-  ngOnInit(): void {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
-        this.loadingService.loading();
+        this.loading = true;
       } else {
         if (event instanceof NavigationEnd) {
           const currentUrl = (event as NavigationEnd).urlAfterRedirects;
           this.showToggleButton = currentUrl.startsWith('/documents');
         }
-        this.loadingService.loaded();
+        if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+          this.loading = false;
+        }
       }
-    })
+    });
+    this.iconRegister.addSvgIcon('rabbit-sql', this.sanitizer.bypassSecurityTrustResourceUrl('images/rabbit-sql.svg'));
+    this.iconRegister.addSvgIcon('github', this.sanitizer.bypassSecurityTrustResourceUrl('images/github.svg'));
+    this.iconRegister.addSvgIcon('gitee', this.sanitizer.bypassSecurityTrustResourceUrl('images/gitee.svg'));
   }
 
   protected readonly github = github;
