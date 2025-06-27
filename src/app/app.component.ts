@@ -3,8 +3,7 @@ import {MatToolbar} from '@angular/material/toolbar';
 import {MatIcon, MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatButton, MatIconAnchor, MatIconButton} from '@angular/material/button';
-import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {filter} from 'rxjs';
+import {NavigationEnd, NavigationStart, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {UiStatesService} from './common/ui-states.service';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {gitee, github} from './common/global';
@@ -45,11 +44,16 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-    ).subscribe((event: any) => {
-      const currentUrl = (event as NavigationEnd).urlAfterRedirects;
-      this.showToggleButton = currentUrl.startsWith('/documents');
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationStart) {
+        this.loadingService.loading();
+      } else {
+        if (event instanceof NavigationEnd) {
+          const currentUrl = (event as NavigationEnd).urlAfterRedirects;
+          this.showToggleButton = currentUrl.startsWith('/documents');
+        }
+        this.loadingService.loaded();
+      }
     })
   }
 

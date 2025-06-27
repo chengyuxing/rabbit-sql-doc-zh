@@ -1,13 +1,11 @@
 import {Routes} from '@angular/router';
 import {DocumentsComponent} from './documents.component';
-import {DocumentComponent} from './document/document.component';
-import {AboutComponent} from './about/about.component';
 
 export const routes: Routes = [
   {
     path: '', component: DocumentsComponent, children: [
-      {path: 'about', component: AboutComponent},
-      {path: ':id', component: DocumentComponent},
+      {path: 'about', loadComponent: () => import('./about/about.component').then(c => c.AboutComponent)},
+      {path: ':id', loadComponent: () => import('./document/document.component').then(c => c.DocumentComponent)},
       {path: '', redirectTo: 'about', pathMatch: 'full'},
     ]
   }
