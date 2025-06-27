@@ -8,6 +8,31 @@
   <link rel="icon" type="image/x-icon" href="rabbit-sql.svg">
 </head>
 <body class="mat-typography">
-  <rabbit-sql-root></rabbit-sql-root>
+<rabbit-sql-root>
+  <div class="loading">
+    <style>
+      .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .header {
+        height: 64px;
+        background-color: #7e2dbf;
+      }
+
+      .content {
+        margin-top: 300px;
+        text-align: center;
+        width: 100%;
+      }
+    </style>
+    <div class="header"></div>
+    <div class="content">
+      <h2>🚀 正在加载中...</h2>
+    </div>
+  </div>
+</rabbit-sql-root>
 </body>
 </html>
