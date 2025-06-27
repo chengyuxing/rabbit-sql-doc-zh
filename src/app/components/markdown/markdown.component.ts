@@ -20,6 +20,7 @@ import {LoadingService} from '../../common/loading.service';
 import {catchError, of} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import mermaid from 'mermaid';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'rabbit-sql-markdown',
@@ -46,6 +47,7 @@ export class MarkdownComponent implements AfterViewInit {
   router = inject(Router);
   loadingService = inject(LoadingService);
   snack = inject(MatSnackBar);
+  title = inject(Title);
 
   content?: string;
   titles: MarkDownHead[] = [];
@@ -104,7 +106,12 @@ export class MarkdownComponent implements AfterViewInit {
     })).subscribe(res => {
       if (res !== null) {
         const html = marked(res) as string;
-        this.content = this.parsing(html);
+        const myContent = this.parsing(html);
+        const h1 = this.titles[0];
+        if (h1) {
+          this.title.setTitle(h1.content);
+        }
+        this.content = myContent;
         setTimeout(() => mermaid.contentLoaded(), 50);
       }
       this.loadingService.loaded();
