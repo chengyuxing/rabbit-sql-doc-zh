@@ -7,7 +7,7 @@
 ## 安装插件
 
 - 通过IDEA插件商店进行安装：<kbd>Preferences(Settings)</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search and find <b>"rabbit sql"</b></kbd> > <kbd>Install Plugin</kbd>；
-- 通过插件[资源库][versions]手动下载安装：<kbd>Preferences(Settings)</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd> > 选择插件安装包（不需要解压）。
+- 通过插件[资源库](https://plugins.jetbrains.com/plugin/21403-rabbit-sql/versions)手动下载安装：<kbd>Preferences(Settings)</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd> > 选择插件安装包（不需要解压）。
 
 ## XQL File Manager 工具窗口
 
