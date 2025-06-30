@@ -1,11 +1,9 @@
 import {
   AfterViewInit,
-  Component, effect,
-  HostListener,
+  Component, effect, HostListener,
   inject,
   input,
-  output,
-  ViewEncapsulation
+  output, ViewEncapsulation
 } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {marked} from 'marked';
@@ -21,6 +19,7 @@ import {catchError, of} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import mermaid from 'mermaid';
 import {Title} from '@angular/platform-browser';
+import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
   selector: 'rabbit-sql-markdown',
@@ -31,7 +30,8 @@ import {Title} from '@angular/platform-browser';
     MatMenu,
     MatMenuTrigger,
     MatMenuItem,
-    RouterLink
+    RouterLink,
+    MatTooltip
   ],
   templateUrl: './markdown.component.html',
   styleUrl: './markdown.component.scss',
@@ -110,6 +110,8 @@ export class MarkdownComponent implements AfterViewInit {
         const h1 = this.titles[0];
         if (h1) {
           this.title.setTitle(h1.content);
+        } else {
+          this.title.setTitle('Rabbit SQL');
         }
         this.content = myContent;
         setTimeout(() => mermaid.contentLoaded(), 50);
@@ -194,5 +196,11 @@ export class MarkdownComponent implements AfterViewInit {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+  }
+
+  share() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      this.snack.open('链接已复制！', 'x', {duration: 1500});
+    });
   }
 }

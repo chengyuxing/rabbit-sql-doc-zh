@@ -11,6 +11,7 @@ import {
 } from '@angular/material/table';
 import hljs from 'highlight.js';
 import {SafehtmlPipe} from '../../../pipes/safehtml.pipe';
+import {MatDivider} from '@angular/material/divider';
 
 @Component({
   selector: 'rabbit-sql-about',
@@ -25,7 +26,8 @@ import {SafehtmlPipe} from '../../../pipes/safehtml.pipe';
     MatHeaderCell,
     MatCell,
     MatCellDef,
-    SafehtmlPipe
+    SafehtmlPipe,
+    MatDivider
   ],
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss'

@@ -5,7 +5,10 @@
         <h1 [style.top]="top()">
           <span>{{ title.content }}</span>
           <span class="spacer"></span>
-          <button mat-icon-button (click)="download()" title="下载">
+          <button mat-icon-button (click)="share()" matTooltip="分享">
+            <mat-icon>share</mat-icon>
+          </button>
+          <button mat-icon-button (click)="download()" matTooltip="下载">
             <mat-icon>download</mat-icon>
           </button>
           @if (titles.slice(1); as subtitles) {
