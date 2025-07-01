@@ -74,7 +74,13 @@ Baki slaveBaki;
 
 ### Baki 属性接口扩展
 
-Baki 中有一些属性为接口的类型可以注入 Spring 上下文，如果实现类中存在一个参数并且参数类型为 `org.springframework.context.ApplicationContext` 的构造函数，则此构造函数默认将被实例化，可以获取 Spring 上下文中的所有 Bean。
+```yaml
+baki:
+  query-cache-manager: 
+  # ...
+```
+
+Baki （包括 `secondaries` 节点下的副 `baki`） 中有一些属性为接口的类型可以注入 Spring 上下文，如果实现类中存在一个参数并且参数类型为 `org.springframework.context.ApplicationContext` 的构造函数，则此构造函数默认将被实例化，可以获取 Spring 上下文中的所有 Bean。
 
 例如 `com.github.chengyuxing.sql.plugins.QueryCacheManager` 的实现类 `RedisCache` 中，可以从上下文中轻松的获取到 Redis 的 Bean，从而实现基于 Redis 的查询缓存管理：
 
