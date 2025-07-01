@@ -1,18 +1,28 @@
 <div class="markdown">
   @if (content) {
-    <main>
+    <main class="print-section">
       @if (titles[0]; as title) {
         <h1 [style.top]="top()">
           <span>{{ title.content }}</span>
           <span class="spacer"></span>
-          <button mat-icon-button (click)="share()" matTooltip="分享">
+          <button mat-icon-button [matMenuTriggerFor]="shareMenu" matTooltip="分享" class="no-print">
             <mat-icon>share</mat-icon>
           </button>
-          <button mat-icon-button (click)="download()" matTooltip="下载">
-            <mat-icon>download</mat-icon>
+          <mat-menu #shareMenu=matMenu>
+            <button mat-menu-item (click)="copyLink()" class="no-print">
+              复制文档链接
+              <mat-icon>content_copy</mat-icon>
+            </button>
+            <button mat-menu-item (click)="scanQrCode()" class="no-print">
+              扫一扫
+              <mat-icon>qr_code</mat-icon>
+            </button>
+          </mat-menu>
+          <button mat-icon-button (click)="download()" matTooltip="打印" class="no-print">
+            <mat-icon>print</mat-icon>
           </button>
           @if (titles.slice(1); as subtitles) {
-            <button mat-icon-button class="outline-menu" [matMenuTriggerFor]="menu" title="导航大纲">
+            <button mat-icon-button class="outline-menu no-print" [matMenuTriggerFor]="menu" matTooltip="导航大纲">
               <mat-icon>list</mat-icon>
             </button>
             <mat-menu #menu=matMenu>
@@ -27,7 +37,7 @@
       <article [innerHTML]="content | safehtml"></article>
     </main>
     @if (titles.slice(1); as subtitles) {
-      <div class="outline slide-container">
+      <div class="outline slide-container no-print">
         <div class="content">
           <div class="header"><b>导航大纲</b></div>
           <nav>

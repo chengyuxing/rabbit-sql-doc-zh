@@ -20,6 +20,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import mermaid from 'mermaid';
 import {Title} from '@angular/platform-browser';
 import {MatTooltip} from '@angular/material/tooltip';
+import {MatDialog} from '@angular/material/dialog';
+import {QrcodeComponent} from '../qrcode/qrcode.component';
 
 @Component({
   selector: 'rabbit-sql-markdown',
@@ -48,6 +50,7 @@ export class MarkdownComponent implements AfterViewInit {
   loadingService = inject(LoadingService);
   snack = inject(MatSnackBar);
   title = inject(Title);
+  dialog = inject(MatDialog);
 
   content?: string;
   titles: MarkDownHead[] = [];
@@ -136,7 +139,7 @@ export class MarkdownComponent implements AfterViewInit {
           content: child.innerHTML
         });
         const link = document.createElement('a');
-        link.className = 'material-icons mat-mdc-icon-button head-link';
+        link.className = 'material-icons mat-mdc-icon-button head-link no-print';
         link.innerHTML = 'link';
         child.appendChild(link);
       }
@@ -169,7 +172,7 @@ export class MarkdownComponent implements AfterViewInit {
         if (parent && parent.tagName === 'PRE') {
           codeBlock.classList.add('hljs');
           const copy = document.createElement('span');
-          copy.className = 'material-icons mat-mdc-icon-button code-copy';
+          copy.className = 'material-icons mat-mdc-icon-button code-copy no-print';
           copy.innerHTML = 'content_copy';
           copy.title = '拷贝到剪切板';
           parent.appendChild(copy);
@@ -189,18 +192,19 @@ export class MarkdownComponent implements AfterViewInit {
   }
 
   download() {
-    const a = document.createElement('a');
-    const href = this.url();
-    a.href = href;
-    a.download = href.substring(href.lastIndexOf('/') + 1);
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    window.scrollTo({top: 0})
+    setTimeout(() => window.print(), 100);
   }
 
-  share() {
+  copyLink() {
     navigator.clipboard.writeText(window.location.href).then(() => {
       this.snack.open('链接已复制！', 'x', {duration: 1500});
+    });
+  }
+
+  scanQrCode() {
+    this.dialog.open(QrcodeComponent, {
+      data: {content: window.location.href}
     });
   }
 }

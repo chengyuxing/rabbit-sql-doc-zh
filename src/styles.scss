@@ -153,6 +153,20 @@ p, h2, h3 {
   }
 }
 
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-section, .print-section * {
+    visibility: visible;
+  }
+}
+
 :root {
   @include mat.toolbar-overrides((
     container-background-color: #7e2dbf,
