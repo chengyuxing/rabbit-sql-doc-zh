@@ -107,15 +107,15 @@ public class RedisCache implements QueryCacheManager {
 
 支持注入 Spring 上下文的属性接口有：
 
-- global-page-helper-provider；
-- sql-interceptor；
-- statement-value-handler；
-- sql-parse-checker；
-- template-formatter；
-- named-param-formatter；
-- sql-watcher；
-- query-timeout-handler；
-- query-cache-manager；
+- `global-page-helper-provider`；
+- `sql-interceptor`；
+- `statement-value-handler`；
+- `sql-parse-checker`；
+- `template-formatter`；
+- `named-param-formatter`；
+- `sql-watcher`；
+- `query-timeout-handler`；
+- `query-cache-manager`；
 
 ## 注入
 
