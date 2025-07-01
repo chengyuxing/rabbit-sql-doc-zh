@@ -1,0 +1,7 @@
+<mat-dialog-content>
+  @defer {
+    <qrcode [qrdata]="content" [width]="256" [errorCorrectionLevel]="'M'"/>
+  } @loading {
+    <p>正在生成二维码...</p>
+  }
+</mat-dialog-content>
