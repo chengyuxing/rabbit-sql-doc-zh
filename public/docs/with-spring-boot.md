@@ -72,6 +72,45 @@ Baki baki;
 Baki slaveBaki;
 ```
 
+### Baki 属性接口扩展
+
+Baki 中有一些属性为接口的类型可以注入 Spring 上下文，如果实现类中存在一个参数并且参数类型为 `org.springframework.context.ApplicationContext` 的构造函数，则此构造函数默认将被实例化，可以获取 Spring 上下文中的所有 Bean。
+
+例如 `com.github.chengyuxing.sql.plugins.QueryCacheManager` 的实现类 `RedisCache` 中，可以从上下文中轻松的获取到 Redis 的 Bean，从而实现基于 Redis 的查询缓存管理：
+
+```java
+public class RedisCache implements QueryCacheManager {
+    final ApplicationContext context;
+    final RedisClient redisClient;
+  
+    public RedisCache(ApplicationContext context) {
+        this.context = context;
+      	this.redisClient = this.context.getBean(RedisClient.class);
+    }
+  
+    @Override
+    public Stream<DataRow> get(String key) {
+       ...
+    }
+
+    @Override
+    public void put(@NotNull String key, List<DataRow> value) {
+        ...
+    }
+```
+
+支持注入 Spring 上下文的属性接口有：
+
+- global-page-helper-provider；
+- sql-interceptor；
+- statement-value-handler；
+- sql-parse-checker；
+- template-formatter；
+- named-param-formatter；
+- sql-watcher；
+- query-timeout-handler；
+- query-cache-manager；
+
 ## 注入
 
 最直观的方式也就是注入 `Baki` 接口即可执行数据库访问操作，也是最灵活的方式，但框架也提供了 XQL 接口映射的方式，用过 MyBatis 的小伙伴一点都不会陌生。
