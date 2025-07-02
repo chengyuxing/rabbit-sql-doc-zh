@@ -102,17 +102,28 @@ export class MarkdownComponent implements AfterViewInit {
     if (classList.contains('external-link')) {
       event.preventDefault();
       const a = target as HTMLAnchorElement;
-      const dialogRef = this.dialog.open(Confirm, {
+      this.dialog.open(Confirm, {
         data: {
           title: '确定打开来自外部的链接吗？',
           content: a.href
         }
-      });
-      dialogRef.afterClosed().subscribe(ok => {
+      }).afterClosed().subscribe(ok => {
         if (ok) {
           window.open(a.href, '_blank');
         }
       });
+      return;
+    }
+    if (classList.contains('internal-link')) {
+      event.preventDefault();
+      const uri = target.getAttribute('href');
+      if (uri) {
+        this.router.navigateByUrl(uri).then(() => {
+          if (!location.hash) {
+            window.scrollTo({top: 0});
+          }
+        });
+      }
     }
   }
 
@@ -201,7 +212,9 @@ export class MarkdownComponent implements AfterViewInit {
       const origin = location.origin;
       for (const anchor of anchors) {
         const href = anchor.href;
-        if (!href.startsWith(origin)) {
+        if (href.startsWith(origin)) {
+          anchor.classList.add('internal-link');
+        } else {
           anchor.classList.add('external-link');
         }
       }
