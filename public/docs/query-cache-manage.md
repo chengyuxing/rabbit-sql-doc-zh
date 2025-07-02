@@ -31,7 +31,7 @@ default @NotNull String uniqueKey(@NotNull String sql, Map<String, Object> args)
 ```java
 @Override
 boolean isAvailable(@NotNull String sql, Map<String, Object> args){
-  if(Objects.equals(sql, '&my.dic')){
+  if(Objects.equals(sql, "&my.dic")){
     return true;
   }
   return false;

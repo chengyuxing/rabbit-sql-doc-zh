@@ -72,6 +72,18 @@ Baki baki;
 Baki slaveBaki;
 ```
 
+### 打印 SQL 日志
+
+`application.yml`
+
+```yaml
+logging:
+  level:
+    root: info
+    # 配置打印 SQL 日志
+    com.github.chengyuxing: debug
+```
+
 ### Baki 属性接口扩展
 
 ```yaml
