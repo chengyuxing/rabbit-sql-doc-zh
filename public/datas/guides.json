@@ -19,7 +19,12 @@
     {
       "id": "utils",
       "title": "工具类",
-      "description": "整理了一些框架内在使用的实用工具类"
+      "description": "整理了一些框架内在使用的实用工具类。"
+    },
+    {
+      "id": "statement-value-handler-extends",
+      "title": "扩展预编译 SQL 值处理器",
+      "description": "支持更多的特殊值类型，在信创中，面对随时更换五花八门的国产数据库，此方法显得尤为重要。"
     }
   ]
 }
