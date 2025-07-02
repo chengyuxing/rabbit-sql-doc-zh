@@ -22,6 +22,7 @@ import {Title} from '@angular/platform-browser';
 import {MatTooltip} from '@angular/material/tooltip';
 import {MatDialog} from '@angular/material/dialog';
 import {QrcodeComponent} from '../qrcode/qrcode.component';
+import {Confirm} from '../confirm/confirm';
 
 @Component({
   selector: 'rabbit-sql-markdown',
@@ -96,6 +97,22 @@ export class MarkdownComponent implements AfterViewInit {
       if (id) {
         this.router.navigate([], {fragment: id});
       }
+      return;
+    }
+    if (classList.contains('external-link')) {
+      event.preventDefault();
+      const a = target as HTMLAnchorElement;
+      const dialogRef = this.dialog.open(Confirm, {
+        data: {
+          title: '确定打开来自外部的链接吗？',
+          content: a.href
+        }
+      });
+      dialogRef.afterClosed().subscribe(ok => {
+        if (ok) {
+          window.open(a.href, '_blank');
+        }
+      });
     }
   }
 
@@ -176,6 +193,16 @@ export class MarkdownComponent implements AfterViewInit {
           copy.innerHTML = 'content_copy';
           copy.title = '拷贝到剪切板';
           parent.appendChild(copy);
+        }
+      }
+    }
+    const anchors = div.getElementsByTagName('a');
+    if (anchors && anchors.length > 0) {
+      const origin = location.origin;
+      for (const anchor of anchors) {
+        const href = anchor.href;
+        if (!href.startsWith(origin)) {
+          anchor.classList.add('external-link');
         }
       }
     }

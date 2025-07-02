@@ -1,6 +1,6 @@
 # 扩展预编译 SQL 值处理器
 
-Rabbit SQL 默认支持的值类型都比较少，在不同的框架中还有其特有的值类型，每次都手动处理转换比较麻烦，通过实现接口 `com.github.chengyuxing.sql.plugins.StatementValueHandler` 来轻松扩展：
+Rabbit SQL 默认支持的值类型都比较少，在不同的框架中还有其特有的值类型，每次都手动处理转换比较麻烦，通过实现接口 `com.github.chengyuxing.sql.plugins.StatementValueHandler` 并[配置到 BakiDao](documents/api-config#md-head-4) 来轻松扩展：
 
 ```java
 public class MyStatementValueHandler implements StatementValueHandler {
