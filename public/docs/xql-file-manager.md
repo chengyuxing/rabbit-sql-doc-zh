@@ -62,4 +62,4 @@ named-param-prefix: ':'
 database-id:
 ```
 
-详细的配置项说明参考文档[配置项](documents/api-config) 。
+详细的配置项说明参考文档[配置项](documents/api-config#md-head-21) 。
