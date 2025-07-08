@@ -13,14 +13,15 @@
               复制链接
               <mat-icon>content_copy</mat-icon>
             </button>
+            <button mat-menu-item (click)="download()" class="no-print">
+              打印
+              <mat-icon>print</mat-icon>
+            </button>
             <button mat-menu-item (click)="scanQrCode()" class="no-print">
               扫一扫
               <mat-icon>qr_code</mat-icon>
             </button>
           </mat-menu>
-          <button mat-icon-button (click)="download()" matTooltip="打印" class="no-print">
-            <mat-icon>print</mat-icon>
-          </button>
           @if (subtitles.length > 0) {
             <button mat-icon-button class="outline-menu no-print" [matMenuTriggerFor]="menu" matTooltip="导航大纲">
               <mat-icon>list</mat-icon>
