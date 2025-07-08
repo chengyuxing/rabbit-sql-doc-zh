@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {MatToolbar} from '@angular/material/toolbar';
 import {MatIcon, MatIconRegistry} from '@angular/material/icon';
-import {DomSanitizer} from '@angular/platform-browser';
+import {DomSanitizer, Title} from '@angular/platform-browser';
 import {MatButton, MatIconAnchor, MatIconButton} from '@angular/material/button';
 import {
   NavigationCancel,
@@ -34,8 +34,9 @@ export class AppComponent {
   loadingService = inject(LoadingService);
   iconRegister = inject(MatIconRegistry);
   sanitizer = inject(DomSanitizer);
+  title = inject(Title);
 
-  title = 'Rabbit-SQL';
+  titleText = 'Rabbit-SQL';
   document = '文档';
   guides = '指南';
 
@@ -55,6 +56,7 @@ export class AppComponent {
         if (event instanceof NavigationEnd) {
           const currentUrl = (event as NavigationEnd).urlAfterRedirects;
           this.showToggleButton = currentUrl.startsWith('/documents');
+          this.title.setTitle(this.titleText);
         }
         if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
           this.loading = false;
