@@ -55,7 +55,9 @@ export class AppComponent {
         if (event instanceof NavigationEnd) {
           const currentUrl = (event as NavigationEnd).urlAfterRedirects;
           this.showToggleButton = currentUrl.startsWith('/documents');
-          this.title.setTitle(appName);
+          if (!/\/(documents|guides)\/\w+/.test(currentUrl)) {
+            this.title.setTitle(appName + '- 极简国产 SQL 框架');
+          }
         }
         if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
           this.loading = false;
