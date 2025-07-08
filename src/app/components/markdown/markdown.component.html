@@ -21,7 +21,7 @@
           <button mat-icon-button (click)="download()" matTooltip="打印" class="no-print">
             <mat-icon>print</mat-icon>
           </button>
-          @if (titles.slice(1); as subtitles) {
+          @if (subtitles.length > 0) {
             <button mat-icon-button class="outline-menu no-print" [matMenuTriggerFor]="menu" matTooltip="导航大纲">
               <mat-icon>list</mat-icon>
             </button>
@@ -36,7 +36,7 @@
       }
       <article [innerHTML]="content | safehtml"></article>
     </main>
-    @if (titles.slice(1); as subtitles) {
+    @if (subtitles.length > 0) {
       <div class="outline slide-container no-print">
         <div class="content">
           <div class="header"><b>导航大纲</b></div>

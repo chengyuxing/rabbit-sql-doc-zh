@@ -56,6 +56,10 @@ export class MarkdownComponent implements AfterViewInit {
   content?: string;
   titles: MarkDownHead[] = [];
 
+  get subtitles(): MarkDownHead[] {
+    return this.titles.slice(1);
+  }
+
   currentHash = location.hash.replace('#', '');
 
   constructor() {
