@@ -1,7 +1,7 @@
 <header>
   <div class="container">
-    <h1>{{ summary }}</h1>
-    <p>{{ description }}</p>
+    <h1>为复杂查询而生的超轻量 SQL 框架</h1>
+    <p>Rabbit-SQL 是比 ORM 更轻的动态 SQL 管理框架，对复杂查询说 Yes，对 ORM 限制说 No！</p>
     <div class="actions">
       <a mat-fab extended [routerLink]="['/documents']" routerLinkActive="active" color="primary">开始使用</a>
       <a mat-fab extended [href]="github" target="_blank" color="primary">
@@ -96,5 +96,17 @@
   </section>
 </main>
 <footer>
-  <p>Every thing will be better :)</p>
+  <div class="content">
+    <mat-divider/>
+    <br>
+    <p>Copyright © {{ year }} 程钰兴 版权所有。</p>
+    <p>作者：程钰兴 | 联系邮箱：<a href="mailto:chengyuxingo@gmail.com?subject=来自Rabbit SQL网站的联系&body=您好，请问...">chengyuxingo&#64;gmail.com</a></p>
+    <p>除非另有声明，本站内容均可自由转载，但需注明出处。</p>
+    <p>
+      <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
+        滇ICP备2025064476号
+      </a>
+    </p>
+    <br>
+  </div>
 </footer>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>http://rabbitsql.cn/</loc></url>
-  <url><loc>http://rabbitsql.cn/main</loc></url>
-  <url><loc>http://rabbitsql.cn/documents</loc></url>
-  <url><loc>http://rabbitsql.cn/documents/about</loc></url>
-  <url><loc>http://rabbitsql.cn/documents/baki</loc></url>
-  <url><loc>http://rabbitsql.cn/documents/dynamic-sql</loc></url>
-  <url><loc>http://rabbitsql.cn/guides</loc></url>
-  <url><loc>http://rabbitsql.cn/guides/spring-boot-starter</loc></url>
+  <url><loc>https://rabbitsql.cn/</loc></url>
+  <url><loc>https://rabbitsql.cn/main</loc></url>
+  <url><loc>https://rabbitsql.cn/documents</loc></url>
+  <url><loc>https://rabbitsql.cn/documents/about</loc></url>
+  <url><loc>https://rabbitsql.cn/documents/baki</loc></url>
+  <url><loc>https://rabbitsql.cn/documents/dynamic-sql</loc></url>
+  <url><loc>https://rabbitsql.cn/guides</loc></url>
+  <url><loc>https://rabbitsql.cn/guides/spring-boot-starter</loc></url>
 </urlset>
