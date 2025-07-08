@@ -14,7 +14,7 @@ import {
 } from '@angular/router';
 import {UiStatesService} from './common/ui-states.service';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
-import {gitee, github} from './common/global';
+import {appName, gitee, github} from './common/global';
 import {ResourceService} from './common/resource.service';
 import {MatProgressBar} from '@angular/material/progress-bar';
 import {LoadingService} from './common/loading.service';
@@ -36,7 +36,6 @@ export class AppComponent {
   sanitizer = inject(DomSanitizer);
   title = inject(Title);
 
-  titleText = 'Rabbit SQL';
   document = '文档';
   guides = '指南';
 
@@ -56,7 +55,7 @@ export class AppComponent {
         if (event instanceof NavigationEnd) {
           const currentUrl = (event as NavigationEnd).urlAfterRedirects;
           this.showToggleButton = currentUrl.startsWith('/documents');
-          this.title.setTitle(this.titleText);
+          this.title.setTitle(appName);
         }
         if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
           this.loading = false;
@@ -76,4 +75,5 @@ export class AppComponent {
     this.uiStatesService.setShowDocumentToggleBtn(!currentState);
   }
 
+  protected readonly appName = appName;
 }

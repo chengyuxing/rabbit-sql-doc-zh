@@ -23,6 +23,7 @@ import {MatTooltip} from '@angular/material/tooltip';
 import {MatDialog} from '@angular/material/dialog';
 import {QrcodeComponent} from '../qrcode/qrcode.component';
 import {Confirm} from '../confirm/confirm';
+import {appName} from '../../common/global';
 
 @Component({
   selector: 'rabbit-sql-markdown',
@@ -144,9 +145,9 @@ export class MarkdownComponent implements AfterViewInit {
         const myContent = this.parsing(html);
         const h1 = this.titles[0];
         if (h1) {
-          this.title.setTitle(h1.content);
+          this.title.setTitle(appName+' - ' + h1.content);
         } else {
-          this.title.setTitle('Rabbit SQL');
+          this.title.setTitle(appName);
         }
         this.content = myContent;
         setTimeout(() => mermaid.contentLoaded(), 50);

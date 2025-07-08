@@ -23,7 +23,7 @@
   </button>
   <div class="menus">
     <button mat-button [routerLink]="['']" routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact: true}">{{ titleText }}
+            [routerLinkActiveOptions]="{exact: true}">{{ appName }}
     </button>
     <button mat-button [routerLink]="['documents']" routerLinkActive="active">{{ document }}</button>
     <button mat-button [routerLink]="['guides']" routerLinkActive="active">{{ guides }}</button>
@@ -34,7 +34,7 @@
     </button>
     <mat-menu #menusMenu=matMenu>
       <button mat-menu-item [routerLink]="['']" routerLinkActive="active"
-              [routerLinkActiveOptions]="{exact: true}">{{ titleText }}
+              [routerLinkActiveOptions]="{exact: true}">{{ appName }}
       </button>
       <button mat-menu-item [routerLink]="['documents']" routerLinkActive="active">{{ document }}</button>
       <button mat-menu-item [routerLink]="['guides']" routerLinkActive="active">{{ guides }}</button>
