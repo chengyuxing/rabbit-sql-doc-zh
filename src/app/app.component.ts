@@ -36,7 +36,7 @@ export class AppComponent {
   sanitizer = inject(DomSanitizer);
   title = inject(Title);
 
-  titleText = 'Rabbit-SQL';
+  titleText = 'Rabbit SQL';
   document = '文档';
   guides = '指南';
 
