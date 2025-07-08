@@ -14,7 +14,7 @@ import {
 } from '@angular/router';
 import {UiStatesService} from './common/ui-states.service';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
-import {appName, gitee, github} from './common/global';
+import {appName, appTitle, gitee, github} from './common/global';
 import {ResourceService} from './common/resource.service';
 import {MatProgressBar} from '@angular/material/progress-bar';
 import {LoadingService} from './common/loading.service';
@@ -56,7 +56,7 @@ export class AppComponent {
           const currentUrl = (event as NavigationEnd).urlAfterRedirects;
           this.showToggleButton = currentUrl.startsWith('/documents');
           if (!/\/(documents|guides)\/\w+/.test(currentUrl)) {
-            this.title.setTitle(appName + '- 极简国产 SQL 框架');
+            this.title.setTitle(appTitle);
           }
         }
         if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
