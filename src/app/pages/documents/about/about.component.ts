@@ -12,6 +12,7 @@ import {
 import hljs from 'highlight.js';
 import {SafehtmlPipe} from '../../../pipes/safehtml.pipe';
 import {MatDivider} from '@angular/material/divider';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'rabbit-sql-about',
@@ -27,7 +28,8 @@ import {MatDivider} from '@angular/material/divider';
     MatCell,
     MatCellDef,
     SafehtmlPipe,
-    MatDivider
+    MatDivider,
+    RouterLink
   ],
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss'
@@ -37,7 +39,7 @@ export class AboutComponent {
     {feature: '国产化', rabbit: '✅ 完全自主可控，满足信创', mybatis: '❌', jpa: '❌'},
     {feature: '快速上手成本', rabbit: '✅ 极低', mybatis: '⚠️ 高', jpa: '⚠️ 高'},
     {feature: '动态 SQL', rabbit: '✅ 高性能、极简、直观、易于测试', mybatis: '⚠️ 但繁琐', jpa: '⚠️ 复杂'},
-    {feature: 'SQL 文件独立管理', rabbit: '✅ 自创XQL格式，完全支持', mybatis: '⚠️ 但复杂', jpa: '❌ 不支持'},
+    {feature: 'SQL 文件独立管理', rabbit: '✅ 自创XQL格式，完全支持', mybatis: '⚠️ 但繁琐', jpa: '❌ 不支持'},
     {feature: 'Spring Boot', rabbit: '✅ 支持', mybatis: '✅ 支持', jpa: '✅ 原生'},
     {feature: '实体映射', rabbit: '⚠️ 基本支持', mybatis: '⚠️ 稍繁琐', jpa: '✅ 完备'},
     {feature: '存储过程/函数', rabbit: '✅ 简单', mybatis: '⚠️ 稍繁琐', jpa: '⚠️ 繁琐'},
