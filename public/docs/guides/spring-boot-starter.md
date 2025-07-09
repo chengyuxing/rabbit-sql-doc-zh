@@ -61,4 +61,4 @@ files:
 Baki baki;
 ```
 
-具体操作可以[参考详细文档](documents/with-spring-boot) 。
+具体操作可以[参考详细文档](documents/with-spring-boot)或直接参考[最佳实践](documents/best-practice) 。

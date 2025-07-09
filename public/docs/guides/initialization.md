@@ -62,4 +62,4 @@ XQLFileManager xqlFileManager = new XQLFileManager("xql-file-manager.yml");
 baki.setXqlFileManager(xqlFileManager);
 ```
 
-通过 `baki` 来执行 SQL 访问数据库，具体操作可以[参考详细文档](documents/baki) 。
+通过 `baki` 来执行 SQL 访问数据库，具体操作可以[参考详细文档](documents/baki)或直接参考[最佳实践](documents/best-practice) 。

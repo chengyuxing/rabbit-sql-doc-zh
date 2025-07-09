@@ -153,8 +153,8 @@ select * from users where
 >
 > ```java
 > // Rabbit-SQL plugin - Your methods  //CODE-BEGIN:methods
-> @Insert("users")
-> int addUser(User user);
+> @Function("{:res = call func_get_user(:id)}")
+> DataRow funcGetUser(@Arg("id")Param id);
 > // Rabbit-SQL plugin - End of your methods  //CODE-END:methods
 > ```
 
@@ -253,7 +253,7 @@ public void b(){
 对于批量插入、更新等操作，推荐使用批量提交，减少数据库的网络交互次数，提升性能。
 
 ```java
-baki.insert(Collection<Entity> data);
+baki.entity().insert(Collection<Entity> data);
 ```
 
 ```java
