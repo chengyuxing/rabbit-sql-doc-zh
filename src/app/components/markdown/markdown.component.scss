@@ -9,7 +9,7 @@
   }
 
   main {
-    padding: 20px 50px;
+    padding: 20px 40px;
     outline: currentColor;
     flex: 1;
     min-width: 0;
@@ -26,6 +26,7 @@
     }
 
     > article {
+      padding: 0 4px;
       // 隐藏md文件的第一个标题，提取出来进行更细粒度的调整
       #md-head-0 {
         display: none;
