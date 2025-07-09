@@ -2,7 +2,7 @@
 
 专为 Rabbit SQL 框架开发的 IDEA 插件，通过安装插件可以极大的简化开发流程，降低手动配置的错误率。
 
-<iframe width="100%" height="250px" src="https://plugins.jetbrains.com/embeddable/card/21403"></iframe>
+<iframe width="100%" height="260px" src="https://plugins.jetbrains.com/embeddable/card/21403"></iframe>
 
 ## 安装插件
 
