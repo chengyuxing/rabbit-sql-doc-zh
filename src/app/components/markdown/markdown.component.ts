@@ -145,7 +145,7 @@ export class MarkdownComponent implements AfterViewInit {
         const myContent = this.parsing(html);
         const h1 = this.titles[0];
         if (h1) {
-          this.title.setTitle(appName+' - ' + h1.content);
+          this.title.setTitle(appName + ' - ' + h1.content);
         } else {
           this.title.setTitle(appName);
         }
