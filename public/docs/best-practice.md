@@ -284,7 +284,7 @@ baki.of("&<sql名>").executeBatch(...);
 
 - **SQL 语法错误**：在 .xql 文件中书写 SQL 时，确保 SQL 语法正确，尤其是在[使用动态 SQL](documents/dynamic-sql)时。
 
-- **参数映射问题**：使用 [:参数名](documents/sql-param) 时，确保传递的参数名与 SQL 中的占位符匹配，避免 SQL 语句的参数未正确绑定。
+- **参数映射问题**：使用 [:参数名](documents/sql-params) 时，确保传递的参数名与 SQL 中的占位符匹配，避免 SQL 语句的参数未正确绑定。
 
 - **连接释放问题**：使用 **Stream** 作为返回类型时，需要在使用完毕后进行释放，一般使用 `try-with-resource` 来进行释放连接：
 
@@ -318,7 +318,7 @@ baki.of("&<sql名>").executeBatch(...);
 
 ### 防止SQL注入
 
-- 使用[参数化查询](documents/sql-param)，确保所有的参数都通过 `:参数名` 占位符进行传递，避免 SQL 注入漏洞。
+- 使用[参数化查询](documents/sql-params)，确保所有的参数都通过 `:参数名` 占位符进行传递，避免 SQL 注入漏洞。
 - 禁止在 SQL 中直接拼接用户输入，所有用户输入都应该通过参数占位符传递。
 
 ### 数据库连接池配置
