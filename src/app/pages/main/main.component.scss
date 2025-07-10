@@ -91,6 +91,20 @@ footer {
     }
   }
 
+  .beian {
+    display: flex;
+    align-items: center;
+
+    > * + * {
+      margin-left: 4px;
+    }
+
+    > .icon {
+      width: 16px;
+      position: relative;
+      top: -1px;
+    }
+  }
 }
 
 mat-divider {
