@@ -71,11 +71,10 @@ export class AppComponent {
 
   protected readonly github = github;
   protected readonly gitee = gitee;
+  protected readonly appName = appName;
 
   toggleSideNav() {
     const currentState = this.uiStatesService.currentDocumentToggleState;
     this.uiStatesService.setShowDocumentToggleBtn(!currentState);
   }
-
-  protected readonly appName = appName;
 }
