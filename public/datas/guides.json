@@ -23,7 +23,7 @@
     },{
       "id": "prepared-sql",
       "title": "预编译 SQL 科普",
-      "description": "最基础的预防 SQL 注入的方式，避免项目中出现低级 BUG 引起生成问题！"
+      "description": "最基础的预防 SQL 注入的方式，避免项目中出现低级 BUG 引起生产问题！"
     },
     {
       "id": "statement-value-handler-extends",
