@@ -18,7 +18,7 @@ export class DocumentComponent implements AfterViewInit {
   id = input.required<string>();
 
   ngAfterViewInit(): void {
-    this.scrollService.scrollToCurrentHash(140);
+    setTimeout(() => this.scrollService.scrollToCurrentHash(140), 100);
   }
 
   onAnAction(id: string) {

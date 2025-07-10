@@ -18,7 +18,7 @@ export class GuideComponent implements AfterViewInit {
   resourceService = inject(ResourceService);
 
   ngAfterViewInit(): void {
-    this.scrollService.scrollToCurrentHash(140);
+    setTimeout(() => this.scrollService.scrollToCurrentHash(140), 100);
   }
 
   onAnAction(id: string) {
