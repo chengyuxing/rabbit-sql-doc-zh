@@ -20,6 +20,10 @@
       "id": "utils",
       "title": "工具类",
       "description": "整理了一些框架内在使用的实用工具类。"
+    },{
+      "id": "prepared-sql",
+      "title": "预编译 SQL 科普",
+      "content": "最基础的预防 SQL 注入的方式，避免项目中出现低级 BUG 引起生成问题！"
     },
     {
       "id": "statement-value-handler-extends",
