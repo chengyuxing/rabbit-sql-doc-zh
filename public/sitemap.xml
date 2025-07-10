@@ -4,6 +4,10 @@
   <url><loc>https://rabbitsql.cn/documents</loc></url>
   <url><loc>https://rabbitsql.cn/documents/baki</loc></url>
   <url><loc>https://rabbitsql.cn/documents/dynamic-sql</loc></url>
+  <url><loc>https://rabbitsql.cn/documents/best-practice</loc></url>
+  <url><loc>https://rabbitsql.cn/documents/xql-file-manager</loc></url>
   <url><loc>https://rabbitsql.cn/guides</loc></url>
+  <url><loc>https://rabbitsql.cn/guides/initialization</loc></url>
   <url><loc>https://rabbitsql.cn/guides/spring-boot-starter</loc></url>
+  <url><loc>https://rabbitsql.cn/guides/plugin</loc></url>
 </urlset>
