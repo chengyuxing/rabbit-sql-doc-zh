@@ -8,7 +8,7 @@ _java 11+_
 <dependency>
     <groupId>com.github.chengyuxing</groupId>
     <artifactId>rabbit-sql</artifactId>
-    <version>9.0.19</version>
+    <version>9.0.20</version>
 </dependency>
 ```
 
@@ -18,7 +18,7 @@ _java 8_
 <dependency>
     <groupId>com.github.chengyuxing</groupId>
     <artifactId>rabbit-sql</artifactId>
-    <version>8.1.21</version>
+    <version>8.1.22</version>
 </dependency>
 ```
 
