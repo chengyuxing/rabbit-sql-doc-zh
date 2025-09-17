@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://rabbitsql.cn/sitemap.xml
+Sitemap: https://rabbitsql.cn/v9/sitemap.xml
