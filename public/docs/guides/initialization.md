@@ -2,23 +2,13 @@
 
 在 maven 项目 `pom.xml` 中引入依赖：
 
-_java 11+_
+_java 8+_
 
 ```xml
 <dependency>
     <groupId>com.github.chengyuxing</groupId>
     <artifactId>rabbit-sql</artifactId>
-    <version>9.0.20</version>
-</dependency>
-```
-
-_java 8_
-
-```xml
-<dependency>
-    <groupId>com.github.chengyuxing</groupId>
-    <artifactId>rabbit-sql</artifactId>
-    <version>8.1.22</version>
+    <version>10.0.0</version>
 </dependency>
 ```
 

@@ -44,9 +44,9 @@ SQL 拦截器，在**SQL解析开始**时通过抛出特定异常来拦截不满
 
 SQL 解析检查器，在 SQL 解析过程中，**解析字符串模版变量之前**，对当前 SQL 字符串进行一些其他处理。
 
-### sqlWatcher
+### executionWatcher
 
-SQL 执行观察者，记录 SQL 执行开始时间和结束时间，可用于记录日志、统计 SQL 耗时、性能分析、SQL 审计等操作。
+SQL 执行观察者，可用于记录 SQL 执行开始时间和结束时间，可用于记录日志、统计 SQL 耗时、性能分析、SQL 审计等操作。
 
 ### xqlFileManager
 
@@ -82,13 +82,17 @@ JDBC 底层批量操作大小，默认为 1000。
 
 详细配置参考文档[查询缓存管理](documents/query-cache-manage) 。
 
-### operatorWhiteList
+### entityFieldMapper
 
-实体操作 `entity(class)` **where** 条件构建器 `of` 自定义操作符白名单，为避免 SQL 注入风险，自定义操作符必须配置白名单，例如 PostgreSQL 特有的正则匹配操作符 `~` ：
+框架内部接口涉及到实体返回实体的操作都将使用此函数来对字段进行映射匹配。
 
-```java
-.of(Guest::getAddress, () -> "~", "kunming")
-```
+例如：`baki.query(...).findFirstEntity(class)`
+
+### entityValueMapper
+
+框架内部接口涉及到实体返回实体的操作都将使用此函数来对字段的值类型进行映射转换。
+
+例如：`baki.query(...).findFirstEntity(class)`
 
 ##  IPageable
 

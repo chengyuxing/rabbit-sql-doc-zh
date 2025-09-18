@@ -49,7 +49,7 @@ baki.query("&my.users").args("id", "1")
 
 - `rows()` ：返回一组 `DataRow` 包装接口；
 
-- `entities()` ：返回一组实体，实体的自定义别名字段映射依赖 JPA 的 `@Column` ；
+- `entities()` ：返回一组实体;
 
 - `pageable(page?, size?)` ：返回一个分页查询构建器，如果不传入 `page` 和 `size` ，则默认从参数中取对应 key 的值；
 
@@ -120,34 +120,32 @@ PagedResource<DataRow> res = baki.query("&data.custom_paged")
 - `disableDefaultPageSql(sql)` ：禁用默认生成的分页 SQL，并指定条数查询 SQL 语句；
 - `rewriteDefaultPageArgs(func)` ：重写默认的分页参数，因为您自定义的查询 SQL 分页参数名不被限制，所以很有必要调用此方法进行重写，重写为如上例子 `start` 和 `end`；
 
-## 实体接口
+## 增删改查
 
-Baki 支持基于 JPA 的实体单表映射操作，`entity()` 方法返回一个实体执行器 `EntityExecutor` ，具体参考文档 [JPA基本支持](documents/jpa-support) 。
+- `execute(sql, Map?)` ：支持 select ， ddl ， dml 和  plsql 语句；
+- `execute(sql, Collection)` ：批量操作，支持非预编的 ddl 和 dml 语句；
+- `insert(table, Map)` ：根据Map数据生成 `insert` 语句执行插入；
+- `insert(table, Collection)` ：根据集合的第一条数据生成 `insert` 语句执行批量插入；
+- `update(sql, Map)` ：执行更新；
+- `update(sql, Collection)` ：执行批量更新；
+- `delete(sql, Map)` ：执行删除；
+- `delete(sql, Collection)` ：执行批量删除；
 
-## 通用接口
-
-方法 `of(sql)` 接收一个 SQL 参数，返回一个通用执行器 `GenericExecutor` 。
-
-### 增删改查
-
-- `execute(param?)` ：支持 select ， ddl ， dml 和  plsql 语句；
-- `executeBatch(params)` ：批量操作，支持非预编的 ddl 和 dml 语句；
-
-### 执行存储过程/函数
+## 执行存储过程/函数
 
 方法 `call(params)` 返回一个 `DataRow` 包装对象结果，通过命名参数名来获取相应的结果，如果返回值是游标，结果类型为： `List<DataRow>` ，其他情况下返回值类型都为数据库字段类型所对应的 java 数据类型。
 
 ```java
-baki.of("{:res = call test.sum(:a, :b)}")
-   .call(Args.of("res", Param.OUT(StandardOutParamType.INTEGER))
+baki.call("{:res = call test.sum(:a, :b)}",
+   Args.of("res", Param.OUT(StandardOutParamType.INTEGER))
            .add("a", Param.IN(34))
-           .add("b", Param.IN(56)))
-   .getOptional("res")
+           .add("b", Param.IN(56))
+  ).getOptional("res")
 ```
 
 通过一个函数过程定义来说明一下几种不同的写法：
 
-#### 单返回值
+### 单返回值
 
 ```sql
 create function sum(a integer, b integer) returns integer
@@ -167,7 +165,7 @@ create function sum(a integer, b integer) returns integer
 {call sum(:a, :b)}
 ```
 
-#### 多返回值
+### 多返回值
 
 多返回值函数定义通常在参数中有多个出参，根据出参的个数按顺序通过索引或者 key 名来取到结果，例如：
 
@@ -175,7 +173,7 @@ create function sum(a integer, b integer) returns integer
 {call multiple_result(:id, :res1, :res2)}
 ```
 
-#### 注意事项
+### 注意事项
 
 有些情况下，不同的数据库不同的函数定义方式，也限定了只能用某种写法，具体可在调试过程中来调整合适的语法。
 

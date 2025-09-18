@@ -14,23 +14,13 @@
 
 项目 pom.xml 中引入依赖：
 
-*Jdk17+*
+*jdk8+*
 
 ```xml
 <dependency>
     <groupId>com.github.chengyuxing</groupId>
     <artifactId>rabbit-sql-spring-boot-starter</artifactId>
-    <version>4.0.18</version>
-</dependency>
-```
-
-*jdk8*
-
-```xml
-<dependency>
-    <groupId>com.github.chengyuxing</groupId>
-    <artifactId>rabbit-sql-spring-boot-starter</artifactId>
-    <version>3.2.12</version>
+    <version>5.0.0</version>
 </dependency>
 ```
 
@@ -128,6 +118,9 @@ public class RedisCache implements QueryCacheManager {
 - `sql-watcher`；
 - `query-timeout-handler`；
 - `query-cache-manager`；
+- `executionWatcher`;
+- `entityFieldMapper`;
+- `entityValueMapper`;
 
 ## 注入
 

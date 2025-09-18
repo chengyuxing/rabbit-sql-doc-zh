@@ -10,10 +10,6 @@
       "title": "集成 Spring Boot"
     },
     {
-      "id": "jpa-support",
-      "title": "JPA 基本支持"
-    },
-    {
       "id": "xql-interface-mapping",
       "title": "接口映射"
     },
@@ -40,6 +36,10 @@
     {
       "id": "best-practice",
       "title": "最佳实践"
+    },
+    {
+      "id": "changes",
+      "title": "变更日志"
     },
     {
       "id": "api-config",
