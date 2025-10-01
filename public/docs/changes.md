@@ -12,3 +12,17 @@
 - ✅ BakiDao 增加 `ExecutionWatcher` 属性，支持更灵活的 SQL 执行监听操作。
 - ❌ BakiDao 移除 `SqlWatcher` 属性。
 - ✅ PageHelper 增加方法 `countSql` ，支持重写专有的内置条数查询语句。
+
+## 10.0.1
+
+- 动态 SQL 流程控制语句增加支持守卫语句，如果条件满足则执行分支处理逻辑，否则执行 `#throw` 抛出异常信息并终止后面的所有操作。
+  ```sql
+  -- #guard :id > 0
+  ...
+  -- #throw 'message'
+  ```
+- 查询缓存管理器 `get` 方法增加第二个参数，SQL 执行期间的参数字典：
+  ```java
+  Stream<DataRow> get(String uniqueKey, Map<String, ?> args);
+  ```
+- 修复执行 oracle pl/sql 语句导致 `end` 结尾分号被去掉的问题。

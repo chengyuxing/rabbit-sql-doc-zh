@@ -315,7 +315,7 @@ com.github.chengyuxing.common.script.parser.FlowControlParser
 
 If 表达式：
 
-```java
+```
 #if expression1
      #if expression2
      ...
@@ -326,6 +326,14 @@ If 表达式：
      ...
      #fi
 #fi
+```
+
+Guard 表达式：
+
+```
+#guard expression
+...
+#throw 'message'
 ```
 
 Choose 表达式：

@@ -8,6 +8,8 @@
 
 **if-else-fi**
 
+IF 条件判断语句，逻辑效果和程序语言的 if 一样。
+
 ```sql
 -- #if :user <> null
     ...
@@ -16,7 +18,19 @@
 -- #fi
 ```
 
+#### guard-throw
+
+守卫语句：如果条件满足则执行分支处理逻辑，否则执行 `#throw` 抛出异常信息并终止后面的所有操作。
+
+```sql
+-- #guard :user <> blank
+    ...
+-- #throw 'message'
+```
+
 **switch-case-end**
+
+switch 流程控制语句，效果和程序语言的 switch 一样，按顺序匹配每个 case 分支，当第一个条件满足则直接跳出整个 switch 。
 
 ```sql
 -- #switch :name
@@ -35,6 +49,8 @@
 
 **choose-when-end**
 
+choose 流程控制语句，效果类似于 switch 语句，按顺序匹配每个 when 分支，当第一个条件满足则直接跳出整个 choose 。
+
 ```sql
 -- #choose
        -- #when :id >= 0
@@ -48,6 +64,8 @@
 ```
 
 **for-done**
+
+for 循环语句，效果和程序语言一样，对一个集合进行遍历，将循环体内的内容进行累加。
 
 ```sql
 -- #for item,idx of :list delimiter ',' open '' close ''

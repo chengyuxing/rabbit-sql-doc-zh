@@ -5,7 +5,7 @@ Baki 支持配置查询缓存实现，配置满足需求的缓存中间件（ Re
 默认的缓存 key 实现为：
 
 ```java
-default @NotNull String uniqueKey(@NotNull String sql, Map<String, Object> args) {
+default @NotNull String uniqueKey(@NotNull String sql, Map<String, ?> args) {
         String argsStr = Objects.nonNull(args) ? "@" + StringUtil.hash(args.toString(), "MD5") : "";
         if (sql.startsWith("&")) {
             return sql + argsStr;
@@ -30,7 +30,7 @@ default @NotNull String uniqueKey(@NotNull String sql, Map<String, Object> args)
 
 ```java
 @Override
-boolean isAvailable(@NotNull String sql, Map<String, Object> args){
+boolean isAvailable(@NotNull String sql, Map<String, ?> args){
   if(Objects.equals(sql, "&my.dic")){
     return true;
   }
@@ -44,7 +44,7 @@ boolean isAvailable(@NotNull String sql, Map<String, Object> args){
 
 ```java
 @Override
-boolean isAvailable(@NotNull String sql, Map<String, Object> args){
+boolean isAvailable(@NotNull String sql, Map<String, ?> args){
   if(args.contains("enableCache")){
     return true;
   }
@@ -64,7 +64,7 @@ boolean isAvailable(@NotNull String sql, Map<String, Object> args){
 
 ```java
 @Override
-public Stream<DataRow> get(String key) {
+public Stream<DataRow> get(String key, Map<String, ?> args) {
    ...
 }
 ```
