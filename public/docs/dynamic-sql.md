@@ -174,14 +174,17 @@ C --pipeN--> D[...]
 :name | length <= 3
 ```
 
-通过实现接口 `com.github.chengyuxing.common.script.IPipe` 并添加到 [XQLFileManager](documents/xql-file-manager) 来使用管道。
+通过实现接口 `com.github.chengyuxing.common.pipe.IPipe` 并添加到 [XQLFileManager](documents/xql-file-manager) 来使用管道。
 
 **内置管道**：
 
 - **length**：获取字符串的长度；
 - **upper**：转大写；
 - **lower**：转小写；
-- **kv**：对象或 `Map` 转为一个键值对集合 `List<KeyValue>` 。
+- **kv**：对象或 `Map` 转为一个键值对集合 `List<KeyValue>` ；
+- **nvl**：如果值为 `null` 则返回默认值 ，e.g. `nvl('default')`；
+- **type**：返回值的 Java 对象类型；
+- **split**：根据分隔符将字符串分割为数组，e.g. `split(',')`；
 
 ## 示例
 
