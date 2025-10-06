@@ -2,9 +2,47 @@
 
 动态 SQL 的工作依赖于[XQLFileManager](documents/xql-file-manager)，基于标准 SQL 注释进行功能扩展，通过解析特殊的注释标记，在不破坏 SQL 文件标准的前提下进行动态编译。
 
-注释标记都必须成对出现，都具有开闭标签，缩进不是必要的，只为了有层次感。
+```sql
+/*[dynamic-sql]*/
+-- #check :age > 30 throw '年龄不能大于30岁'
+-- #var safeAge = :age
+-- #var id = 14
+-- #var users='a,xxx,c' | split(',')
+select * from test.guest where id = :id
+and name in (
+    -- #for item of :users delimiter ', '
+        :item
+    -- #done
+        )
+and age < :safeAge
+```
 
 ## 注释标记
+
+**check**
+
+前置条件检查语句，如果满足条件则抛出异常信息（`CheckViolationException`）。
+
+在数据库真正执行sql之前，对参数做一次合法性验证，避免数据库层面的参数类型错误异常，以节省资源。
+
+```sql
+-- #check :id > 10 throw 'ID cannot gt 10.'
+...
+```
+
+**var**
+
+变量定义语句，变量值可以是常量，也可以是传入的参数经过管道处理，通过扩展管道，实现各种复杂的变量定义。
+
+```sql
+-- #var list = 'cyx,jack,mike' | split(',')
+-- #var newId = :id
+select * from table where id = :newId and name in (
+-- #for item of :list
+  :item
+-- #done
+)
+```
 
 **if-else-fi**
 
@@ -18,7 +56,7 @@ IF 条件判断语句，逻辑效果和程序语言的 if 一样。
 -- #fi
 ```
 
-#### guard-throw
+**guard-throw**
 
 守卫语句：如果条件满足则执行分支处理逻辑，否则执行 `#throw` 抛出异常信息并终止后面的所有操作。
 
@@ -143,7 +181,6 @@ C --pipeN--> D[...]
 - **length**：获取字符串的长度；
 - **upper**：转大写；
 - **lower**：转小写；
-- **pairs**：`Map` 转为一个二元组集合 `List<Pair>` ；
 - **kv**：对象或 `Map` 转为一个键值对集合 `List<KeyValue>` 。
 
 ## 示例

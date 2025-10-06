@@ -2,6 +2,18 @@
 
 在框架中，其最核心的动态 SQL 除了和常规语言具有几乎相同的逻辑以外，可玩性不止于此，根据一些实战来获得更多的了解。
 
+## Check 条件检查语句
+
+在 SQL 到达数据库之前，对 SQL 的参数做一次合法性验证，并提前抛出异常，而不是等数据库来抛出异常，避免获取一次无效的 connection 对象。
+
+特别是在无法确定这条 SQL 会在几个地方以不同的方式调用，以免程序代码中无法做到一致性的参数校验，此时 check 就发挥作用了，统一校验。
+
+```sql
+-- #check :id == null throw 'ID不能为null'
+-- #check :start | type != 'Date' throw '开始时间类型必须是Date'
+select * from table where ...
+```
+
 ## Switch 语法讲解
 
 在 Rabbit SQL 框架动态 SQL 中，`switch` 作用类似于 java 代码的 `switch` 语法，在 java 中，`case` 多个值的写法是这样的：
