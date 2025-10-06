@@ -50,7 +50,8 @@ export class AboutComponent {
   ];
   displayedColumns: string[] = ['feature', 'rabbit', 'mybatis', 'jpa'];
 
-  code = `select * from test.user t where
+  code = `-- #check :id == blank throw 'ID 不能为空！'
+select * from test.user t where
 -- #if :id > 100
   t.id <= 99
 -- #else
