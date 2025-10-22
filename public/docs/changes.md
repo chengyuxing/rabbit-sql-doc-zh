@@ -39,3 +39,8 @@
   Stream<DataRow> get(String uniqueKey, Map<String, ?> args);
   ```
 - ✅ 修复执行 oracle pl/sql 语句导致 `end` 结尾分号被去掉的问题。
+
+## 10.0.2
+
+- ✅ 动态 SQL 新增管道 `in`；
+- ✅ `ClasspathResource` 内部优化。
