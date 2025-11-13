@@ -142,7 +142,6 @@ files:
 pipes:
 #  upper: org.example.Upper
 
-delimiter: ;
 charset: UTF-8
 named-param-prefix: ':'
 database-id:
@@ -172,10 +171,6 @@ XQL 文件字典集合，键为别名，值为 SQL 文件名，路径支持 Yaml
 ### pipes
 
 动态 SQL 脚本引擎自定义管道操作符字典，**key** 为管道名，**value **为管道类全名，通过添加实现自定义的**管道**来增强[动态 SQL 表达式](documents/dynamic-sql)的功能。
-
-### delimiter
-
-SQL 文件 **"k-v"** 结构分隔符，**默认是单个分号（;）**遵循标准 SQL 文件多段 SQL 分隔符，但是有一种情况，如果 SQL 文件内有 plsql：**create function...** 或 **create procedure...**等， 内部会包含多段 SQL 多个分号，为防止解析异常，单独设置自定义的分隔符，例如（ `;;` ）多个连续分号，也是标准 SQL 所支持的，**并且支持仅扫描已命名的sql**。
 
 ### charset
 

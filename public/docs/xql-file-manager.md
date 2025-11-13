@@ -56,7 +56,6 @@ files:
 pipes:
 #  upper: org.example.Upper
 
-delimiter: ;
 charset: UTF-8
 named-param-prefix: ':'
 database-id:

@@ -8,7 +8,7 @@ _java 8+_
 <dependency>
     <groupId>com.github.chengyuxing</groupId>
     <artifactId>rabbit-sql</artifactId>
-    <version>10.0.2</version>
+    <version>10.0.3</version>
 </dependency>
 ```
 
@@ -27,7 +27,6 @@ files:
 # pipes:
 #  upper: org.example.Upper
 
-# delimiter: ;
 # charset: UTF-8
 # named-param-prefix: ':'
 # database-id:

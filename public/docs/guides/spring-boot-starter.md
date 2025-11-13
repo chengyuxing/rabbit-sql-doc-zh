@@ -8,7 +8,7 @@ _java 8+_
 <dependency>
     <groupId>com.github.chengyuxing</groupId>
     <artifactId>rabbit-sql-spring-boot-starter</artifactId>
-    <version>5.0.1</version>
+    <version>5.0.3</version>
 </dependency>
 
 ```
@@ -37,7 +37,6 @@ files:
 # pipes:
 #  upper: org.example.Upper
 
-# delimiter: ;
 # charset: UTF-8
 # named-param-prefix: ':'
 # database-id:

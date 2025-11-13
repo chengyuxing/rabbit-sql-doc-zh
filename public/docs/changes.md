@@ -44,3 +44,17 @@
 
 - ✅ 动态 SQL 新增管道 `in`；
 - ✅ `ClasspathResource` 内部优化。
+
+## 10.0.3
+
+- ❌ `XQLFileManager` 移除字段 `delimiter` ，内部重新优化解析逻辑，强制以单个 `;` 分割每个 SQL 对象，若 SQL 对象为过程语句包含多段 SQL，则在分号结尾使用行注释 `--` 来防止被提前截断，例如：
+   ```sql
+   /*[plsql]*/
+   begin
+    select 1;--
+    select 2;--
+   end;
+   ```
+- ❌ 字符串模版 `${}` 解析优化，移除 `TemplateFormatter` , `NamedParamFormatter` ；
+- ✅ 动态 SQL 解析参数覆盖逻辑调整：用户参数覆盖内部 `#var` 定义的参数；
+- ✅ `PagedResource` 增加方法：`to`；
