@@ -58,3 +58,15 @@
 - ❌ 字符串模版 `${}` 解析优化，移除 `TemplateFormatter` , `NamedParamFormatter` ；
 - ✅ 动态 SQL 解析参数覆盖逻辑调整：用户参数覆盖内部 `#var` 定义的参数；
 - ✅ `PagedResource` 增加方法：`to`；
+
+## 10.0.4
+
+- 管道参数增加支持变量，例如：`:a | plus(:b)`
+- `#switch` 的 `#case` 支持变量；
+- 动态 SQL `#var` 定义变量支持出现在 `#for` 循环内作为局部变量；
+- 动态 SQL `#for` 解析逻辑优化；
+- 动态 SQL 强制用户参数和 `#var` 变量定义不能重复；
+
+## 10.0.5
+
+- 一些内部优化
