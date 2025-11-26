@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatAnchor, MatFabAnchor} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {RouterLink, RouterLinkActive} from '@angular/router';
@@ -25,7 +25,27 @@ import {ResourceService} from '../../common/resource.service';
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
+  showYoutube = false;
+
+  ngOnInit(): void {
+    this.checkYoutubeAvailable();
+  }
+
+  checkYoutubeAvailable() {
+    const img = new Image();
+    img.src = 'https://www.youtube.com/favicon.ico?' + Date.now();
+    img.onload = () => {
+      this.showYoutube = true;
+    };
+    img.onerror = () => {
+    };
+    setTimeout(() => {
+      if (!img.complete) {
+      }
+    }, 3000);
+  }
+
   protected readonly github = github;
   year = new Date().getFullYear();
   resourceService = inject(ResourceService);

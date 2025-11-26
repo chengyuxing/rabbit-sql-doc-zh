@@ -146,6 +146,20 @@ mat-divider {
       width: 100%;
     }
   }
+
+  .iframe-wrapper {
+    position: relative;
+    padding-top: 61.6%;
+    //aspect-ratio: 16 / 10;
+    width: 100%;
+
+    iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 
 @media (max-width: 850px) {
