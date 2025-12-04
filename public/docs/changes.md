@@ -74,3 +74,5 @@
 ## 10.0.6
 
 - ✅ 兼容 spring boot 4.0
+- ✅ 移除了 `SqlParseChecker`，功能迁移到 `SqlInterceptor`；
+- ✅ `BakiDao` 内置分页查询优化，sql名解析为条数查询和记录查询语句优化；
