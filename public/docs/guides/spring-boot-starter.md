@@ -8,7 +8,7 @@ _java 8+_
 <dependency>
     <groupId>com.github.chengyuxing</groupId>
     <artifactId>rabbit-sql-spring-boot-starter</artifactId>
-    <version>5.0.7</version>
+    <version>5.1.0</version>
 </dependency>
 
 ```

@@ -20,7 +20,7 @@
 <dependency>
     <groupId>com.github.chengyuxing</groupId>
     <artifactId>rabbit-sql-spring-boot-starter</artifactId>
-    <version>5.0.7</version>
+    <version>5.1.0</version>
 </dependency>
 ```
 
@@ -46,20 +46,21 @@ spring:
 Baki baki;
 ```
 
-### 多数据源
-
-1. 在 `spring.datasource` 节点下新增属性 `secondaries` 继续配置多个数据源，`properties` 取决于具体数据源的实现，默认是 `HikariDatasource` ，可通过属性 `class-name` 来指定其他数据源；
-
-2. `baki` 节点下新增属性 `secondaries` ，配置多个 `baki` ，并指定属性 `datasource` 为数据源的名称；
-
-![](docs/imgs/multiple-baki.png)
-
-此时 Spring 上下文中就存在一个默认的 `baki` 和多个副 `baki` 实例，其他副 `baki` 在注入时通过注解 `@Qualifier` 来指定名称，也就是 `secondaries` 下每个节点的 key 名称：
+通过实现 BakiDao 中的接口属性来自动注入到到 BakiDao 中，可以使用 @Component 或 @Bean 的方式来替代 starter 的默认值，如下：
 
 ```java
-@Autowired
-@Qualifier("slaveBaki")
-Baki slaveBaki;
+@Component
+public class RedisCacheManager implements QueryCacheManager {
+    final RedisTemplate<Object, Object> redisTemplate;
+  
+    public RedisCache(RedisTemplate<Object, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+  
+    @Override
+    public @NotNull Stream<DataRow> get(@NotNull String sql, Map<String, ?> args, @NotNull RawQueryProvider provider) {
+       ...
+    }
 ```
 
 ### 打印 SQL 日志
@@ -74,51 +75,6 @@ logging:
     com.github.chengyuxing: debug
 ```
 
-### Baki 属性接口扩展
-
-```yaml
-baki:
-  query-cache-manager: 
-  # ...
-```
-
-Baki （包括 `secondaries` 节点下的副 `baki`） 中有一些属性为接口的类型可以注入 Spring 上下文，如果实现类中存在一个参数并且参数类型为 `org.springframework.context.ApplicationContext` 的构造函数，则此构造函数默认将被实例化，可以获取 Spring 上下文中的所有 Bean。
-
-例如 `com.github.chengyuxing.sql.plugins.QueryCacheManager` 的实现类 `RedisCache` 中，可以从上下文中轻松的获取到 Redis 的 Bean，从而实现基于 Redis 的查询缓存管理：
-
-```java
-public class RedisCache implements QueryCacheManager {
-    final ApplicationContext context;
-    final RedisClient redisClient;
-  
-    public RedisCache(ApplicationContext context) {
-        this.context = context;
-      	this.redisClient = this.context.getBean(RedisClient.class);
-    }
-  
-    @Override
-    public Stream<DataRow> get(String key) {
-       ...
-    }
-
-    @Override
-    public void put(@NotNull String key, List<DataRow> value) {
-        ...
-    }
-```
-
-支持注入 Spring 上下文的属性接口有：
-
-- `global-page-helper-provider`；
-- `sql-interceptor`；
-- `statement-value-handler`；
-- `sql-watcher`；
-- `query-timeout-handler`；
-- `query-cache-manager`；
-- `executionWatcher`;
-- `entityFieldMapper`;
-- `entityValueMapper`;
-
 ## 注入
 
 最直观的方式也就是注入 `Baki` 接口即可执行数据库访问操作，也是最灵活的方式，但框架也提供了 XQL 接口映射的方式，用过 MyBatis 的小伙伴一点都不会陌生。
@@ -128,10 +84,6 @@ public class RedisCache implements QueryCacheManager {
 ```java
 @Autowired
 Baki baki;
-
-@Autowired
-@Qualifier("slaveBaki")
-Baki slaveBaki;
 ```
 
 ### XQL 接口映射

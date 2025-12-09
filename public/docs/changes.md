@@ -74,5 +74,35 @@
 ## 10.0.6
 
 - ✅ 兼容 spring boot 4.0
-- ✅ 移除了 `SqlParseChecker`，功能迁移到 `SqlInterceptor`；
+- ⚠️ 移除了 `SqlParseChecker`，功能迁移到 `SqlInterceptor`；
 - ✅ `BakiDao` 内置分页查询优化，sql名解析为条数查询和记录查询语句优化；
+
+## 10.0.7
+
+- ⚠️ 查询缓存管理器重构优化，内部取消同步锁，更新和获取机制完全由接口实现控制：
+  ```java
+  @NotNull Stream<DataRow> get(@NotNull String sql, Map<String, ?> args, @NotNull RawQueryProvider provider);
+  ```
+- ✅ XQL 映射拦截注入接口重构优化，提高自由度；
+- ❌ Spring boot starter (5.0.8) 自动配置移除了多数据源配置项；
+- ✅ Spring boot starter (5.0.8) 默认单数据源自动注入配置优化，`BakiDao` 中所有接口对象类型属性都支持自动配置（`@Bean` 或 `@Component`），例如：
+  ```java
+  @Component
+  public class RedisCacheManager implements QueryCacheManager {
+      final RedisTemplate<Object, Object> redisTemplate;
+      ...
+  }
+  ```
+  缓存管理器将自动注入到 Baki 中；
+
+## 10.0.8
+
+- ⚠️ `Baki#insert` 一级接口第一个参数表名改为传入完整sql；
+- ✅ 新增方法 `Baki#table` 支持根据数据对单表生成简单 `insert, update, delete` 语句执行（批量）修改操作；
+
+## 10.0.9
+
+- ✅ Baki 批量修改操作接口参数新增支持实体集合映射到Map函数：
+  ```java
+  <T> int insert(@NotNull String sql, @NotNull Iterable<T> data, @NotNull Function<T, ? extends Map<String, ?>> argMapper);
+  ```
