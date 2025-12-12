@@ -20,7 +20,8 @@
       "id": "utils",
       "title": "工具类",
       "description": "整理了一些框架内在使用的实用工具类。"
-    },{
+    },
+    {
       "id": "prepared-sql",
       "title": "预编译 SQL 科普",
       "description": "最基础的预防 SQL 注入的方式，避免项目中出现低级 BUG 引起生产问题！"
@@ -39,6 +40,11 @@
       "id": "dynamic-sql-details",
       "title": "动态 SQL 实用小技巧",
       "description": "了解更多的动态 SQL 特性，在项目实战中尽可能发挥更多的作用。"
+    },
+    {
+      "id": "redis-query-cache-manager",
+      "title": "实现基于 Redis 的缓存管理器",
+      "description": "实现一个 软过期 + 硬过期 + 双重检查 的 redis 查询缓存管理器。"
     }
   ]
 }
