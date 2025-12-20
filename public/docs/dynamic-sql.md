@@ -4,14 +4,14 @@
 
 动态 SQL 的内置控制指令包括：
 
-- [变量定义](#变量定义)：`#var`
-- [断言检查](#断言检查)：`#check`
+- [变量定义](documents/dynamic-sql#md-head-3)：`#var`
+- [断言检查](documents/dynamic-sql#md-head-2)：`#check`
 
-- [If 逻辑判断](#IF逻辑判断)：`#if` , `#else` , `#fi`
-- [守卫语句](#守卫语句)：`#guard` , `#throw`
-- [Switch 分支判断](#SWITCH分支判断)：`#switch` , `#case` , `#default` , `#break` , `#end`
-- [Choose 分支判断](#CHOOSE分支判断)：`#choose` , `#when` , `#default` , `#break` , `#end`
-- [For 循环](#FOR循环)：`#for` , `#done`
+- [If 逻辑判断](documents/dynamic-sql#md-head-4)：`#if` , `#else` , `#fi`
+- [守卫语句](documents/dynamic-sql#md-head-5)：`#guard` , `#throw`
+- [Switch 分支判断](documents/dynamic-sql#md-head-6)：`#switch` , `#case` , `#default` , `#break` , `#end`
+- [Choose 分支判断](documents/dynamic-sql#md-head-7)：`#choose` , `#when` , `#default` , `#break` , `#end`
+- [For 循环](documents/dynamic-sql#md-head-8)：`#for` , `#done`
 
 每个指令关键字以 `#` 号开头， 都必须单独成为一行，指令的组合有严格的规则，和程序语言中的几乎一致。
 
@@ -51,7 +51,7 @@
 
 ### 变量定义
 
-变量定义语句，变量值可以是[常量](常量值)，也可以是传入的参数经过[管道](#管道)处理，通过扩展管道，实现各种复杂的变量定义。
+变量定义语句，变量值可以是[常量](documents/dynamic-sql#md-head-10)，也可以是传入的参数经过[管道](documents/dynamic-sql#md-head-15)处理，通过扩展管道，实现各种复杂的变量定义。
 
 定义的变量可以通过 SQL 的命名参数形式传递给 SQL，同样也以为其他指令提供变量。
 
@@ -113,7 +113,7 @@ IF 条件判断语句，逻辑效果和程序语言的 if 一样，作为使用�
 -- #end
 ```
 
-> 在上面例子中，值 `c` 没有加引号，这不是错误，是动态 SQL 脚本中所支持的隐式转换，详细说明参考[字符串常量值](#字符串)语法规则。
+> 在上面例子中，值 `c` 没有加引号，这不是错误，是动态 SQL 脚本中所支持的隐式转换，详细说明参考[字符串常量值](documents/dynamic-sql#md-head-11)语法规则。
 
 ### CHOOSE分支判断
 
@@ -153,7 +153,7 @@ item[,index] of :list [|pipe1|pipeN|... ] [delimiter ','] [open ''] [close '']
 
 - `[...]` 表示可选配置项；
 - `item` 表示当前值，`index` 表示当前序号；
-- `:list` 表示当前迭代的对象，后面可以追加**管道**进行一些特殊处理；
+- `:list` 表示当前迭代的对象，后面可以追加[管道](documents/dynamic-sql#md-head-15)进行一些特殊处理；
 - `delimiter` 表示循环的每项连接符，默认为 `,` ；
 - `open` 表示当前循环最终结果的前缀，如果结果不为空，则被添加到前面；
 - `close` 表示当前循环最终结果后缀，如果结果不为空，则被添加到后面；
@@ -282,7 +282,7 @@ or id in (
 - 当有满足项时，`open` 会在前面加上 `or id in(` , `close` 会在后面加上 `)` , 反之则不会加；
 - 在sql中以 `:` 开头的变量名，意味着这是一个将会进行预编译的命名参数；
 
-> 如果 `in` 部分的数据来源可靠并且不强求预编译的话，可以使用字符串模版实现，如上可以改为 `... or id in (${!ids})` ，具体的含义可以参考[字符串模版](documents/sql-params#字符串模版) 。
+> 如果 `in` 部分的数据来源可靠并且不强求预编译的话，可以使用字符串模版实现，如上可以改为 `... or id in (${!ids})` ，具体的含义可以参考[字符串模版](documents/sql-params#md-head-2) 。
 
 **for** 也可以用来构建 `update` 语句：
 
