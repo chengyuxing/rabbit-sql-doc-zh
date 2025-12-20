@@ -20,7 +20,7 @@
 <dependency>
     <groupId>com.github.chengyuxing</groupId>
     <artifactId>rabbit-sql-spring-boot-starter</artifactId>
-    <version>5.1.0</version>
+    <version>5.1.3</version>
 </dependency>
 ```
 
@@ -46,7 +46,7 @@ spring:
 Baki baki;
 ```
 
-通过实现 BakiDao 中的接口属性来自动注入到到 BakiDao 中，可以使用 @Component 或 @Bean 的方式来替代 starter 的默认值，如下：
+通过实现 BakiDao 中的**接口属性**来自动注入到到 BakiDao 中，可以使用 @Component 或 @Bean 的方式来替代 starter 的默认值，如下：
 
 ```java
 @Component
@@ -62,6 +62,18 @@ public class RedisCacheManager implements QueryCacheManager {
        ...
     }
 ```
+
+支持自动注入的 Bean 有：
+
+- QueryCacheManager
+- XQLFileManager
+- SqlInterceptor
+- PageHelperProvider
+- StatementValueHandler
+- ExecutionWatcher
+- QueryTimeoutHandler
+- EntityManager.EntityMetaProvider
+- SqlInvokeHandler
 
 ### 打印 SQL 日志
 
@@ -140,4 +152,3 @@ public class MyService {
     }
 }
 ```
-

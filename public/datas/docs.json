@@ -18,20 +18,16 @@
       "title": "事务"
     },
     {
+      "id": "xql-file-manager",
+      "title": "XQL 文件管理器"
+    },
+    {
       "id": "dynamic-sql",
       "title": "动态 SQL"
     },
     {
       "id": "sql-params",
       "title": "SQL 参数占位符"
-    },
-    {
-      "id": "xql-file-manager",
-      "title": "XQL 文件管理器"
-    },
-    {
-      "id": "query-cache-manage",
-      "title": "查询缓存管理"
     },
     {
       "id": "best-practice",

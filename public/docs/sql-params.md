@@ -35,12 +35,12 @@ select ${fields} from ... where word in (${!words}) or id = :id;
 数据：
 
 ```javascript
-{friends: ['jack', 'mike'], words:['a', 'b', 'c'], id: 1}
+{fields: ['name', 'age'], words:['I\'m ok!', 'b', 'c'], id: 1}
 ```
 
 最终生成的 SQL：
 
 ```sql
-select name, age from ... where id in ('I''m Ok!', 'book', 'warning') or id = ?;
+select name, age from ... where word in ('I''m ok!', 'b', 'c') or id = ?;
 ```
 

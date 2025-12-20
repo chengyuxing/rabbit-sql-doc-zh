@@ -40,10 +40,6 @@ SQL 拦截器，在**SQL解析开始**时通过抛出特定异常来拦截不满
 - `java.io.File`
 - `java.nio.file.Path`
 
-### sqlParseChecker
-
-SQL 解析检查器，在 SQL 解析过程中，**解析字符串模版变量之前**，对当前 SQL 字符串进行一些其他处理。
-
 ### executionWatcher
 
 SQL 执行观察者，可用于记录 SQL 执行开始时间和结束时间，可用于记录日志、统计 SQL 耗时、性能分析、SQL 审计等操作。
@@ -82,15 +78,9 @@ JDBC 底层批量操作大小，默认为 1000。
 
 详细配置参考文档[查询缓存管理](documents/query-cache-manage) 。
 
-### entityFieldMapper
+### entityMetaProvider
 
-框架内部接口涉及到实体返回实体的操作都将使用此函数来对字段进行映射匹配。
-
-例如：`baki.query(...).findFirstEntity(class)`
-
-### entityValueMapper
-
-框架内部接口涉及到实体返回实体的操作都将使用此函数来对字段的值类型进行映射转换。
+框架内部接口涉及到实体返回实体的操作都将使用此函数来对字段进行映射匹配和值的转换。
 
 例如：`baki.query(...).findFirstEntity(class)`
 
@@ -137,7 +127,6 @@ files:
    foo: !path [ *basePath, foo.xql ]
    bar: bar.xql
    remote: http://127.0.0.1:8080/share/cyx.xql?token=${env.TOKEN}
-
 
 pipes:
 #  upper: org.example.Upper

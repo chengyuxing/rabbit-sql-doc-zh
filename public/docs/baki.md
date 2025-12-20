@@ -200,7 +200,7 @@ $$;
 调用写法和获取结果：
 
 ```java
-baki.of("{call mvnd(:keyword)}")
-   .call(Args.of("keyword", Param.IN("chengyuxing")))
+baki.call("{call mvnd(:keyword)}",
+          Args.of("keyword", Param.IN("chengyuxing")))
    .<List<DataRow>>getAs(0);
 ```

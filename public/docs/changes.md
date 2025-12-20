@@ -106,3 +106,19 @@
   ```java
   <T> int insert(@NotNull String sql, @NotNull Iterable<T> data, @NotNull Function<T, ? extends Map<String, ?>> argMapper);
   ```
+
+## 10.1.0
+
+- ✅ 新增简单实体操作接口方法：`Baki#entity` ；
+- ✅ 新增实体解析通用接口：`EntityMetaProvider` ;
+- ❌ 移除接口：`EntityValueMapper` ，`EntityFieldMapper` ；
+- ✅ Spring boot starter (5.1.1) 增加自动配置 Bean：`EntityMetaProvider`
+
+## 10.1.1
+
+- ✅ 实体查询增加方法：`query#select(...)` 可选择字段；
+- ❌ 移除了实体解析内置的默认实现：`EntityMetaProvider` ；
+
+## 10.1.2
+
+- ✅ 实体操作 `insert` 优化了对主键为null的约束判断；
