@@ -20,7 +20,7 @@
 <dependency>
     <groupId>com.github.chengyuxing</groupId>
     <artifactId>rabbit-sql-spring-boot-starter</artifactId>
-    <version>5.1.3</version>
+    <version>5.2.1</version>
 </dependency>
 ```
 
