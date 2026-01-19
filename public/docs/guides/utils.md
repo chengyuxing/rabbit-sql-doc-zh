@@ -4,7 +4,7 @@
 
 ## SQL 字符串高亮工具
 
-`com.github.chengyuxing.sql.utils.SqlHighlighter`
+`com.github.chengyuxing.sql.util.SqlHighlighter`
 
 在支持 XTERM 的终端中，可输出带有语法高亮的 SQL 字符串：
 
@@ -75,22 +75,6 @@ DataRow pick(String name, String... more);
 <T> T toEntity(@NotNull Class<T> clazz, Object... constructorParameters)
 ```
 
-## 不可变集合
-
-`com.github.chengyuxing.common.ImmutableList`
-
-数据分页：
-
-```java
-ImmutableList<List<T>> grouped(int size);
-```
-
-根据条件去重：
-
-```java
-<K> ImmutableList<T> distinctBy(Function<T, K> action);
-```
-
 ## 日期时间工具
 
 `com.github.chengyuxing.common.MostDateTime`
@@ -105,10 +89,12 @@ MostDateTime of(String datetime)
 
 - 13 位时间戳
 - 10 位时间戳
-- yyyyMMddHHmmss
-- yyyyMMdd
-- yyyy[-/年]MM[-/月]dd[日]
-- yyyy[-/年]MM[-/月]dd[日] HH[:时点]mm[:分]ss[秒]
+- `yyyyMMddHHmmssSSS`
+- `yyyyMMddHHmmss`
+- `yyyyMMdd`
+- `yyyy[-/年]MM[-/月]dd[日]`
+- `yyyy[-/年]MM[-/月]dd[日] HH[:时点]mm[:分]ss[秒]`
+- `yyyy[-/]MM[-/]dd HH:mm:ss.[SSS|ffffff|nnnnnnnnn]`
 - ISO ，例如： `2019-09-26T03:45:36.656+0800`
 - RFC_1123 ， 例如： `Wed, 04 Jan 2023 09:36:48 GMT`
 - RFC-like ， 例如： `Wed Jan 04 2023 17:36:48 GMT+0800`
@@ -193,7 +179,7 @@ UncheckedCloseable nest(AutoCloseable closeable);
 
 ## 对象值工具
 
-`com.github.chengyuxing.common.utils.ObjectUtil`
+`com.github.chengyuxing.common.util.ValueUtils`
 
 平铺 IF-ELSE-ELSE-IF-ELSE 值比较返回满足的值，效果类似 Oracle 的 `decode` 函数：
 
@@ -227,13 +213,7 @@ Object getDeepValue(Object obj, @NotNull String propertyChains);
 
 ## 反射工具
 
-`com.github.chengyuxing.common.utils.ReflectUtil`
-
-根据 Getter 方法获取 Java Bean 其对应的字段：
-
-```java
-Field getGetterField(Class<?> clazz, Method method);
-```
+`com.github.chengyuxing.common.util.ReflectUtils`
 
 判断对象是否是基本的值类型（包括包装类）：
 
@@ -249,7 +229,7 @@ boolean isBasicType(Object value);
 
 ## 字符串工具
 
-`com.github.chengyuxing.common.utils.StringUtil`
+`com.github.chengyuxing.common.util.StringUtils`
 
 使用带有分隔符捕获组的正则表达式对字符串进行分割，返回分割后的字符串集合和分隔符集合：
 
