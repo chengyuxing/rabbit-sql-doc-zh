@@ -129,7 +129,7 @@
 - ✅ `Baki#entity.query` 第一个可选参数作为查询 ID 带入参数中，可通过 `Baki#identifier` 获取，为根据参数拦截 SQL 提供帮助
 - ✅ XQL 接口映射参数解析优化
 - ✅ SQL 异常拦截统一包装为：`com.github.chengyuxing.sql.exceptions.DataAccessException`
-- ✅ Spring boot starter (5.2.0) 实现 SQL 异常翻译对接到 Spring 的 `DataAccessException`，支持拦截如 `DuplicateKeyException` 等
+- ✅ Spring boot starter (5.2.1) 实现 SQL 异常翻译对接到 Spring 的 `DataAccessException`，支持拦截如 `DuplicateKeyException` 等
 - ⚠️ 包名 `com.github.chengyuxing.sql.utils` 重命名为 `com.github.chengyuxing.sql.util`
 - ⚠️ 包名 `com.github.chengyuxing.common.utils` 重命名为 `com.github.chengyuxing.common.util`
 - ⚠️ 重命名以及性能优化：
