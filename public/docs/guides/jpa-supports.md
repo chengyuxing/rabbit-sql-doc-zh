@@ -67,7 +67,7 @@ public EntityManager.ColumnMeta columnMeta(Field field) {
 ```java
 @Override
 public Object columnValue(Field field, Object value) {
-    return ObjectUtil.convertValue(field.getType(), value);
+    return ValueUtils.adaptValue(field.getType(), value);
 }
 ```
 
