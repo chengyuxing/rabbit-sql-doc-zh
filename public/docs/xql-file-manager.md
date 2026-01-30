@@ -67,13 +67,11 @@ files:
    bar: bar.xql
    remote: http://127.0.0.1:8080/share/cyx.xql?token=${env.TOKEN}
 
-
 pipes:
 #  upper: org.example.Upper
 
 charset: UTF-8
 named-param-prefix: ':'
-database-id:
 ```
 
 `.xql` 文件配置在 `files` 节点下，key 为文件别名，值为文件路径，如果没有协议的情况下，默认为 `classpath` 路径下，详细的配置项说明参考文档[配置项](documents/api-config#md-head-21) 。

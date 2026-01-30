@@ -8,7 +8,7 @@ _java 8+_
 <dependency>
     <groupId>com.github.chengyuxing</groupId>
     <artifactId>rabbit-sql</artifactId>
-    <version>10.2.1</version>
+    <version>10.2.2</version>
 </dependency>
 ```
 
@@ -29,7 +29,6 @@ files:
 
 # charset: UTF-8
 # named-param-prefix: ':'
-# database-id:
 ```
 
 实例化 `BakiDao` ：

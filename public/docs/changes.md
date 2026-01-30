@@ -147,3 +147,14 @@
   - `yyyyMMddHHmmssSSS`
   - `yyyy[-/]MM[-/]dd HH:mm:ss.[SSS|ffffff|nnnnnnnnn]`
 - ✅ 动态 SQL 解析性能优化
+
+## 10.2.2
+
+- ✅ `StringUtils#isNumber` 优化判断
+- ✅ 对象路径表达式支持下标取值语法 `[]` ，例如：`user.addresses[0].name`
+- ✅ `XQLFileManager` 解析文件优化
+- ⚠️ 属性命名参数前缀 `namedParamPrefix` 从 `BakiDao` 中移到 `XQLFileManager` 作为全局配置项
+- ✅ `StringUtils#isNonNegativeInteger` 非负整数判断优化
+- ✅ `ValueUtils#getDeepValue` 性能优化
+- ✅ 动态 SQL 解析词法分析优化
+- ❌ `XQLFileManager` 移除属性 `databaseId`

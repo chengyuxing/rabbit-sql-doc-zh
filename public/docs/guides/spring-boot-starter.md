@@ -8,7 +8,7 @@ _java 8+_
 <dependency>
     <groupId>com.github.chengyuxing</groupId>
     <artifactId>rabbit-sql-spring-boot-starter</artifactId>
-    <version>5.2.1</version>
+    <version>5.2.2</version>
 </dependency>
 
 ```
@@ -39,7 +39,6 @@ files:
 
 # charset: UTF-8
 # named-param-prefix: ':'
-# database-id:
 ```
 
 注入 Baki 接口来执行 SQL 访问数据库：
