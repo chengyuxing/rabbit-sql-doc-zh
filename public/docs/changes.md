@@ -158,3 +158,8 @@
 - ✅ `ValueUtils#getDeepValue` 性能优化
 - ✅ 动态 SQL 解析词法分析优化
 - ❌ `XQLFileManager` 移除属性 `databaseId`
+
+## 10.2.3
+
+- 修复动态 SQL `#for` 指令循环体命名参数解析 BUG
+- 动态 SQL 词法分析解析字符串安全优化
