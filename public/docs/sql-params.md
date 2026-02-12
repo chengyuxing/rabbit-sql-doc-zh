@@ -5,7 +5,7 @@ SQL 预编译参数占位符默认使用原生 JDBC 的命名参数写法 `:key`
 参数名支持对象属性值路径表达式，值类型可以是 `Map` 、Java Bean、数组、集合：
 
 - `user.name` ：获取 `user` 对象的属性 `name` 值；
-- `user.friends.0` ：获取 `user` 对象的属性 `friends` （可以是一个数组或集合）的第一个值 。
+- `user.friends[0]` ：获取 `user` 对象的属性 `friends` （可以是一个数组或集合）的第一个值 。
 
 ### 预编译SQL
 

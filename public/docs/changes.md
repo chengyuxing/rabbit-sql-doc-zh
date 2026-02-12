@@ -2,6 +2,20 @@
 
 ## 10.2.4
 
+### FOR 指令语法变更
+
+动态 SQL `#for` 指令语法调整，最新的语法结构为：
+```sql
+#for item of :list [| pipe1 | pipeN | ... ] [;index as i] [;last as isLast] ...
+...
+#done
+```
+- ❌ 移除关键字：`delimiter` , `open` , `close`
+- ✅ 增加关键字：`as`
+- ✅ 增加上下文属性变量：`index` , `first` , `last` , `odd` , `even` 使用 `as` 关键字创建变量引用别名
+
+### XQL 管理器
+
 - ✅ `XQLFileManager` 增加支持内联模版解析，其他 SQL 可根据名字直接引用，避免单独提取为模版片段对象：
   ```sql
   -- //TEMPLATE-BEGIN:<name> 
@@ -22,15 +36,6 @@
   /*[queryCount]*/
   select count(*) from guest where ${myInLineCnd};
   ```
-- ✅ 动态 SQL `#for` 指令语法调整，最新的语法结构为：
-  ```sql
-  #for item of :list [| pipe1 | pipeN | ... ] [;index as i] [;last as isLast] ...
-  ...
-  #done
-  ```
-  - ❌ 移除关键字：`delimiter` , `open` , `close`
-  - ✅ 增加关键字：`as`
-  - ✅ 增加上下文属性变量：`index` , `first` , `last` , `odd` , `even` 使用 `as` 关键字创建变量引用别名
 - ✅ 动态 SQL 布尔条件判断支持单目语法：`!:isAlien` ，等效于 `:isAlien == false`
 - ✅ 动态 SQL 脚本引擎逻辑优化，增加支持动态 SQL 编译缓存
 - ✅ 路径表达式解析优化

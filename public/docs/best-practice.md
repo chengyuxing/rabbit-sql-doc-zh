@@ -27,7 +27,7 @@ _java 8+_
 </dependency>
 ```
 
-使用 **rabbit-sql** 提供的 [Spring Boot Starter](documents/with-spring-boot)，可以简化配置，快速集成项目。通过 `application.yml` 或 `application.properties` 来配置数据库连接。
+使用 **rabbit-sql** 提供的 [Spring Boot Starter](documents/with-spring-boot)，通过单数据源自动配置可以简化配置，快速集成项目。通过 `application.yml` 或 `application.properties` 来配置数据库连接。
 
 **示例配置**：
 
@@ -39,7 +39,7 @@ spring:
     password: 
 ```
 
-### 创建XQL文件管理配置
+### 创建 XQL 文件管理配置
 
 1. 在 `.../src/main/resources` 目录下创建文件 [xql-file-manager.yml](documents/xql-file-manager) ，通过插件快速生成：
 
@@ -66,9 +66,9 @@ spring:
   |           └─ order.xql
 ```
 
-### XQL文件编写最佳实践
+### XQL 文件编写最佳实践
 
-#### SQL语句命名
+#### SQL 语句命名
 
 - 在 `.xql` 文件中，使用清晰的 SQL 语句名称，有助于提高可读性和可维护性。
 
@@ -90,7 +90,45 @@ SELECT * FROM users WHERE id = :id;
 
 > SQL语句参数使用的是[命名参数](documents/sql-params) `:id`，将被预编译处理为 `?` 号，可有效避免SQL注入的风险。
 
-#### 动态SQL
+#### 对象路径表达式
+
+默认情况下通过形如： `:users.0` 获取 `users` 的第一个值，但在具有语法检查的 SQL IDE 中认为是语法错误，建议将写法改为标准的数组下标取值规避语法错误。
+
+`{"users": [{"name": "cyx"}, {"name": "abc"}, ...]}`
+
+```sql
+SELECT * FROM users WHERE name = :users[0].name;
+```
+
+#### 内联模版
+
+XQL 文件管理器支持定义 SQL 内联模版片段 `-- //TEMPLATE-BEGIN:<name>` ，如果一条 SQL 的条件必须完全等于另一条 SQL，例如分页查询的条件，此时使用内联模版来创建降低复杂度，同时也能有效避免单独的模版片段引起的 SQL IDE 语法检查到不完整 SQL 的语法错误影响整体格式化：
+
+```sql
+/*[queryUserList]*/
+select * from users where
+-- //TEMPLATE-BEGIN:cnd
+id = :id
+-- //TEMPLATE-END
+;
+
+/*[queryUserCount]*/
+select count(*) from users where ${cnd};
+```
+
+#### PLSQL 语句块
+
+XQL 文件管理器中，每个 SQL 对象根据结尾的 `;` 号来进行解析结构化，但有些DDL语句和 PLSQL 会包含多段 SQL，每个 SQL有 `;` 号结尾，为了保证解析的正确性，通过在 `;` 后面加上行注释 `--` 来进行规避，这是一种合理合法的规避方式：
+
+```sql
+/*[myProc]*/
+begin;
+  select 1; -- 也可以加点描述
+  select 2; -- 
+end;
+```
+
+#### 动态 SQL
 
 - [动态 SQL](documents/dynamic-sql) 可以通过 `#if` 和 `#for` 等标签实现条件查询和循环查询，确保代码的灵活性。
 
@@ -110,6 +148,24 @@ select * from users where
   id = :id
 -- #fi
 ```
+
+#### For 循环指令
+
+在构建类似  `in` 子句的情况下，通过上下文 `first` 属性来判断 `,` 拼接的时机规避 SQL 语法错误，虽然最终并不影响解析后的正确性，但在解析之前，在具有 SQL 语法检查的 IDE 中会提醒语法错误，影响格式化和美观，所以，强烈建议使用如下写法：
+
+```sql
+select * from users where id in (
+-- #for item of :list; first as isFirst
+   -- #if :isFirst
+   :item,
+   -- #else
+   :item
+   -- #fi
+-- #done
+)
+```
+
+> 通过这样的写法在解析前就具有合法的  `in (:item, :item)` ，从而达到规避语法错误的展现形式。
 
 #### SQL语句与接口方法映射
 
@@ -171,7 +227,7 @@ public class App {
 private ExampleMapper exampleMapper;
 ```
 
-#### Baki核心接口
+#### Baki 核心接口
 
 除了接口映射之外，默认还提供了可选择的核心[接口Baki](documents/baki)。
 
@@ -228,7 +284,7 @@ public void b(){
 对于批量插入、更新等操作，推荐使用批量提交，减少数据库的网络交互次数，提升性能。
 
 ```java
-baki.insert('<tableName>', <Collection>);
+baki.insert("&<sql名>", <Collection>);
 ```
 
 ```java
@@ -243,7 +299,7 @@ baki.execute("&<sql名>", <Collection>);
 
 实现接口：`com.github.chengyuxing.sql.plugins.QueryCacheManager` 来实现自定义的缓存层，并注册到 `BakiDao#setQueryCacheManager` 来启用缓存。
 
-##### SQL优化
+##### SQL 优化
 
 - 在 `.xql` 文件中，尽量使用索引字段进行查询，避免全表扫描。
 - 定期检查数据库的执行计划，优化慢查询。
@@ -277,7 +333,7 @@ baki.execute("&<sql名>", <Collection>);
 - 通过插件导航直接跳转到对应的 SQL 语句，方便开发和调试。
 - 通过 **New** 来创建 `xql-file-manager.yml` ，XQL文件，SQL模版。
 
-### 测试动态SQL
+### 测试动态 SQL
 
 有效利用[插件][plugin]进行[动态SQL](documents/dynamic-sql)测试，确保在项目启动前最大化降低错误率，尤其是针对复杂动态SQL的计算，提前明白每个参数对动态SQL计算结果的影响。
 
@@ -291,7 +347,7 @@ baki.execute("&<sql名>", <Collection>);
 
 ## 安全性最佳实践
 
-### 防止SQL注入
+### 防止 SQL 注入
 
 - 使用[参数化查询](documents/sql-params)，确保所有的参数都通过 `:参数名` 占位符进行传递，避免 SQL 注入漏洞。
 - 禁止在 SQL 中直接拼接用户输入，所有用户输入都应该通过参数占位符传递。
