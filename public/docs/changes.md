@@ -1,10 +1,14 @@
 # 框架变更日志
 
-- ⚠️ Rabbit SQL 从 `10.0.0` 开始，将只维护一个版本，默认支持最低 JDK 为 1.8，对于 Starter 的支持 Springboot 最低兼容版本为 2.7（JDK 1.8）
-
 ## 10.2.4
 
-- ✅ `XQLFileManager` 增加支持内联模版解析，其他 SQL 可根据名字直接引用，避免单独提取为模版片段对象
+- ✅ `XQLFileManager` 增加支持内联模版解析，其他 SQL 可根据名字直接引用，避免单独提取为模版片段对象：
+  ```sql
+  -- //TEMPLATE-BEGIN:<name> 
+  ... 
+  -- //TEMPLATE-END
+  ```
+  内联模版不可嵌套，且必须成对，如下例子：
   ```sql
   /*[queryList]*/
   select * from guest where
@@ -21,6 +25,8 @@
 - ✅ 动态 SQL `#for` 指令语法调整，最新的语法结构为：
   ```sql
   #for item of :list [| pipe1 | pipeN | ... ] [;index as i] [;last as isLast] ...
+  ...
+  #done
   ```
   - ❌ 移除关键字：`delimiter` , `open` , `close`
   - ✅ 增加关键字：`as`
@@ -28,6 +34,7 @@
 - ✅ 动态 SQL 布尔条件判断支持单目语法：`!:isAlien` ，等效于 `:isAlien == false`
 - ✅ 动态 SQL 脚本引擎逻辑优化，增加支持动态 SQL 编译缓存
 - ✅ 路径表达式解析优化
+- ✅ IDEA [插件](https://plugins.jetbrains.com/plugin/21403-rabbit-sql/)最低版本支持：`2.4.41`
 
 ## 10.2.3
 
@@ -182,11 +189,10 @@
 
 ## 10.0.0
 
+- ⚠️ Rabbit SQL 从 `10.0.0` 开始，将只维护一个版本，默认支持最低 JDK 为 1.8，对于 Starter 的支持 Springboot 最低兼容版本为 2.7（JDK 1.8）
 - ❌ 移除了对于内置 JPA 实体映射的支持，转而采用更灵活的映射接口扩展来支持自定义实现：
-
-  - `EntityFieldMapper` ✅
-  - `EntityValueMapper` ✅
-
+  - ✅ `EntityFieldMapper` 
+  - ✅ `EntityValueMapper` 
 - ❌ 移除了 `SaveExecuter` 、 `EntityExecuter` 、`GenericExecutor`。
 - ✅ Baki 重新调整，增加一级接口 `insert`、`update`、`delete ` 、`execute` 、 `call` 。
 - ✅ BakiDao 增加 `ExecutionWatcher` 属性，支持更灵活的 SQL 执行监听操作。
