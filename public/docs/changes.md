@@ -13,6 +13,7 @@
 - ❌ 移除关键字：`delimiter` , `open` , `close`
 - ✅ 增加关键字：`as`
 - ✅ 增加上下文属性变量：`index` , `first` , `last` , `odd` , `even` 使用 `as` 关键字创建变量引用别名
+- ✅ `rabbit-sql-spring-boot-starter` 最新支持版本 `5.2.4`
 
 ### XQL 管理器
 
