@@ -1,5 +1,18 @@
 # 框架变更日志
 
+## 10.2.5
+
+- `XQLFileManager` 增加支持 SQL 对象定义元数据 `-- @name value` ，通过 `Sql#getMetadata` 获取，例如：
+  ```sql
+  /*[queryUsers]*/
+  -- @cache 30m
+  -- @rules admin,guest
+  select * from users;
+  ```
+- IDEA 插件更新版本 `2.4.42` ，支持 Live template：
+  - `xql:metadata`
+  - `xql:new-inline-template`
+
 ## 10.2.4
 
 ### FOR 指令语法变更

@@ -75,6 +75,19 @@ select * from test."user" t where id = :id order by id;
   -- //TEMPLATE-END
   ```
 
+- 定义元数据，每条SQL从第一行开始，支持定义元数据，所有元数据定义必须连在一起，语法为：`-- @name value` ，如下：
+
+  ```sql
+  /*[myQuery]*/
+  -- @cache 30m
+  -- @rules admin,guest
+  select * from users;
+  ```
+
+> 元数据不参与动态 SQL 的解析，也不参与执行过程，定义元数据主要用描述这条 SQL，并为其他组件提供自定义需求支持。
+>
+> 例如 `QueryCacheManager` 通过注入 `XQLFileManaher` 获取当前 SQL 元数据，从元数据中获取缓存策略和过期时间。
+
 ## 配置文件
 
 内置 `!path` 标签函数：可用于连接列表为一个路径字符串。
