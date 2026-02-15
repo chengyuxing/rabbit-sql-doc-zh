@@ -27,7 +27,6 @@
     </button>
     <button mat-button [routerLink]="['documents']" routerLinkActive="active">{{ document }}</button>
     <button mat-button [routerLink]="['guides']" routerLinkActive="active">{{ guides }}</button>
-    <button mat-button [routerLink]="['documents','changes']" routerLinkActive="active">{{ log }}</button>
   </div>
   <div class="menusMenu">
     <button mat-icon-button [matMenuTriggerFor]="menusMenu">
@@ -39,7 +38,6 @@
       </button>
       <button mat-menu-item [routerLink]="['documents']" routerLinkActive="active">{{ document }}</button>
       <button mat-menu-item [routerLink]="['guides']" routerLinkActive="active">{{ guides }}</button>
-      <button mat-menu-item [routerLink]="['documents','changes']" routerLinkActive="active">{{ log }}</button>
     </mat-menu>
   </div>
   <span class="spacer"></span>
