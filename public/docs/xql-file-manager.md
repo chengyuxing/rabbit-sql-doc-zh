@@ -66,14 +66,14 @@ charset: UTF-8
 named-param-prefix: ':'
 ```
 
-### **常量（constants）**
+### 常量（constants）
 
 特性：
 
 - 支持 YAML Anchor 引用
 - 可在 SQL 中通过 `${}` 模板占位符使用
 
-### **文件（files）**
+### 文件（files）
 
 注册需要解析的 SQL 文件。
 
@@ -89,13 +89,13 @@ named-param-prefix: ':'
 - ftp://
 - http(s)://
 
-### **管道（pipes）**
+### 管道（pipes）
 
 注册[动态 SQL](documents/dynamic-sql) 中使用的自定义管道操作符。
 
 值必须为实现类的 **完整限定类名**。
 
-### **编码（charset）**
+### 编码（charset）
 
 指定 XQL 文件解析编码，默认：`UTF-8` 。
 
@@ -117,15 +117,15 @@ named-param-prefix: ':'
 
 ```sql
 /*
-* Created by IntelliJ IDEA.
-* User: 
-* Date: 
-* Time: 
-@@@
-一些描述写在这里。
-@@@
-* Typing "xql" keyword to get suggestions,
-* e.g: "xql:new" will be create a sql fragment.
+ Created by IntelliJ IDEA.
+ User: 
+ Date: 
+ Time: 
+ @@@
+ 一些描述写在这里。
+ @@@
+ Typing "xql" keyword to get suggestions,
+ e.g: "xql:new" will be create a sql fragment.
 */
 ```
 
@@ -135,7 +135,7 @@ named-param-prefix: ':'
 
 SQL 对象之间通过 `;` 分隔，这是解析阶段的核心边界。
 
-#### **SQL 对象生命周期**
+#### SQL 对象生命周期
 
 每个 SQL 对象存在两个完全独立的阶段：
 
@@ -150,7 +150,7 @@ SQL 对象之间通过 `;` 分隔，这是解析阶段的核心边界。
    - 执行[动态 SQL](documents/dynamic-sql) 脚本
    - 生成最终可执行 SQL
 
-#### **SQL 对象结构**
+#### SQL 对象结构
 
 ```sql
 /*[queryGuests]*/

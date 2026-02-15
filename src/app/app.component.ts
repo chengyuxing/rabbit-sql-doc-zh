@@ -38,6 +38,7 @@ export class AppComponent {
 
   document = '文档';
   guides = '指南';
+  log = '日志';
 
   showToggleButton = false;
 
