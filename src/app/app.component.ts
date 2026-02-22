@@ -14,7 +14,7 @@ import {
 } from '@angular/router';
 import {UiStatesService} from './common/ui-states.service';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
-import {appName, appTitle, gitee, github} from './common/global';
+import {appName, appTitle, github} from './common/global';
 import {ResourceService} from './common/resource.service';
 import {MatProgressBar} from '@angular/material/progress-bar';
 import {LoadingService} from './common/loading.service';
@@ -66,11 +66,9 @@ export class AppComponent {
     });
     this.iconRegister.addSvgIcon('rabbit-sql', this.sanitizer.bypassSecurityTrustResourceUrl('images/rabbit-sql.svg'));
     this.iconRegister.addSvgIcon('github', this.sanitizer.bypassSecurityTrustResourceUrl('images/github.svg'));
-    this.iconRegister.addSvgIcon('gitee', this.sanitizer.bypassSecurityTrustResourceUrl('images/gitee.svg'));
   }
 
   protected readonly github = github;
-  protected readonly gitee = gitee;
   protected readonly appName = appName;
 
   toggleSideNav() {
