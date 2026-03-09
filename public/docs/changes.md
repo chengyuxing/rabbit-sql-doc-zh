@@ -1,5 +1,10 @@
 # 框架变更日志
 
+## 10.2.6
+
+- ✅ 实体 `where` 条件构建器增加支持构建动态条件
+- ✅ 接口 `Baki#table` 移除方法 `where` ，增加方法 `by` 通过传入数据库列名构建条件
+
 ## 10.2.5
 
 - ✅ `XQLFileManager` 增加支持 SQL 对象定义元数据 `-- @name value` ，通过 `Sql#getMetadata` 获取，例如：
