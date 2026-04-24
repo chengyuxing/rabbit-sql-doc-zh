@@ -162,7 +162,7 @@ public @NotNull Stream<DataRow> get(@NotNull String sql, Map<String, ?> args, @N
 
 > 整个过程使用异步刷新机制，避免使用同步块导致阻塞。
 
-缓存写入策略软/硬过期时间其实最好还可以加一个随机数 10 - 50 左右，避免一些情况下缓存同时过期的问题，硬过期时间写入 redis 的缓存过期时间：
+缓存写入策略软/硬过期时间其实最好还可以加一个随机数 10 - 50 左右，避免一些情况下缓存同时过期的问题：
 
 ```java
 void saveEntry(@NotNull String key, List<DataRow> value) {
