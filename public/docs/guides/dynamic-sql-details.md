@@ -90,7 +90,7 @@ or name in (
 )
 ```
 
-最终执行的 SQL 的 `in` 语句部分为：`in (?, ?, ?)` 达到了预编译的效果，当然 `for` 的功能不止于此，具体可参考 [for 循环语法详解](https://rabbitsql.cn/documents/dynamic-sql)。
+最终执行的 SQL 的 `in` 语句部分为：`in (?, ?, ?)` 达到了预编译的效果，当然 `for` 的功能不止于此，具体可参考 [for 循环语法详解](documents/dynamic-sql)。
 
 ## 插件支持
 

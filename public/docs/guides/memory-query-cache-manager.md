@@ -1,4 +1,4 @@
-# 实现一个基于 Redis 的缓存管理器
+# 实现一个基于内存的缓存管理器
 
 我们实现一个简易版的缓存管理器：软过期 + 硬过期 + 双重检测。
 
@@ -9,18 +9,28 @@
 为了方便，我使用 springboot 项目来进行配置，首先 Maven 引入依赖：
 
 - `rabbit-sql-spring-boot-starter` （5.0.9+）
-- `spring-boot-starter-data-redis`
+
+内存缓存依赖：
+
+```xml
+<dependency>
+    <groupId>com.github.ben-manes.caffeine</groupId>
+    <artifactId>caffeine</artifactId>
+    <version>2.9.3</version>
+    <optional>true</optional>
+</dependency>
+```
 
 我这里使用默认单数据源自动配置。
 
 ```java
 @Component
-public class RedisCacheManager implements QueryCacheManager {
+public class MemoryCacheManager implements QueryCacheManager {
   ...
 }
 ```
 
-创建一个缓存对象类，也是序列化到 redis 的数据结构：
+创建一个缓存对象类：
 
 ```java
 public static class CacheEntry implements Serializable {
@@ -31,7 +41,30 @@ public static class CacheEntry implements Serializable {
 }
 ```
 
-依赖注入 `RedisTemplate<Object, Object> redisTemplate;`
+配置必要的成员变量：
+
+```java
+private final Map<String, Object> locks = new ConcurrentHashMap<>();
+private final Cache<String, CacheEntry> cache = Caffeine.newBuilder()
+        .maximumSize(1000)
+        .expireAfter(new Expiry<String, CacheEntry>() {
+            @Override
+            public long expireAfterCreate(@NotNull String key, @NotNull CacheEntry value, long currentTime) {
+                return TimeUnit.MILLISECONDS.toNanos(value.hardExpireAt);
+            }
+
+            @Override
+            public long expireAfterUpdate(@NotNull String key, @NotNull CacheEntry value, long currentTime, @NonNegative long currentDuration) {
+                return currentDuration;
+            }
+
+            @Override
+            public long expireAfterRead(@NotNull String key, @NotNull CacheEntry value, long currentTime, @NonNegative long currentDuration) {
+                return currentDuration;
+            }
+        })
+        .build();
+```
 
 ## 构建缓存 Key
 
@@ -70,32 +103,31 @@ public static class CacheEntry implements Serializable {
 
 ```java
 private final ExecutorService refreshPool = Executors.newSingleThreadExecutor(r -> {
-    Thread thread = new Thread(r, "Rabbit-SQL Refresh Thread");
+    Thread thread = new Thread(r, "Rabbit-SQL Query Cache Refresh Thread");
     thread.setDaemon(true);
     return thread;
 });
 
 void asyncRefresh(@NotNull String sql, Map<String, ?> args, @NotNull RawQueryProvider provider) {
     String key = uniqueKey(sql, args);
-    String lockKey = "lock:" + key;
-    // 这里设置一个锁的过期时间，避免长时间占用，导致其他线程获取不到数据
-    Boolean ok = redisTemplate.opsForValue().setIfAbsent(lockKey, 1, 30, TimeUnit.SECONDS);
-    if (ok == null || !ok) {
+    String lockKey = "rabbit-sql-lock:" + key;
+    Object lock = locks.computeIfAbsent(key, k -> new Object());
+    if (!locks.replace(key, lock, lock)) {
         return;
     }
     refreshPool.execute(() -> {
-        // 双重检测，避免击穿
-        CacheEntry entry = (CacheEntry) redisTemplate.opsForValue().get(key);
-        // 如果缓存还没有软过期，那就取消查库刷新
+        // Double check to prevent breakdown
+        CacheEntry entry = cache.getIfPresent(key);
+        // If the cache has not yet expired, then cancel the query request
         if (entry != null && System.currentTimeMillis() < entry.softExpireAt) {
             return;
         }
         try (Stream<DataRow> s = provider.query()) {
             List<DataRow> result = s.collect(Collectors.toList());
-            saveEntry(key, result);
+            saveEntry(sql, key, result);
         } finally {
-          	// 释放锁
-            redisTemplate.delete(lockKey);
+            // release the lock
+            locks.remove(key);
         }
     });
 }
@@ -114,12 +146,12 @@ void asyncRefresh(@NotNull String sql, Map<String, ?> args, @NotNull RawQueryPro
 public @NotNull Stream<DataRow> get(@NotNull String sql, Map<String, ?> args, @NotNull RawQueryProvider provider) {
     String key = uniqueKey(sql, args);
     long now = System.currentTimeMillis();
-    CacheEntry entry = (CacheEntry) redisTemplate.opsForValue().get(key);
+    CacheEntry entry = cache.getIfPresent(key);
     if (entry == null || now >= entry.hardExpireAt) {
         List<DataRow> result = new ArrayList<>();
         return provider.query()
                 .peek(result::add)
-                .onClose(() -> saveEntry(key, result));
+                .onClose(() -> saveEntry(sql, key, result));
     }
     if (now < entry.softExpireAt) {
         return entry.value.stream();
@@ -140,7 +172,7 @@ void saveEntry(@NotNull String key, List<DataRow> value) {
     entry.value = value;
     entry.softExpireAt = now + 5000;
     entry.hardExpireAt = now + 60000;
-    redisTemplate.opsForValue().set(key, entry, 60000, TimeUnit.MILLISECONDS);
+    cache.put(key, entry);
 }
 ```
 
@@ -158,5 +190,4 @@ public boolean isAvailable(@NotNull String sql, Map<String, ?> args) {
 }
 ```
 
-最后，一个强大且高性能的缓存管理器肯定不止于此！
-
+内存数据库再简单单节点实例中也只能算勉强够用，在分布式集群的情况下，建议使用 Redis 来实现，可参考指南中的 Redis 版本简单实现。

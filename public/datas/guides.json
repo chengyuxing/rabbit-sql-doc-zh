@@ -45,6 +45,11 @@
       "id": "redis-query-cache-manager",
       "title": "实现基于 Redis 的缓存管理器",
       "description": "实现一个 软过期 + 硬过期 + 双重检查 的 redis 查询缓存管理器。"
+    },
+    {
+      "id": "memory-query-cache-manager",
+      "title": "实现基于内存的缓存管理器",
+      "description": "实现一个 软过期 + 硬过期 + 双重检查 的内存查询缓存管理器。"
     }
   ]
 }

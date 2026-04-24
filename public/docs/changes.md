@@ -1,5 +1,10 @@
 # 框架变更日志
 
+## 10.2.8
+
+- ✅ `XQLInvocationHandler` 接口映射逻辑优化
+- ✅ `rabbit-sql-spring-boot-starter` 修复数据源异常时导致的 SQL 异常翻译出现空指针的问题
+
 ## 10.2.7
 
 - ✅ 实体查询增加方法 `Query#forEach`

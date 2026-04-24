@@ -72,7 +72,7 @@ JDBC 底层批量操作大小，默认为 1000。
 - `executeQueryStream()` 
 - `entity(class).query()` 
 
-详细配置参考文档[查询缓存管理](documents/query-cache-manage) 。
+详细配置参考文档[查询缓存管理](guides/redis-query-cache-manager) 。
 
 ### entityMetaProvider
 
