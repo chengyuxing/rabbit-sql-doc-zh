@@ -1,5 +1,9 @@
 # 框架变更日志
 
+## 10.2.9
+
+- 修复 `MostDateTime` 转化时间格式 `yyyyMMdd` 的bug
+
 ## 10.2.8
 
 - ✅ `XQLInvocationHandler` 接口映射逻辑优化
