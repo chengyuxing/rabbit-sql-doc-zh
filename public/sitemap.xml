@@ -12,24 +12,24 @@
   <url><loc>https://rabbitsql.cn/guides/spring-boot-starter</loc></url>
   <url><loc>https://rabbitsql.cn/guides/plugin</loc></url>
 
-  <url><loc>https://rabbitsql.cn/docs/baki.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/dynamic-sql.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/best-practice.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/xql-file-manager.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/api-config.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/sql-params.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/transaction.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/with-spring-boot.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/xql-interface-mapping.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/changes.md</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/baki.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/dynamic-sql.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/best-practice.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/xql-file-manager.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/api-config.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/sql-params.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/transaction.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/with-spring-boot.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/xql-interface-mapping.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/changes.html</loc></url>
 
-  <url><loc>https://rabbitsql.cn/docs/guides/initialization.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/guides/dynamic-sql-details.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/guides/spring-boot-starter.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/guides/plugin.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/guides/prepared-sql.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/guides/jpa-supports.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/guides/statement-value-handler-extends.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/guides/redis-query-cache-manager.md</loc></url>
-  <url><loc>https://rabbitsql.cn/docs/guides/utils.md</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/guides/initialization.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/guides/dynamic-sql-details.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/guides/spring-boot-starter.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/guides/plugin.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/guides/prepared-sql.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/guides/jpa-supports.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/guides/statement-value-handler-extends.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/guides/redis-query-cache-manager.html</loc></url>
+  <url><loc>https://rabbitsql.cn/docs/guides/utils.html</loc></url>
 </urlset>
