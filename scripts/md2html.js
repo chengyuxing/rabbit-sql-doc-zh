@@ -31,6 +31,10 @@ const htmlTemplate = (title, body) => `<!doctype html>
   <link rel="icon" type="image/svg+xml" href="https://rabbitsql.cn/images/rabbit-sql.svg">
   <title>Rabbit SQL - ${title}</title>
   <style>
+  body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+  }
   main{
     padding: 20px 50px;
   }
@@ -96,7 +100,22 @@ const htmlTemplate = (title, body) => `<!doctype html>
     top: -2px;
   }
   p {
+    line-height: 28px;
     overflow-wrap: anywhere;
+  }
+  p, h2, h3 {
+    color: rgb(68, 71, 78);
+  }
+  p > code, li > code {
+    background-color: #dddddd;
+    padding: 4px 6px;
+    border-radius: 4px;
+    color: #191919;
+    overflow-wrap: anywhere;
+  }
+  ul > li, ol > li {
+    margin: 10px 0;
+    line-height: 1.6;
   }
   </style>
 </head>
