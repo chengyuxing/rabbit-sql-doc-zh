@@ -11,6 +11,7 @@ const config = {
 const htmlTemplate = (title, body) => `<!doctype html>
 <html lang="en">
 <head>
+  <base href="/">
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -29,9 +30,80 @@ const htmlTemplate = (title, body) => `<!doctype html>
   <meta property="og:type" content="website">
   <link rel="icon" type="image/svg+xml" href="https://rabbitsql.cn/images/rabbit-sql.svg">
   <title>Rabbit SQL - ${title}</title>
+  <style>
+  main{
+    padding: 20px 50px;
+  }
+  img{
+    width: 100%;
+  }
+  iframe{
+    margin: 0;
+    padding: 0;
+    border: none;
+    max-width: 100%;
+  }
+  pre{
+    border: 1px solid gray;
+    border-radius: 4px;
+    line-height: 1.6;
+    position: relative;
+    padding: 10px;
+  }
+  table{
+    min-width: 100%;
+    border: 0;
+    border-spacing: 0;
+    table-layout: auto;
+    white-space: normal;
+    border-collapse: collapse;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  table tr{
+    height: 52px;
+  }
+  table th{
+    padding: 0 16px;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    letter-spacing: 0.006rem;
+    font-weight: 500;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    outline: none;
+    text-align: left;
+    word-break: break-word;
+    line-height: 1.6;
+  }
+  table td{
+    padding: 0 16px;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    letter-spacing: 0.015rem;
+    word-break: break-word;
+    line-height: 1.6;
+  }
+  kbd {
+    border: 1px solid #8d8d8d;
+    border-radius: 4px;
+    padding: 2px 4px;
+    box-shadow: 0 1px 0 0 #aaaaaa;
+    position: relative;
+    top: -2px;
+  }
+  p {
+    overflow-wrap: anywhere;
+  }
+  </style>
 </head>
 <body>
+<main>
 ${body}
+</main>
 </body>
 </html>`;
 
