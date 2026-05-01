@@ -1,10 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const marked = require('marked');
+const pkg = require('../package.json');
 
 const config = {
   inputDir: './public/docs',
-  outputDir: './dist/rabbit-sql-doc-zh/html',
+  outputDir: `./dist/${pkg.name}`,
 }
 
 const htmlTemplate = body => `<!doctype html>
@@ -35,10 +36,9 @@ function convertMdFiles(dir) {
       const mdContent = fs.readFileSync(fullPath, 'utf8');
       const htmlContent = marked.parse(mdContent);
 
-      const outputFilename = file.name.replace(/\.md$/, '.html');
-      const outputPath = path.join(config.outputDir, outputFilename);
+      const outputName = fullPath.replace(/\.md$/, '.html');
+      const outputPath = path.join(config.outputDir, path.relative("public", outputName));
       fs.writeFileSync(outputPath, htmlTemplate(htmlContent));
-
       console.log(`Completed: ${fullPath} --> ${outputPath}`);
     }
   });
