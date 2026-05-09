@@ -2,16 +2,16 @@
 
 ## 10.3.1
 
-- 修复 `MostDateTime#of` 转化指定日期格式 `yyyyMMdd` 不包含时间部分的bug
-- `rabbit-sql-spring-boot-starter` 更新版本 `5.3.1` 支持启动参数 `--xql.config.constants.[name]=[value]` 替换内置常量
+- ✅ 修复 `MostDateTime#of` 转化指定日期格式 `yyyyMMdd` 不包含时间部分的bug
+- ✅ `rabbit-sql-spring-boot-starter` 更新版本 `5.3.1` 支持启动参数 `--xql.config.constants.[name]=[value]` 替换内置常量
 
 ## 10.3.0
 
-- 一些小优化，并喝了一杯奶茶
+- ✅ 一些小优化，并喝了一杯奶茶
 
 ## 10.2.9
 
-- 修复 `MostDateTime` 转化时间格式 `yyyyMMdd` 的bug
+- ✅ 修复 `MostDateTime` 转化时间格式 `yyyyMMdd` 的bug
 
 ## 10.2.8
 
