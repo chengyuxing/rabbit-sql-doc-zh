@@ -1,5 +1,10 @@
 # 框架变更日志
 
+## 10.3.1
+
+- 修复 `MostDateTime#of` 转化指定日期格式 `yyyyMMdd` 不包含时间部分的bug
+- `rabbit-sql-spring-boot-starter` 更新版本 `5.3.1` 支持启动参数 `--xql.config.constants.[name]=[value]` 替换内置常量
+
 ## 10.3.0
 
 - 一些小优化，并喝了一杯奶茶
@@ -41,11 +46,16 @@
 ### FOR 指令语法变更
 
 ⚠️ 动态 SQL `#for` 指令语法调整，最新的语法结构为：
+
 ```sql
-#for item of :list [| pipe1 | pipeN | ... ] [;index as i] [;last as isLast] ...
+#for
+item of :list [| pipe1 | pipeN | ... ] [;index
+as i] [;
+last as isLast] ...
 ...
 #done
 ```
+
 - ❌ 移除关键字：`delimiter` , `open` , `close`
 - ✅ 增加关键字：`as`
 - ✅ 增加上下文属性变量：`index` , `first` , `last` , `odd` , `even` 使用 `as` 关键字创建变量引用别名
@@ -233,8 +243,8 @@
 
 - ⚠️ Rabbit SQL 从 `10.0.0` 开始，将只维护一个版本，默认支持最低 JDK 为 1.8，对于 Starter 的支持 Springboot 最低兼容版本为 2.7（JDK 1.8）
 - ❌ 移除了对于内置 JPA 实体映射的支持，转而采用更灵活的映射接口扩展来支持自定义实现：
-  - ✅ `EntityFieldMapper` 
-  - ✅ `EntityValueMapper` 
+  - ✅ `EntityFieldMapper`
+  - ✅ `EntityValueMapper`
 - ❌ 移除了 `SaveExecuter` 、 `EntityExecuter` 、`GenericExecutor`。
 - ✅ Baki 重新调整，增加一级接口 `insert`、`update`、`delete ` 、`execute` 、 `call` 。
 - ✅ BakiDao 增加 `ExecutionWatcher` 属性，支持更灵活的 SQL 执行监听操作。
