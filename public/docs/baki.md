@@ -57,7 +57,11 @@ baki.query("&my.users").args("id", "1")
 
 - `findFirstEntity()` ：查询第一条，返回一个实体对象，可能为 `null` ；
 
+  > 需要配置属性 `BakiDao#entityMetaProvider`
+
 - `findFirst()` ：查询第一条，返回一个 `Optional` 可空对象；
+
+  > 需要配置属性 `BakiDao#entityMetaProvider`
 
 ### 惰性查询
 
@@ -120,7 +124,7 @@ PagedResource<DataRow> res = baki.query("&data.custom_paged")
 - `disableDefaultPageSql(sql)` ：禁用默认生成的分页 SQL，并指定条数查询 SQL 语句；
 - `rewriteDefaultPageArgs(func)` ：重写默认的分页参数，因为您自定义的查询 SQL 分页参数名不被限制，所以很有必要调用此方法进行重写，重写为如上例子 `start` 和 `end`；
 
-## 增删改查
+## 增删改
 
 - `execute(sql, Map?)` ：支持 select ， ddl ， dml 和  plsql 语句；
 - `execute(sql, Collection)` ：批量操作，支持非预编的 ddl 和 dml 语句；
@@ -130,6 +134,107 @@ PagedResource<DataRow> res = baki.query("&data.custom_paged")
 - `update(sql, Collection)` ：执行批量更新；
 - `delete(sql, Map)` ：执行删除；
 - `delete(sql, Collection)` ：执行批量删除；
+
+## 单表实体操作
+
+1. 实现接口 `com.github.chengyuxing.sql.EntityManager.EntityMetaProvider` 
+2. 配置 `BakiDao#entityMetaProvider`
+3. 调用方法：`baki#entity` 来执行简单的单表实体增删改查
+   - `query()`
+   - `insert()`
+   - `update()`
+   - `delete()`
+
+### 查询
+
+针对条件构建器 `where` 进行一下说明，条件构建器支持条件嵌套，默认情况下每个条件都以 `and` 关键字连在一起。
+
+根据嵌套条件表达式在大部分情况下进行了逻辑调整，特殊情况，针对 `and()` 和 `or()` 嵌套逻辑：
+
+- `and()` ：内部所有条件判断以关键字 `or` 相连
+- `or()` ：内部所有条件判断以关键字 `and` 相连
+
+条件：
+
+```sql
+where id > 5 and (id in (17, 18, 19) or id = 10)
+```
+
+条件构建器：
+
+```java
+baki.entity(Guest.class)
+  .query()
+  .where(w -> w.gt(Guest::getId, 5)
+               .and(o -> o.in(Guest::getId, List.of(17, 18, 19))
+                          .eq(Guest::getId, 10))
+        )
+  // ...
+  .forEach(System.out::println);
+```
+
+### 增删改
+
+主要对 `insert()` 和 `update()` 进行特别的说明。
+
+在实现接口方法 `EntityManager.ColumnMeta columnMeta(Field field)` 时，可根据自定义注解或 JPA 注解属性来配置字段约束：
+
+- **primaryKey** ：主键，不允许更新，不允许为 `null`
+- **insertable** ：是否可插入
+- **updatable** ：是否可更新
+- **ignore**：是否忽略字段（为 `true` 则不参与 SQL 的生成）
+
+#### 集合字段
+
+默认情况下直接调用 `save(T entity)` 和 `save(Iterable entities)`，通过数据生成的 SQL 会排除值为 `null` 的列，批量操作通过普通的循环遍历。
+
+通过调用方法 `withNullValues()` ，无论字段是否为 `null` 都进行保留，底层调用 JDBC 的批量插入。
+
+```java
+baki.entity(Guest.class)
+    .insert()
+    .withNullValues()
+    .save(guests);
+```
+
+#### 部分字段
+
+通过调用方法 `set(column, value)` 进行部分字段的写入和更新，允许值为 `null` ，生成 SQL 仅包含指定的字段。
+
+```java
+baki.entity(Guest.class)
+    .insert()
+    .set(Guest::getXm, "cyx")
+    .set(Guest::getAddress, "kunming")
+    .save();
+```
+
+```java
+baki.entity(Guest.class)
+    .update()
+    .where(w -> w.eq(Guest::getXm, "cyx"))
+    .set(Guest::getXm, "mike")
+    .set(Guest::getAddress, "USA")
+    .save();
+```
+
+## 单表DML操作
+
+对于单表的简单 DML 操作，通过方法 `baki#table` 传入表名执行相应的操作。
+
+默认情况下 `update()` 和 `insert()` 操作集合为循环遍历。
+
+通过调用方法 `enableBatch()` 执行底层 JDBC 的批量操作。
+
+按条件更新和删除通过方法 `by(column,...)`  内部实现为根据 `and` 将多个字段构建为等式连在一起：
+
+```java
+baki.table("test.guest")
+    .by("id" , "name")
+    .update(...)
+```
+
+> update test.guest set ... where id = :id and name = :name
 
 ## 执行存储过程/函数
 
