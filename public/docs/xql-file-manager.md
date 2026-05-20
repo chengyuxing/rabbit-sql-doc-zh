@@ -211,7 +211,7 @@ where id = :id ${order};
 select * from users ${where};
 ```
 
-:warning: 局限：由于不完整的 SQL 片段在 IDE 中会高亮语法错误，在格式化和视觉上有一定影响。
+⚠️ 局限：由于不完整的 SQL 片段在 IDE 中会高亮语法错误，在格式化和视觉上有一定影响。
 
 ##### 内联模版
 
