@@ -109,6 +109,8 @@ named-param-prefix: ':'
 
 ## XQL 文件规范
 
+![](docs/imgs/xql-model.svg)
+
 ### 文件描述
 
 文件顶部可定义说明注释块。
@@ -192,6 +194,8 @@ and name in (
 - 独立模板
 - 内联模板
 
+模板可递归引用其他模板。
+
 ##### 独立模版
 
 定义方式：
@@ -207,17 +211,17 @@ where id = :id ${order};
 select * from users ${where};
 ```
 
-> 模板可递归引用其他模板。
+:warning: 局限：由于不完整的 SQL 片段在 IDE 中会高亮语法错误，在格式化和视觉上有一定影响。
 
 ##### 内联模版
 
-用于在 **单个 SQL 对象内部** 定义复用片段。
+直接在 **单个 SQL 对象内部** 标记一块区域来定义为可被其他 SQL 复用片段。
 
 特点：
 
 - 不参与[动态 SQL](documents/dynamic-sql) 解析
-- 避免 IDE SQL 校验误报
-- 不污染全局模板空间
+- 避免独立的 where 条件模版导致 IDE SQL 校验误报
+- 提高整个 XQL 文件每个 SQL 对象的完整性
 
 定义：
 
@@ -251,7 +255,7 @@ select count(*) from guest where ${myInLineCnd};
 
 元数据用于为 SQL 提供附加描述信息。
 
-定义格式：
+元数据必须定义在 SQL 对象的首行，多个元数据必须连续，中间不能有其他内容，定义格式：
 
 ```sql
 -- @name value
