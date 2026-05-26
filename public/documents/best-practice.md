@@ -43,11 +43,11 @@ spring:
 
 1. 在 `.../src/main/resources` 目录下创建文件 [xql-file-manager.yml](documents/xql-file-manager) ，通过插件快速生成：
 
-   ![](docs/imgs/bp1.png)
+   ![](images/bp1.png)
 
 2. 创建xql文件，通过插件来创建xql文件并自动注册到 [xql-file-manager.yml](documents/xql-file-manager)，降低手动配置的错误率:
 
-   ![](docs/imgs/bp2.png)
+   ![](images/bp2.png)
 
 **项目结构**：
 
@@ -76,7 +76,7 @@ spring:
 
 - 通过插件来创建一条SQL模版：
 
-  ![](docs/imgs/bp3.png)
+  ![](images/bp3.png)
 
 ```sql
 /*[findAllUsers]*/
@@ -136,7 +136,7 @@ end;
 
 - 通过插件提供的 **live template** 来生成标签语句模版，输入 `xql` 关键字来获取建议：
 
-  ![](docs/imgs/bp4.png)
+  ![](images/bp4.png)
 
 **示例**：
 
@@ -175,7 +175,7 @@ select * from users where id in (
 
 当 SQL 编写好以后，使用插件来快速生成**接口文件**和**方法注释文档**，减少重复操作，提高效率：
 
-![](docs/imgs/bp5.png)
+![](images/bp5.png)
 
 > Return Types: 选择需要返回的类型，有些 SQL 在一些情况是存在复用需要返回不同类型的需求。
 >
@@ -187,9 +187,9 @@ select * from users where id in (
 
 - `@XQLMapper(...)` 表明这是一个映射接口，并且指定具体的xql文件别名。
 
-![](docs/imgs/bp6.png)
+![](images/bp6.png)
 
-> <img src="docs/imgs/xql.svg" style="width:25px;" /> 左侧导航图标表明sql和方法映射成功。
+> <img src="images/xql.svg" style="width:25px;" /> 左侧导航图标表明sql和方法映射成功。
 >
 > 同一条 SQL 不同返回类型的复用，插件生成的接口格式为 **SQL名+返回类型**。
 >
@@ -343,7 +343,7 @@ baki.execute("&<sql名>", <Collection>);
 
 - 测试完毕点击第 **4** 步来回滚事务，以避免执行非查询语句造成数据被修改的问题。
 
-  ![](docs/imgs/bp7.png)
+  ![](images/bp7.png)
 
 ## 安全性最佳实践
 

@@ -1,5 +1,5 @@
 {
-  "host": "docs/guides/",
+  "host": "guides/",
   "resources": [
     {
       "id": "initialization",

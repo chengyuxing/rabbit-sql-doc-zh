@@ -4,7 +4,6 @@ const marked = require('marked');
 const pkg = require('../package.json');
 
 const config = {
-  inputDir: './public/docs',
   outputDir: `./dist/${pkg.name}`,
 }
 
@@ -126,11 +125,10 @@ ${body}
 </body>
 </html>`;
 
-if (!fs.existsSync(config.outputDir)) {
-  fs.mkdirSync(config.outputDir, {recursive: true});
-}
-
 function convertMdFiles(dir) {
+  if (!fs.existsSync(config.outputDir)) {
+    fs.mkdirSync(config.outputDir, {recursive: true});
+  }
   const files = fs.readdirSync(dir, {withFileTypes: true});
   files.forEach(file => {
     const fullPath = path.join(dir, file.name);
@@ -148,4 +146,5 @@ function convertMdFiles(dir) {
   });
 }
 
-convertMdFiles(config.inputDir);
+convertMdFiles('./public/documents');
+convertMdFiles('./public/guides');
