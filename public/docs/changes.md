@@ -1,5 +1,9 @@
 # 框架变更日志
 
+## 10.3.2
+
+- 实体转换 `DataRow#toEntity` 提供的参数 `fieldMapper` 支持获取父类字段，增强继承实体的处理能力
+
 ## 10.3.1
 
 - ✅ 修复 `MostDateTime#of` 转化指定日期格式 `yyyyMMdd` 不包含时间部分的bug
