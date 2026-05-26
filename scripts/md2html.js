@@ -53,6 +53,11 @@ const htmlTemplate = (title, body) => `<!doctype html>
     position: relative;
     padding: 10px;
   }
+  pre code[class*="language-"] {
+    display: block;
+    overflow-x: auto;
+    padding: 1em;
+  }
   table{
     min-width: 100%;
     border: 0;

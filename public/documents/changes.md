@@ -2,7 +2,8 @@
 
 ## 10.3.2
 
-- 实体转换 `DataRow#toEntity` 提供的参数 `fieldMapper` 支持获取父类字段，增强继承实体的处理能力
+- ✅ 实体转换 `DataRow#toEntity` 提供的参数 `fieldMapper` 支持获取父类字段，增强继承实体的处理能力
+- ✅ `rabbit-sql-spring-boot-starter` 更新版本 `5.3.2` 增加默认的 `EntityManager.EntityMetaProvider` 简单实现以满足简单实体处理需求
 
 ## 10.3.1
 
