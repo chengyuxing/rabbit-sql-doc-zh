@@ -1,5 +1,9 @@
 # 框架变更日志
 
+# 10.3.3
+
+- ✅ 修复了当 JDBC 驱动不支持设置 `queryTimeout` 属性时抛出异常错误的问题，若 `BakiDao#queryTimeoutHandler` 返回 0，则不进行设置
+
 ## 10.3.2
 
 - ✅ 实体转换 `DataRow#toEntity` 提供的参数 `fieldMapper` 支持获取父类字段，增强继承实体的处理能力
