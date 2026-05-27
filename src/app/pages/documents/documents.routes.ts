@@ -6,6 +6,11 @@ export const routes: Routes = [
     path: '', component: DocumentsComponent, children: [
       {path: '', loadComponent: () => import('./about/about.component').then(c => c.AboutComponent)},
       {path: ':id', loadComponent: () => import('./document/document.component').then(c => c.DocumentComponent)},
+      {
+        path: '**',
+        data: {to: '/documents'},
+        loadComponent: () => import('../not-found/not-found.component').then(c => c.NotFoundComponent)
+      },
     ]
   }
 ];
