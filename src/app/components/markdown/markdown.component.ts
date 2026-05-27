@@ -15,7 +15,7 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {MarkDownHead} from '../../common/types';
 import {LoadingService} from '../../common/loading.service';
-import {catchError, of} from 'rxjs';
+import {catchError, finalize, of} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import mermaid from 'mermaid';
 import {Title} from '@angular/platform-browser';
@@ -139,20 +139,30 @@ export class MarkdownComponent implements AfterViewInit {
     }).pipe(catchError((err: any) => {
       this.snack.open(err.statusText, 'x', {duration: 3000});
       return of(null);
-    })).subscribe(res => {
-      if (res !== null) {
-        const html = marked(res) as string;
-        const myContent = this.parsing(html);
-        const h1 = this.titles[0];
-        if (h1) {
-          this.title.setTitle(appName + ' - ' + h1.content);
-        } else {
-          this.title.setTitle(appName);
-        }
-        this.content = myContent;
-        setTimeout(() => mermaid.contentLoaded(), 50);
-      }
+    }), finalize(() => {
       this.loadingService.loaded();
+    })).subscribe(res => {
+      if (res === null || res.startsWith("<html")) {
+        this.navToHome();
+        return;
+      }
+      const html = marked(res) as string;
+      const myContent = this.parsing(html);
+      const h1 = this.titles[0];
+      if (h1) {
+        this.title.setTitle(appName + ' - ' + h1.content);
+      } else {
+        this.title.setTitle(appName);
+      }
+      this.content = myContent;
+      setTimeout(() => mermaid.contentLoaded(), 50);
+    });
+  }
+
+  navToHome() {
+    this.snack.open('没有找到文档，正在跳转...', 'x', {duration: 1500})
+      .afterDismissed().subscribe(() => {
+      this.router.navigate(['../'], {relativeTo: this.route});
     });
   }
 
