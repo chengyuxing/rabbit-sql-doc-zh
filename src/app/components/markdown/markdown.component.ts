@@ -142,7 +142,7 @@ export class MarkdownComponent implements AfterViewInit {
     }), finalize(() => {
       this.loadingService.loaded();
     })).subscribe(res => {
-      if (res === null || res.startsWith("<html")) {
+      if (res === null || res.startsWith("<")) {
         this.navToHome();
         return;
       }
