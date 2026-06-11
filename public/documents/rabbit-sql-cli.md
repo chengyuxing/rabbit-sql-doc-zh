@@ -74,16 +74,16 @@ $ ./sqlc -ujdbc:postgresql://127.0.0.1:5432/postgres -nchengyuxing
 
 ## 全局参数
 
-| 参数                   | 默认值 | 描述                                            |
-| ---------------------- | ------ | ----------------------------------------------- |
-| `-u` , `--url`         |        | 数据库 JDBC url                                 |
-| `-n` , `--name`        |        | 数据库用户名                                    |
-| `-p` , `--password`    |        | 数据库密码                                      |
-| `--driver`             |        | 数据库 JDBC 驱动类全名                          |
-| `--batch-size`         | `1000` | 批量导入数据批量执行的大小                      |
-| `--named-param-prefix` | `:`    | 预编译 SQL 命名参数前缀                         |
-| `--print-rows`         | `100`  | 输出控制台执行 SQL 的结果最大条数，`0` 则无限制 |
-| `-h` , `--help`        |        | 获取参数帮助提示                                |
+| 参数                   | 默认值 | 描述                                                  |
+| ---------------------- | ------ | ----------------------------------------------------- |
+| `-u` , `--url`         |        | 数据库 JDBC url                                       |
+| `-n` , `--name`        |        | 数据库用户名                                          |
+| `-p` , `--password`    |        | 数据库密码                                            |
+| `--driver`             |        | 数据库 JDBC 驱动类全名                                |
+| `--batch-size`         | `1000` | 批量导入数据批量执行的大小                            |
+| `--named-param-prefix` | `:`    | 预编译 SQL 命名参数前缀                               |
+| `--print-rows`         | `100`  | 输出控制台执行 SQL 的<br />结果最大条数，`0` 则无限制 |
+| `-h` , `--help`        |        | 获取参数帮助提示                                      |
 
 `-u` 为必填，如果没指定 `-n` 和 `-p` 则弹出输入框手动输入。
 
@@ -223,13 +223,13 @@ insert into test.guest(name, age, photo) values ('cyx', 13, :photo_1);
 | 参数               | 默认值 | 描述                                                         |
 | ------------------ | ------ | ------------------------------------------------------------ |
 | `-e` , `--execute` | `[]`   | 读取文件或字符串执行一条或多条 SQL                           |
-| `-o` , `--output`  |        | 输出查询结果到文件，文件类型由 `-f` 决定，默认 `tsv` ，如果文件后缀以 `.sql` 结尾，则忽略此参数并导出 insert 语句 SQL 文件 |
+| `-o` , `--output`  |        | 输出查询结果到文件，文件类型由 `-f` <br />决定，默认 `tsv` ，如果文件后缀以 <br />`.sql` 结尾，则忽略此参数并导出 <br />insert 语句 SQL 文件 |
 | `-f` , `--format=tsv\csv\json\excel` | `tsv`  | 指定打印结果和输出文件的格式                                 |
-| `--import`         |        | 执行批量导入数据，**文件名为表名**，支持文件类型：`.csv` ,  `.tsv` ,  `.json` ,  `.xls(x)` ,  `.sql` |
-| `--sheet-index`    | `0` | `--import` 文件类型 `.xls(x)` 的 Sheet 序号 |
-| `--header-index`   | `0` | `--import` 文件类型 `.xls(x)` ,  `.csv` ,  `.tsv`的字段表头所在行 |
-| `--with-tx`        | `false` | `-e` , `--import`启用事务，成功则提交，失败则回滚 |
-| `--ping`           |        | 检测数据库是否连接成功，成功则返回 `pong` |
+| `--import`         |        | 执行批量导入数据，**文件名为表名**，支<br />持文件类型：`.csv` ,  `.tsv` ,  `.json` ,  <br />`.xls(x)` ,  `.sql` |
+| `--sheet-index`    | `0` | `--import` 文件类型 `.xls(x)` 的 Sheet <br />序号 |
+| `--header-index`   | `0` | `--import` 文件类型 `.xls(x)` ,  `.csv` ,  <br />`.tsv`的字段表头所在行 |
+| `--with-tx`        | `false` | `-e` , `--import`启用事务，成功则提<br />交，失败则回滚 |
+| `--ping`           |        | 检测数据库是否连接成功，成功则返回<br /> `pong` |
 
 ### 交互模式
 
@@ -282,20 +282,20 @@ $ ./sqlc <login>
 
 | 参数    | 默认值 | 描述                                         |
 | ------- | ------ | -------------------------------------------- |
-| `--xql=<file\folder>` | `[]`   | 加载 `xql` 文件，或文件夹下的所有 `xql` 文件 |
+| `--xql=<file\folder>` | `[]`   | 加载 `xql` 文件，或文件夹下<br />的所有 `xql` 文件 |
 
 > 如果有且仅一个，并且是文件夹，则加载文件夹下的所有 `xql` ，否则认为是 `xql` 文件。
 
 | 指令 | 默认值 | 描述 |
 | ---- | ------ | ---- |
-| `:exec <sqlFile\&sqlName>`  |        | 读取文件执行 SQL 或执行一个 XQL 动态 SQL |
-| `:import <file> [s] [h]` |        | 批量导入一个文件，并可选的指定 Sheet(`s`) 和 header(`h`) 序号，同 `--import` |
+| `:exec <sqlFile\&sqlName>`  |        | 读取文件执行 SQL 或执行一个 XQL 动<br />态 SQL |
+| `:import <file> [s] [h]` |        | 批量导入一个文件，并可选的指定 <br />Sheet(`s`) 和 header(`h`) 序号，<br />同 `--import` |
 | `:xql <file\folder>` |        | 同 `--xql` |
-| `:paste` | | 使用 nano 编辑器输入或粘贴大段 SQL 执行：<kbd>Ctrl o</kbd> <kbd>Enter</kbd> <kbd>Ctrl x</kbd> |
+| `:paste` | | 使用 nano 编辑器输入或粘贴大段 SQL <br />执行：<kbd>Ctrl o</kbd> <kbd>Enter</kbd> <kbd>Ctrl x</kbd> |
 | `:tx <[begin\commit\rollback]>` | `begin` | 开启/提交/回滚事务 |
-| `:output <[file]>` |  | 指定输出目录则开启查询重定向输出，否则关闭重定向输出 |
-| `:view <csv\tsv\json\excel>` | `tsv` | 指定查询结果打印格式和 `:output` 输出文件格式，逻辑同 `-o` |
-| `:status <[&[<alias>[.<name>]]]>` |  | 查看当前配置状态：默认查看概括，`&` 查看 xql 文件资源列表，`&<alias>` 查看 xql 文件所有 SQL 对象，`&<alias>.<name>` 查看 SQL 内容 |
+| `:output <[file]>` |  | 指定输出目录则开启查询重定向输出，<br />否则关闭重定向输出 |
+| `:view <csv\tsv\json\excel>` | `tsv` | 指定查询结果打印格式和 `:output` 输<br />出文件格式，逻辑同 `-o` |
+| `:status <[&[<alias>[.<name>]]]>` |  | 查看当前配置状态：默认查看概括，`&` <br />查看 xql 文件资源列表，`&<alias>` 查<br />看 xql 文件所有 SQL 对象，<br />`&<alias>.<name>` 查看 SQL 内容 |
 | `:q` |  | 退出程序 |
 | `:help` |  | 查看指令帮助说明 |
 
