@@ -109,7 +109,7 @@ named-param-prefix: ':'
 
 ## XQL 文件规范
 
-![](images/xql-model.svg)
+![](../images/xql-model.svg)
 
 ### 文件描述
 

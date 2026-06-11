@@ -34,12 +34,16 @@
       "title": "最佳实践"
     },
     {
-      "id": "changes",
-      "title": "变更日志"
-    },
-    {
       "id": "api-config",
       "title": "配置项"
+    },
+    {
+      "id": "rabbit-sql-cli",
+      "title": "CLI 命令行工具"
+    },
+    {
+      "id": "changes",
+      "title": "变更日志"
     }
   ]
 }

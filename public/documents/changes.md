@@ -1,5 +1,16 @@
 # 框架变更日志
 
+# 10.3.6
+
+- ✅ 修复只有一个关键字时 SQL 高亮产生的bug
+- ✅ `IOutput` 工具重构优化
+- ✅ 新增方法 `BakiDao#databaseInfo` ，内部调用优化，支持重写：
+  - 默认情况下初始化一次，单数据源和多实例多数据源默认即可
+  - 动态路由数据源（不同类型数据库）通过重写此方法，来实时获取准确的数据库信息，以保证自动识别分页查询 SQL 的正确性
+- ❌ 移除方法 `BakiDao#databaseId` ,`BakiDao#metadata`
+- ⚠️ 动态 SQL 运行时常量 `_databaseId` 具体类型改为 `com.github.chengyuxing.sql.types.DatabaseInfo` ，通过 `_databaseId.name` 获取数据库名字
+- ✅ 新增命令行版本工具：**Rabbit SQL CLI**，支持 Linux/macOS/Windows 等终端
+
 # 10.3.3
 
 - ✅ 修复了当 JDBC 驱动不支持设置 `queryTimeout` 属性时抛出异常错误的问题，若 `BakiDao#queryTimeoutHandler` 返回 0，则不进行设置
@@ -57,7 +68,10 @@
 ⚠️ 动态 SQL `#for` 指令语法调整，最新的语法结构为：
 
 ```sql
-#for item of :list [| pipe1 | pipeN | ... ] [;index as i] [;last as isLast] ...
+#for
+item of :list [| pipe1 | pipeN | ... ] [;index
+as i] [;
+last as isLast] ...
 ...
 #done
 ```

@@ -321,13 +321,13 @@ where id = :id;
 /*[query]*/
 select * from test.user
 where id = 3
--- #if :_databaseId == 'postgresql'
+-- #if :_databaseId.name == 'postgresql'
     ...
 -- #fi
--- #if :_databaseId == 'oracle'
+-- #if :_databaseId.name == 'oracle'
     ...
 -- #fi
 ;
 ```
 
-> 内置变量名 `_databaseId` 值为当前数据库的名称，在运行时由 BakiDao 提供。
+> 内置变量名 `_databaseId` 值为当前数据库信息对象：`com.github.chengyuxing.sql.types.DatabaseInfo`，在运行时由 BakiDao 提供。

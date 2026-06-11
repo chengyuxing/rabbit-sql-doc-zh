@@ -234,6 +234,15 @@ export class MarkdownComponent implements AfterViewInit {
         }
       }
     }
+    const imgs = div.getElementsByTagName('img');
+    if(imgs && imgs.length > 0) {
+      for (const img of imgs) {
+        const src = img.src;
+        if (src.startsWith('../images')) {
+          img.src = src.substring(3);
+        }
+      }
+    }
     return div.innerHTML;
   }
 
