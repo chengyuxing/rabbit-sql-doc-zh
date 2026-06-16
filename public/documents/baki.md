@@ -111,18 +111,12 @@ select * from t;
 ```java
 PagedResource<DataRow> res = baki.query("&data.custom_paged")
       .pageable(1, 7)
-      .disableDefaultPageSql("&data.custom_paged_count")
-      .rewriteDefaultPageArgs(args -> {
-      	  args.updateKey(START_NUM_KEY, "start");
-      	  args.updateKey(END_NUM_KEY, "end");
-      	  return args;
-      })
+      .disableDefaultPageSql("&data.custom_paged_count", "start", "end")
       .collect();
 ```
 
 - `count(sql)` ：必要的条数查询语句；
-- `disableDefaultPageSql(sql)` ：禁用默认生成的分页 SQL，并指定条数查询 SQL 语句；
-- `rewriteDefaultPageArgs(func)` ：重写默认的分页参数，因为您自定义的查询 SQL 分页参数名不被限制，所以很有必要调用此方法进行重写，重写为如上例子 `start` 和 `end`；
+- `disableDefaultPageSql(sql)` ：禁用默认生成的分页 SQL，并指定条数查询 SQL 语句，重写默认的分页参数，因为您自定义的查询 SQL 分页参数名不被限制，所以很有必要调用此方法进行重写，重写为如上例子 `start` 和 `end`；
 
 ## 增删改
 

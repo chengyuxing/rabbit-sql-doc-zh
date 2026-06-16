@@ -74,7 +74,7 @@ public interface ExampleMapper {
 | `Map<String,Object>`                                   | query                                         |                                  |
 | `PagedResource<DataRow/Map<String,Object>/<JavaBean>>` | query                                         | `@CountQuery`，`@PageableConfig` |
 | `IPageable`                                            | query                                         | `@CountQuery`，`@PageableConfig` |
-| `Long`, `Integer`, `Double`                            | query                                         |                                  |
+| `Long` , `Integer` , `Double` ，`String` ，`Boolean`   | query                                         |                                  |
 | `<JavaBean>`                                           | query                                         |                                  |
 | `DataRow`                                              | query, procedure, function, plsql, ddl, unset |                                  |
 | `int/Integer`                                          | insert, update, delete                        |                                  |
