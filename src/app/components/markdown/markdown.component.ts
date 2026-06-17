@@ -189,7 +189,7 @@ export class MarkdownComponent implements AfterViewInit {
     }
     this.titles = titles;
 
-    const codeBlocks = div.getElementsByTagName('code');
+    const codeBlocks = div.querySelectorAll('code');
     if (codeBlocks && codeBlocks.length > 0) {
       for (const codeBlock of codeBlocks) {
         const parent = codeBlock.parentElement;
@@ -222,7 +222,7 @@ export class MarkdownComponent implements AfterViewInit {
         }
       }
     }
-    const anchors = div.getElementsByTagName('a');
+    const anchors = div.querySelectorAll('a');
     if (anchors && anchors.length > 0) {
       const origin = location.origin;
       for (const anchor of anchors) {
@@ -234,13 +234,22 @@ export class MarkdownComponent implements AfterViewInit {
         }
       }
     }
-    const imgs = div.getElementsByTagName('img');
-    if(imgs && imgs.length > 0) {
+    const imgs = div.querySelectorAll('img');
+    if (imgs && imgs.length > 0) {
       for (const img of imgs) {
         const src = img.src;
         if (src.startsWith('../images')) {
           img.src = src.substring(3);
         }
+      }
+    }
+    const tables = div.querySelectorAll('table');
+    if (tables && tables.length > 0) {
+      for (const table of tables) {
+        const wrap = document.createElement('div');
+        wrap.className = 'table-wrapper';
+        table.insertAdjacentElement('beforebegin', wrap);
+        wrap.insertAdjacentElement('afterbegin', table);
       }
     }
     return div.innerHTML;
