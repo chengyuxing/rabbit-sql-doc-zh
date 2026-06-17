@@ -91,13 +91,13 @@ select count(*) from ( /*你的查询语句*/ );
 
 可通过注解 `@CountQuery()` ，自定义条数查询语句。
 
-**分页参数配置**：`@PageableConfig` 属性：
+**分页参数配置** `@PageableConfig` 属性：
 
 - `disableDefaultPageSql` : 禁用框架内置的自动构建分页查询 SQL 并**按顺序**指定分页参数键名 `[start, end]` ，框架计算好的参数，例如：
 
   ```sql
   # PostgreSQL
-  select * from test.user limit start offset end;
+  select * from test.user limit length offset index;
   
   # Oracle
   select *
@@ -108,4 +108,10 @@ select count(*) from ( /*你的查询语句*/ );
   ```
 
 - `pageHelper` : 不使用内建的全局分页，仅针对此条 SQL 使用自定义的分页提供实现。
+
+![](../images/return-types.png)
+
+通过[插件](guides/plugin)来配置分页参数，参数对应如上图。
+
+Spring Boot 自动扫描机制：通过在启动类上加上注解 `@XQLMapperScan` 来实现自动生成代理，即可注入使用，具体可参考文档 [集成 Spring Boot](documents/with-spring-boot#md-head-7) 和 [最佳实践](documents/best-practice#md-head-12) 。
 

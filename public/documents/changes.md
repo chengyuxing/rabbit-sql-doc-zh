@@ -2,13 +2,14 @@
 
 # 10.3.8
 
-- 修改方法：`IPageable#disableDefaultPageSql` 接收2个参数 `start` 和 `end`
-- 移除方法：`IPageable#rewriteDefaultPageArgs`
-- XQL 映射接口新增支持返回类型：`String` `Boolean`
-- `rabbit-sql-spring-boot-starter` 更新版本 `5.3.8`
-- IDEA 插件更新版本 `2.4.52`
-  - `@XQLMapperScan` 支持导航到 `@XQLMapper` 接口
-  - 接口代码生成器返回类型分页查询支持配置 `@PageableConfig` 注解属性，用以实现自定义分页 SQL 配置自由度
+- ✅ 修改方法：`IPageable#disableDefaultPageSql` 接收2个参数 `start` 和 `end`
+- ❌ 移除方法：`IPageable#rewriteDefaultPageArgs`
+- ✅ XQL 映射接口新增支持返回类型：`String` `Boolean`
+- ✅ `rabbit-sql-spring-boot-starter` 更新版本 `5.3.8`
+- ✅ IDEA 插件更新版本 `2.4.52`
+  - ✅ `@XQLMapperScan` 支持导航到 `@XQLMapper` 接口
+  - ✅ 接口代码生成器返回类型分页查询支持配置 `@PageableConfig` 注解属性，用以实现自定义分页 SQL 配置自由度
+    ![](../images/return-types.png)
 
 # 10.3.7
 
