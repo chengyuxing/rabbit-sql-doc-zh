@@ -102,6 +102,14 @@ Baki baki;
 
 在 Spring Boot 启动类上加入注解 `@XQLMapperScan` 来扫描 XQL 接口类，默认扫描所有包路径下带有 `@XQLMapper` 注解的接口。
 
+```java
+@SpringBootApplication
+@XQLMapperScan(basePackages = )
+public class App{
+  
+}
+```
+
 接口底层执行依赖默认的 `Baki` 实例，如果存在多个 `Baki` 实例，可以使用 `@Baki` 注解来指定接口底层具体依赖哪个 `Baki` 来执行：
 
 ```java

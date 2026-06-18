@@ -50,6 +50,11 @@
       "id": "memory-query-cache-manager",
       "title": "实现基于内存的缓存管理器",
       "description": "实现一个 软过期 + 硬过期 + 双重检查 的内存查询缓存管理器。"
+    },
+    {
+      "id": "dynamic-routing-datasource",
+      "title": "整合动态数据源",
+      "description": "为 BakiDao 配置适配动态数据源，以兼容动态数据源框架，无需进行大改。"
     }
   ]
 }

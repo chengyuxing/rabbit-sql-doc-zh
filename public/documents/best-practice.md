@@ -173,7 +173,7 @@ select * from users where id in (
 - 按照约定，[方法名的前缀](documents/xql-interface-mapping)代表了sql的类型，例如：`queryUsers();` ，框架内部判定为 `select` 将执行查询操作，或者使用注解  `@XQL` 来改变默认的的查询行为。
 - 当一个 SQL 语句需要映射到多个方法时，使用 `@XQL` 注解指定 SQL 名称。
 
-当 SQL 编写好以后，使用插件来快速生成**接口文件**和**方法注释文档**，减少重复操作，提高效率：
+当 SQL 编写好以后，使用[插件](guides/plugin#md-head-12)来快速生成**接口文件**和**方法注释文档**，减少重复操作，提高效率：
 
 ![](../images/bp5.png)
 
@@ -182,6 +182,21 @@ select * from users where id in (
 > T: 默认情况下，返回类型泛型内置了 `DataRow` 和 `Map`，如果需要返回 java bean，则需要写**完全限定类名**，如上图 `org.example.entity.User`。
 >
 > 可重复点击 **Generate Code...**，每次都会记录上一次的配置。
+
+**额外分页配置**
+
+对于普通分页查询 SQL，框架内容默认会对列表查询 SQL 进行分页包装，特殊情况例如实际上的分页部分在子查询或视图查询里：
+
+```sql
+with cte as (select * from user limit :length offset :index)
+select * from cte;
+```
+
+在最新版[插件](guides/plugin#md-head-12)和最新版 [Rabbit SQL](documents/changes) 中，返回类型里选择填写额外的 **Disable default page SQL** 属性，与真实 SQL 参数名一一对应，可选的为这条 SQL 指定专用的分页提供者（大部分情况下，默认足够）。
+
+![](../images/return-types.png)
+
+此时，插件代码生成器可以实现 XQL 文件全属性配置100%覆盖，无需手动编辑。
 
 **映射接口**：
 
