@@ -97,14 +97,14 @@ select count(*) from ( /*你的查询语句*/ );
 
   ```sql
   # PostgreSQL
-  select * from test.user limit length offset index;
+  select * from test.user limit :length offset :index;
   
   # Oracle
   select *
     from (select t.*, rownum ROW_NUM_KEY
           from (...) t
-          where rownum <= end)
-     where ROW_NUM_KEY >= start;
+          where rownum <= :end)
+     where ROW_NUM_KEY >= :start;
   ```
 
 - `pageHelper` : 不使用内建的全局分页，仅针对此条 SQL 使用自定义的分页提供实现。
