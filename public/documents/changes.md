@@ -1,5 +1,15 @@
 # 框架变更日志
 
+# 10.3.9
+
+- ✅ 新增属性接口： `BakiDao#databaseInfoProvider` ，在动态数据源框架下，无需重写 `BakiDao#databaseInfo` 
+- ✅ `BakiDao#executionWatcher` 环绕执行器优化
+- ❌ 删除接口 `ExecutionWatcher`
+- ✅ `rabbit-sql-spring-boot-starter` 更新版本 `5.3.9`
+  - ✅ 自动配置逻辑优化
+  - ✅ 增加自动装配 `DatabaseInfoProvider` 接口 Bean
+  - ⚠️ 自动装配 `ExecutionWatcher` 改为 `AroundExecutor<Execution>`
+
 # 10.3.8
 
 - ✅ 修改方法：`IPageable#disableDefaultPageSql` 接收2个参数 `start` 和 `end`
