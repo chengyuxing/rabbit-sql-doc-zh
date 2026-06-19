@@ -2,7 +2,7 @@
 
 系统支持：macOS | Linux | Windows ，最低 JDK 版本为 1.8
 
-这是一款基于 [Rabbit SQL](https://github.com/chengyuxing/rabbit-sql) 定制的的[命令行客户端工具][github_release]，旨在通过 JDBC 为无 UI 界面的操作系统提供连接各种数据库的通用能力，特别是针对仅提供了 IP 和端口的数据库。当然，在视窗操作系统中也依然具有一定的意义。
+这是一款基于 [Rabbit SQL](https://github.com/chengyuxing/rabbit-sql) 定制的[命令行客户端工具][github_release]，旨在通过 JDBC 为无 UI 界面的操作系统提供连接各种数据库的通用能力，特别是针对仅提供了 IP 和端口的数据库。当然，在视窗操作系统中也依然具有一定的意义。
 
 ![](../images/cli-login.png)
 
