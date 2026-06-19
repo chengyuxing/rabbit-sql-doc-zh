@@ -78,6 +78,10 @@ JDBC 底层批量操作大小，默认为 1000。
 
 框架内部接口涉及到实体返回实体的操作都将使用此函数来对字段进行映射匹配和值的转换。
 
+### databaseInfoProvider
+
+数据库信息提供者，主要为了动态数据源或者其他一些不需要默认值的情况，通过实现此方法，改变内部的初始化值。
+
 例如：`baki.query(...).findFirstEntity(class)`
 
 ##  IPageable
@@ -94,19 +98,7 @@ JDBC 底层批量操作大小，默认为 1000。
 
 ### disableDefaultPageSql
 
-禁用默认的字段分页查询 SQL 生成，并指定条数查询语句。
-
-### rewriteDefaultPageArgs
-
-重写默认的分页参数，以适配自定义的分页查询 SQL ：
-
-```java
-args -> {
-       args.updateKey(START_NUM_KEY, "my_limit");
-       args.updateKey(END_NUM_KEY, "my_offset");
-       return args;
-  }
-```
+禁用默认的字段分页查询 SQL 生成，并指定条数查询语句，并重写默认的分页参数 `[start, end]` 。
 
 ### pageHelper
 
