@@ -65,15 +65,7 @@ public class RedisCacheManager implements QueryCacheManager {
 
 支持自动注入的 Bean 有：
 
-- QueryCacheManager
-- XQLFileManager
-- SqlInterceptor
-- PageHelperProvider
-- StatementValueHandler
-- ExecutionWatcher
-- QueryTimeoutHandler
-- EntityManager.EntityMetaProvider
-- SqlInvokeHandler
+![](../images/spring-boot-auto-config.png)
 
 ### 打印 SQL 日志
 
