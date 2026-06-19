@@ -80,8 +80,8 @@ or name in (${!names})
 ```sql
 select * from user where id = :id
 or name in (
--- #for name of :names; first as isFirst
-   -- #if :isFirst
+-- #for name of :names; last as islast
+   -- #if !:isLast
    :name,
    -- #else
    :name

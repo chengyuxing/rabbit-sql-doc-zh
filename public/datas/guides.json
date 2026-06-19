@@ -55,6 +55,11 @@
       "id": "dynamic-routing-datasource",
       "title": "整合动态数据源",
       "description": "为 BakiDao 配置适配动态数据源，以兼容动态数据源框架，无需进行大改。"
+    },
+    {
+      "id": "sql-template",
+      "title": "SQL 模版复用技巧",
+      "description": "使用内联模版语法来声明模版片段，规避 IDE 的语法高亮错误和格式化异常，提升 SQL 完整性。"
     }
   ]
 }
