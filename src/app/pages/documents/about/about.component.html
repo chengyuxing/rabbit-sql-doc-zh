@@ -10,7 +10,8 @@
       <p>隔离内网环境开发，无法做到像互联网开发一样轻而易举的获取各种依赖资源，集成其他 ORM 框架困难，另外在面对复杂的业务系统开发，ORM
         完全不现实，加上<b>信创</b>和<b>国产化</b>的到来，需要专业 DBA
         面对不同的<b>国产数据库</b>针对性优化 SQL，为 DBA 调优 SQL 配合开发者提供更多的便利，以满足统一管理、便于调用、调试、直观的特性，所以一个
-        SQL 小工具出现了，随着时间扩展功能，<b>Rabbit SQL</b> 由此诞生，通过 <a [routerLink]="['best-practice']">最佳实践</a> 来一起探索吧。</p>
+        SQL 小工具出现了，随着时间扩展功能，<b>Rabbit SQL</b> 由此诞生，通过 <a
+          [routerLink]="['best-practice']">最佳实践</a> 来一起探索吧。</p>
     </div>
     <div class="code">
       <pre>
@@ -19,31 +20,33 @@
     </div>
   </div>
 
-  <table mat-table [dataSource]="datasource">
+  <div class="table-wrapper">
+    <table mat-table [dataSource]="datasource">
 
-    <ng-container matColumnDef="feature">
-      <th mat-header-cell *matHeaderCellDef>特性</th>
-      <td mat-cell *matCellDef="let item">{{ item.feature }}</td>
-    </ng-container>
+      <ng-container matColumnDef="feature">
+        <th mat-header-cell *matHeaderCellDef>特性</th>
+        <td mat-cell *matCellDef="let item">{{ item.feature }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="rabbit">
-      <th mat-header-cell *matHeaderCellDef>Rabbit SQL</th>
-      <td mat-cell *matCellDef="let item">{{ item.rabbit }}</td>
-    </ng-container>
+      <ng-container matColumnDef="rabbit">
+        <th mat-header-cell *matHeaderCellDef>Rabbit SQL</th>
+        <td mat-cell *matCellDef="let item">{{ item.rabbit }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="mybatis">
-      <th mat-header-cell *matHeaderCellDef>MyBatis</th>
-      <td mat-cell *matCellDef="let item">{{ item.mybatis }}</td>
-    </ng-container>
+      <ng-container matColumnDef="mybatis">
+        <th mat-header-cell *matHeaderCellDef>MyBatis</th>
+        <td mat-cell *matCellDef="let item">{{ item.mybatis }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="jpa">
-      <th mat-header-cell *matHeaderCellDef>JPA</th>
-      <td mat-cell *matCellDef="let item">{{ item.jpa }}</td>
-    </ng-container>
+      <ng-container matColumnDef="jpa">
+        <th mat-header-cell *matHeaderCellDef>JPA</th>
+        <td mat-cell *matCellDef="let item">{{ item.jpa }}</td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
   <h2>值得吗？</h2>
   <p>这并不是说去替代其他的 ORM 框架，可以是另一个选择，也可以是融合使用（例如单表操作交给 JPA ，复杂查询交给 Rabbit
     SQL），并不冲突，各有优缺点。所以，我给出的建议是可以在自己的小项目或不太重要的功能点中试用，再进一步做出选择。</p>

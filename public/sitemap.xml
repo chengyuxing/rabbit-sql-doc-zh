@@ -22,5 +22,7 @@
   <url><loc>https://rabbitsql.cn/guides/jpa-supports.html</loc></url>
   <url><loc>https://rabbitsql.cn/guides/statement-value-handler-extends.html</loc></url>
   <url><loc>https://rabbitsql.cn/guides/redis-query-cache-manager.html</loc></url>
+  <url><loc>https://rabbitsql.cn/guides/memory-query-cache-manager.html</loc></url>
   <url><loc>https://rabbitsql.cn/guides/utils.html</loc></url>
+  <url><loc>https://rabbitsql.cn/guides/dynamic-routing-datasource.html</loc></url>
 </urlset>

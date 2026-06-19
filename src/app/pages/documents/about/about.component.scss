@@ -26,8 +26,13 @@
     }
   }
 
-  table {
-    width: 100%;
+  .table-wrapper {
+    overflow-x: auto;
+
+    table {
+      min-width: 700px;
+      width: 100%;
+    }
   }
 }
 
