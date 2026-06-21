@@ -1,0 +1,6 @@
+name = "rabbit-sql-doc-zh"
+compatibility_date = "2024-12-18"
+
+[[assets]]
+directory = "./dist/"
+binding = "ASSETS"
