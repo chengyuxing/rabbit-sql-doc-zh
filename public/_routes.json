@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "include": [
+    "/*"
+  ],
+  "exclude": [
+    "/datas/",
+    "/documents/",
+    "/guides/",
+    "/images/",
+    "/static-pages/",
+    "/*.js",
+    "/*.css",
+    "/*.svg",
+    "/*.xml",
+    "/*.txt",
+    "/*.png",
+    "/*.ico",
+    "/*.map",
+    "/*.ttf",
+    "/*.woff2",
+    "/*.json"
+  ]
+}
