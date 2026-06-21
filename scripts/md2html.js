@@ -4,7 +4,7 @@ const marked = require('marked');
 const pkg = require('../package.json');
 
 const config = {
-  outputDir: `./dist/${pkg.name}`,
+  outputDir: `./dist`,
 }
 
 const htmlTemplate = (title, body) => `<!doctype html>
