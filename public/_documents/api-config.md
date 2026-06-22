@@ -11,11 +11,11 @@ Baki 接口的默认实现。
 全局分页提供程序，通过实现此接口来支持更多的数据库分页，例如内置的实现并没有匹配人大金仓 、达梦等数据库，BakiDao内置通过 JDBC 驱动来获取数据库名称来决定使用哪个分页实现：
 
 ```java
-(databaseMetaData, dbName, namedParamPrefix) -> {
-   if (dbName.equals("kingbasees")) {
+(info, namedParamPrefix) -> {
+   if (info.getName().equals("kingbasees")) {
        return new PGPageHelper();
    }
-   if (dbName.equals("dm dbms")) {
+   if (info.getName().equals("dm dbms")) {
      return new OraclePageHelper();
    }
    return null;

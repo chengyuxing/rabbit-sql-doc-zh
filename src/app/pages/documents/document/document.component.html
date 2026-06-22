@@ -1,5 +1,5 @@
 @defer {
-  @if (resourceService.isDocsLoaded() && docUrl()) {
+  @if (resourceService.isDocsLoaded()) {
     <rabbit-sql-markdown [url]="docUrl()" top="64px" (anAction)="onAnAction($event)"/>
   }
 } @placeholder {

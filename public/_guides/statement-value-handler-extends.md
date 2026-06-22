@@ -5,7 +5,7 @@ Rabbit SQL 默认支持的值类型都比较少，在不同的框架中还有其
 ```java
 public class MyStatementValueHandler implements StatementValueHandler {
     @Override
-    public void handle(@NotNull PreparedStatement ps, @Range(from = 1, to = Integer.MAX_VALUE) int index, @Nullable Object value, @NotNull DatabaseMetaData metaData) throws SQLException {
+    public void handle(@NotNull PreparedStatement ps, @Range(from = 1, to = Integer.MAX_VALUE) int index, @Nullable Object value, @NotNull DatabaseInfo info) throws SQLException {
       // ...
       // 这是一个内部实现作为兜底的方法，除非完全自己实现
       JdbcUtil.setStatementValue(ps, index, value);
@@ -38,7 +38,7 @@ if (value instanceof Map<?, ?> || value instanceof List<?>) {
 还可以根据不同的数据库来针对性的处理值：
 
 ```java
-if(metaData.getDatabaseProductName().equalsIgnoreCase("postgresql")){
+if(info.getName().equals("postgresql")){
   // ...
 }
 ```
