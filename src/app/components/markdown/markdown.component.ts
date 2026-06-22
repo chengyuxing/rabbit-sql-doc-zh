@@ -43,7 +43,7 @@ import {appName} from '../../common/global';
 })
 export class MarkdownComponent implements AfterViewInit {
   top = input<string>('0px');
-  url = input.required<string>();
+  url = input<string | null>();
   anAction = output<string>();
 
   http = inject(HttpClient);
@@ -69,7 +69,9 @@ export class MarkdownComponent implements AfterViewInit {
       if (currentUrl) {
         this.currentHash = '';
         this.loadReadmeContent(currentUrl);
+        return;
       }
+      this.navToHome('资源未正确加载，请重试...');
     });
   }
 
@@ -133,7 +135,6 @@ export class MarkdownComponent implements AfterViewInit {
   }
 
   loadReadmeContent(url: string) {
-    console.log(url);
     this.loadingService.loading();
     this.http.get(url, {
       responseType: 'text'
@@ -144,8 +145,7 @@ export class MarkdownComponent implements AfterViewInit {
       this.loadingService.loaded();
     })).subscribe(res => {
       if (res === null) {
-        debugger
-        this.navToHome();
+        this.navToHome('没有找到文档，正在跳转...');
         return;
       }
       const html = marked(res) as string;
@@ -161,8 +161,8 @@ export class MarkdownComponent implements AfterViewInit {
     });
   }
 
-  navToHome() {
-    this.snack.open('没有找到文档，正在跳转...', 'x', {duration: 1500})
+  navToHome(msg: string) {
+    this.snack.open(msg, 'x', {duration: 1500})
       .afterDismissed().subscribe(() => {
       this.router.navigate(['../'], {relativeTo: this.route});
     });

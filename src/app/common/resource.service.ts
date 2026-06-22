@@ -1,4 +1,4 @@
-import {inject, Injectable} from '@angular/core';
+import {computed, inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Docs, Guide} from './types';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -11,23 +11,34 @@ export class ResourceService {
   http = inject(HttpClient);
   snack = inject(MatSnackBar);
 
-  private _docs: { host: string, resources: Docs[] } = {host: '', resources: []};
-  private _guides: { host: string, resources: Guide[] } = {host: '', resources: []};
+  private _docs = signal<{ host: string, resources: Docs[] } | null>(null);
+  private _guides = signal<{ host: string, resources: Guide[] } | null>(null);
+
+  readonly isDocsLoaded = computed(() => !!this._docs());
+  readonly isGuidesLoaded = computed(() => !!this._guides());
 
   get docs() {
-    return this._docs.resources;
+    return this._docs()?.resources || [];
   }
 
   get guides() {
-    return this._guides.resources;
+    return this._guides()?.resources || [];
   }
 
   geDocFileUrl(id: string) {
-    return `${this._docs.host}${id}.md`;
+    const host = this._docs()?.host;
+    if (!host) {
+      return null;
+    }
+    return `${host}${id}.md`;
   }
 
   getGuideFileUrl(id: string) {
-    return `${this._guides.host}${id}.md`;
+    const host = this._guides()?.host;
+    if (!host) {
+      return null;
+    }
+    return `${host}${id}.md`;
   }
 
   constructor() {
@@ -38,7 +49,7 @@ export class ResourceService {
       return of(null)
     })).subscribe((res) => {
       if (res) {
-        this._docs = res;
+        this._docs.set(res);
       }
     });
     this.http.get<{ host: string, resources: Guide[] }>('datas/guides.json', {
@@ -48,7 +59,7 @@ export class ResourceService {
       return of(null);
     })).subscribe((res) => {
       if (res) {
-        this._guides = res;
+        this._guides.set(res);
       }
     })
   }

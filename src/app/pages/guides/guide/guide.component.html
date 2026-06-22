@@ -1,6 +1,8 @@
 <div class="container">
   @defer {
-    <rabbit-sql-markdown [url]="resourceService.getGuideFileUrl(id())" top="64px" (anAction)="onAnAction($event)"/>
+    @if (resourceService.isGuidesLoaded()) {
+      <rabbit-sql-markdown [url]="guideUrl()" top="64px" (anAction)="onAnAction($event)"/>
+    }
   } @placeholder {
     <p style="padding: 40px">☕️ 正在准备文档...</p>
   } @loading {
