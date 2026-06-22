@@ -12,14 +12,14 @@ export class ResourceService {
   http = inject(HttpClient);
   snack = inject(MatSnackBar);
 
-  private _docs = toSignal(this.http.get<{ host: string, resources: Docs[] }>('datas/docs.json', {
+  readonly _docs = toSignal(this.http.get<{ host: string, resources: Docs[] }>('datas/docs.json', {
     responseType: 'json'
   }).pipe(catchError(err => {
     this.snack.open(`[${err.status}] 加载资源错误：${err.statusText}`, 'x', {duration: 3000});
     return of(null)
   })));
 
-  private _guides = toSignal(this.http.get<{ host: string, resources: Guide[] }>('datas/guides.json', {
+  readonly _guides = toSignal(this.http.get<{ host: string, resources: Guide[] }>('datas/guides.json', {
     responseType: 'json'
   }).pipe(catchError(err => {
     this.snack.open(`[${err.status}] 加载资源错误：${err.statusText}`, 'x', {duration: 3000});
