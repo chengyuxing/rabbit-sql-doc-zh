@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://rabbitsql.cn/</loc></url>
+  <url><loc>https://rabbit-sql.com/</loc></url>
 
-  <url><loc>https://rabbitsql.cn/static-pages/documents/baki.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/documents/dynamic-sql.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/documents/best-practice.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/documents/xql-file-manager.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/documents/api-config.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/documents/sql-params.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/documents/transaction.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/documents/with-spring-boot.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/documents/xql-interface-mapping.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/documents/changes.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/documents/rabbit-sql-cli.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/documents/baki.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/documents/dynamic-sql.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/documents/best-practice.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/documents/xql-file-manager.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/documents/api-config.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/documents/sql-params.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/documents/transaction.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/documents/with-spring-boot.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/documents/xql-interface-mapping.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/documents/changes.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/documents/rabbit-sql-cli.html</loc></url>
 
-  <url><loc>https://rabbitsql.cn/static-pages/guides/initialization.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/guides/dynamic-sql-details.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/guides/spring-boot-starter.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/guides/plugin.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/guides/prepared-sql.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/guides/jpa-supports.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/guides/statement-value-handler-extends.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/guides/redis-query-cache-manager.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/guides/memory-query-cache-manager.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/guides/utils.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/guides/dynamic-routing-datasource.html</loc></url>
-  <url><loc>https://rabbitsql.cn/static-pages/guides/sql-template.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/guides/initialization.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/guides/dynamic-sql-details.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/guides/spring-boot-starter.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/guides/plugin.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/guides/prepared-sql.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/guides/jpa-supports.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/guides/statement-value-handler-extends.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/guides/redis-query-cache-manager.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/guides/memory-query-cache-manager.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/guides/utils.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/guides/dynamic-routing-datasource.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/guides/sql-template.html</loc></url>
 </urlset>
