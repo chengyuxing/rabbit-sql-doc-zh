@@ -1,5 +1,5 @@
 {
-  "host": "guides/",
+  "host": "_guides/",
   "resources": [
     {
       "id": "initialization",

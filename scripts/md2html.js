@@ -154,5 +154,5 @@ function convertMdFiles(dir) {
   });
 }
 
-convertMdFiles('./public/documents');
-convertMdFiles('./public/guides');
+convertMdFiles('./public/_documents');
+convertMdFiles('./public/_guides');
