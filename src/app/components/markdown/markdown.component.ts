@@ -133,6 +133,7 @@ export class MarkdownComponent implements AfterViewInit {
   }
 
   loadReadmeContent(url: string) {
+    console.log(url);
     this.loadingService.loading();
     this.http.get(url, {
       responseType: 'text'
@@ -143,6 +144,7 @@ export class MarkdownComponent implements AfterViewInit {
       this.loadingService.loaded();
     })).subscribe(res => {
       if (res === null) {
+        debugger
         this.navToHome();
         return;
       }
