@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "pnpm run copyHljsStyles && ng serve",
+    "start": "ng serve",
     "buildHtml": "node scripts/md2html.js",
     "build": "ng build && pnpm run buildHtml",
     "copyHljsStyles": "cp ./node_modules/highlight.js/styles/github.css ./node_modules/highlight.js/styles/github-dark.css ./public/hljs-styles/",
@@ -25,7 +25,7 @@
     "angularx-qrcode": "19.0.0",
     "highlight.js": "11.8.0",
     "marked": "^15.0.12",
-    "mermaid": "^11.7.0",
+    "mermaid": "11.15.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
