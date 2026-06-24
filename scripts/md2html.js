@@ -129,7 +129,7 @@ ${body}
 </body>
 </html>`;
 
-function convertMdFiles(dir) {
+function convertMdFiles(dir, call) {
   if (!fs.existsSync(config.outputDir)) {
     fs.mkdirSync(config.outputDir, {recursive: true});
   }
@@ -150,9 +150,32 @@ function convertMdFiles(dir) {
       }
       fs.writeFileSync(outputFullName, htmlTemplate(file.name.replace(/\.md$/, ''), htmlContent));
       console.log(`Completed: ${fullPath} --> ${outputFullName}`);
+      if (call) {
+        call(outputFullName);
+      }
     }
   });
 }
 
+function createIndexPage() {
+  const docs = JSON.parse(fs.readFileSync('./public/datas/docs.json', 'utf8'));
+  const guides = JSON.parse(fs.readFileSync('./public/datas/guides.json', 'utf8'));
+
+  const docElem = docs.resources.map(item => `<li><a href="static-pages/${docs.host}${item.id}.html" target="_blank">${item.title}</a></li>`).join('');
+  const guideElem = guides.resources.map(item => `<li><a href="static-pages/${guides.host}${item.id}.html" target="_blank">${item.title}</a> - <i>${item.description}</i></li>`).join('');
+
+  const content = `<h1>回退静态站点</h1>
+  <p>浏览器版本过低，无法正常进入本站，建议至少升级至 Chrome 100+，Safari 17+，Edge 100+ 版本浏览器以获得正常的体验！</p>
+  <h2>文档</h2>
+  <ul>${docElem}</ul>
+  <h2>指南</h2>
+  <ul>${guideElem}</ul>`
+  ;
+
+  const indexHtml = htmlTemplate('静态站点', content);
+  fs.writeFileSync(path.join(config.outputDir, 'index.html'), indexHtml);
+}
+
 convertMdFiles('./public/_documents');
 convertMdFiles('./public/_guides');
+createIndexPage();

@@ -2,6 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://rabbit-sql.com/</loc></url>
 
+  <url><loc>https://rabbit-sql.com/static-pages/index.html</loc></url>
+
   <url><loc>https://rabbit-sql.com/static-pages/_documents/baki.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/dynamic-sql.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice.html</loc></url>
