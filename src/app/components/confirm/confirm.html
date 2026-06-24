@@ -4,5 +4,5 @@
 <mat-dialog-content>{{ data.content }}</mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-raised-button color="primary" (click)="dialogRef.close(true)">确定</button>
-  <button mat-button (click)="dialogRef.close()">取消</button>
+  <button mat-button (click)="dialogRef.close()" class="btn-cancel">取消</button>
 </mat-dialog-actions>

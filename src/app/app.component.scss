@@ -27,7 +27,7 @@ mat-toolbar {
   }
 
   button {
-    color: white;
+    color: var(--text-default-color);
     margin-left: 4px;
   }
 }
@@ -44,7 +44,7 @@ mat-toolbar {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 540px) {
   mat-toolbar {
     > .menus {
       display: none;

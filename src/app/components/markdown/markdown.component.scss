@@ -1,6 +1,7 @@
 @use "src/variables" as variables;
 
 .markdown {
+  color: var(--text-color);
   display: flex;
   align-items: flex-start;
 
@@ -21,8 +22,12 @@
       padding-bottom: 8px;
       padding-top: 8px;
       position: sticky;
-      background-color: white;
+      background-color: var(--bg-color);
       z-index: 1;
+
+      > button {
+        color: var(--text-color);
+      }
     }
 
     > article {
@@ -90,10 +95,10 @@
       }
 
       code:not(.hljs) {
-        background-color: #f1e5fb;
+        background-color: var(--marking-color);
         padding: 4px 6px;
         border-radius: 4px;
-        color: #191919;
+        color: var(--text-color);
         overflow-wrap: anywhere;
       }
 
@@ -153,7 +158,7 @@
 
             th {
               padding: 0 16px;
-              border-bottom-color: rgba(0, 0, 0, 0.12);
+              border-bottom-color: var(--td-border-color);
               border-bottom-width: 1px;
               border-bottom-style: solid;
               letter-spacing: 0.006rem;
@@ -169,7 +174,7 @@
 
             td {
               padding: 0 16px;
-              border-bottom-color: rgba(0, 0, 0, 0.12);
+              border-bottom-color: var(--td-border-color);
               border-bottom-width: 1px;
               border-bottom-style: solid;
               letter-spacing: 0.015rem;
@@ -224,7 +229,7 @@
         a {
           text-decoration: none;
           font-size: 14px;
-          color: rgb(32, 32, 32);
+          color: var(--text-color);
           padding: 4px 0;
 
           &:hover {

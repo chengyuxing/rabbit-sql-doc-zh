@@ -18,6 +18,19 @@
   <meta property="og:url" content="https://rabbit-sql.com">
   <meta property="og:type" content="website">
   <link rel="icon" type="image/svg+xml" href="images/rabbit-sql.svg">
+  <link rel="stylesheet" id="hljs-theme">
+  <script>
+    (() => {
+      const themeMode = localStorage.getItem('theme');
+      let isDark;
+      if (!themeMode || themeMode === 'contrast') {
+        isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      } else {
+        isDark = themeMode === 'dark_mode';
+      }
+      document.documentElement.classList.toggle("dark", isDark);
+    })();
+  </script>
 </head>
 <body class="mat-typography">
 <rabbit-sql-root>

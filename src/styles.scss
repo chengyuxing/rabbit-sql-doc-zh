@@ -84,6 +84,59 @@ $theme: mat.m2-define-light-theme((
   src: url(../public/google-font-icon.woff2) format('woff2');
 }
 
+:root {
+  --bg-color: #fff;
+  --text-color: #2e2e2e;
+  --text-default-color: #ededed;
+  --text-secondary-color: #888888;
+  --marking-color: #f1e5fb;
+  --td-border-color: rgba(0, 0, 0, 0.12);
+  --link-color: #7e2dbf;
+  --mask-color: #ebd0ff;
+
+  @include mat.toolbar-overrides((
+    container-background-color: #7e2dbf,
+    container-text-color: var(--text-color),
+  ));
+}
+
+html.dark {
+  --bg-color: #1e1e1e;
+  --text-color: #E0E0E0;
+  --text-secondary-color: #A0A0A0;
+  --marking-color: #402854;
+  --td-border-color: rgba(228, 228, 228, 0.12);
+  --link-color: #9751d1;
+  --mask-color: rgba(117, 30, 255, .22);
+
+  @include mat.toolbar-overrides((
+    container-background-color: #5a1e8c,
+    container-text-color: var(--text-color),
+  ));
+  @include mat.table-overrides((
+    background-color: var(--bg-color),
+    row-item-label-text-color: var(--text-color),
+    header-headline-color: var(--text-color),
+    row-item-outline-color: var(--td-border-color),
+  ));
+  @include mat.divider-overrides((
+    color: var(--td-border-color),
+  ));
+  @include mat.card-overrides((
+    elevated-container-color: var(--td-border-color),
+  ));
+  @include mat.menu-overrides((
+    container-color: #3a3a3a,
+    item-label-text-color: var(--text-color),
+    item-icon-color: var(--text-color)
+  ));
+  @include mat.dialog-overrides((
+    container-color: #3a3a3a,
+    subhead-color: var(--text-color),
+    supporting-text-color: var(--text-color),
+  ));
+}
+
 .material-icons {
   font-family: 'Material Icons', sans-serif;
   font-weight: normal;
@@ -104,6 +157,7 @@ $theme: mat.m2-define-light-theme((
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--bg-color);
 }
 
 p {
@@ -119,8 +173,12 @@ p {
   background-color: rgba(0, 0, 0, .2) !important;
 }
 
-p, h2, h3 {
-  color: rgb(68, 71, 78);
+a {
+  color: var(--link-color);
+}
+
+p, h1, h2, h3 {
+  color: var(--text-color);
 }
 
 .slide-container {
@@ -165,11 +223,4 @@ p, h2, h3 {
   .print-section, .print-section * {
     visibility: visible;
   }
-}
-
-:root {
-  @include mat.toolbar-overrides((
-    container-background-color: #7e2dbf,
-    container-text-color: #ffffff,
-  ));
 }

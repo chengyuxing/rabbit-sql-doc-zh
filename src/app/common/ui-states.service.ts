@@ -6,6 +6,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 })
 export class UiStatesService {
   private showDocumentToggleBtn$ = new BehaviorSubject<boolean>(true);
+  private printing$ = new BehaviorSubject<boolean>(false);
 
   get showDocumentToggleBtn(): Observable<boolean> {
     return this.showDocumentToggleBtn$.asObservable();
@@ -15,7 +16,15 @@ export class UiStatesService {
     return this.showDocumentToggleBtn$.getValue();
   }
 
+  get isPrinting() {
+    return this.printing$.getValue();
+  }
+
   setShowDocumentToggleBtn(show: boolean) {
     this.showDocumentToggleBtn$.next(show);
+  }
+
+  setPrinting(state: boolean) {
+    this.printing$.next(state);
   }
 }

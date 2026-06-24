@@ -2,7 +2,7 @@ import {
   AfterViewInit,
   Component, effect, HostListener,
   inject,
-  input,
+  input, OnInit,
   output, ViewEncapsulation
 } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
@@ -24,6 +24,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {QrcodeComponent} from '../qrcode/qrcode.component';
 import {Confirm} from '../confirm/confirm';
 import {appName} from '../../common/global';
+import {ThemeService} from '../../common/theme.service';
+import {UiStatesService} from '../../common/ui-states.service';
 
 @Component({
   selector: 'rabbit-sql-markdown',
@@ -41,7 +43,7 @@ import {appName} from '../../common/global';
   styleUrl: './markdown.component.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class MarkdownComponent implements AfterViewInit {
+export class MarkdownComponent implements AfterViewInit, OnInit {
   top = input<string>('0px');
   url = input<string | null>();
   anAction = output<string>();
@@ -53,6 +55,8 @@ export class MarkdownComponent implements AfterViewInit {
   snack = inject(MatSnackBar);
   title = inject(Title);
   dialog = inject(MatDialog);
+  themeService = inject(ThemeService);
+  uiStatesService = inject(UiStatesService);
 
   content?: string;
   titles: MarkDownHead[] = [];
@@ -75,7 +79,22 @@ export class MarkdownComponent implements AfterViewInit {
     });
   }
 
+  ngOnInit(): void {
+    window.addEventListener('beforeprint', () => {
+      this.uiStatesService.setPrinting(true);
+    });
+    window.addEventListener('afterprint', () => {
+      this.uiStatesService.setPrinting(false);
+    });
+  }
+
   ngAfterViewInit(): void {
+    this.themeService.observe().subscribe(() => {
+      if (this.content) {
+        this.content = this.content + `<!-- render:${Date.now()} -->`;
+      }
+      this.rerenderMermaid();
+    });
     this.route.fragment.subscribe(id => {
       if (id) {
         this.currentHash = id;
@@ -84,7 +103,6 @@ export class MarkdownComponent implements AfterViewInit {
         }
       }
     });
-    mermaid.initialize({startOnLoad: true});
   }
 
   @HostListener('click', ['$event', '$event.target', '$event.target.classList'])
@@ -157,7 +175,16 @@ export class MarkdownComponent implements AfterViewInit {
         this.title.setTitle(appName);
       }
       this.content = myContent;
-      setTimeout(() => mermaid.contentLoaded(), 50);
+      this.rerenderMermaid();
+    });
+  }
+
+  rerenderMermaid() {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        mermaid.run({querySelector: '.mermaid'}).then(() => {
+        })
+      });
     });
   }
 
@@ -254,6 +281,10 @@ export class MarkdownComponent implements AfterViewInit {
         wrap.insertAdjacentElement('afterbegin', table);
       }
     }
+    const version = document.createElement('input');
+    version.type = 'hidden';
+    version.id = 'render-' + Date.now();
+    div.appendChild(version);
     return div.innerHTML;
   }
 
@@ -267,8 +298,10 @@ export class MarkdownComponent implements AfterViewInit {
   }
 
   download() {
-    window.scrollTo({top: 0})
-    setTimeout(() => window.print(), 100);
+    window.scrollTo({top: 0});
+    setTimeout(() => {
+      window.print();
+    }, 100);
   }
 
   copyLink() {

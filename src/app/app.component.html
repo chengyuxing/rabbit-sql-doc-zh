@@ -49,6 +49,19 @@
     <mat-menu #versionMenu=matMenu>
       <a mat-menu-item>10.3.9 (latest)</a>
     </mat-menu>
+
+    <button mat-icon-button [matMenuTriggerFor]="themeMenu" [matTooltip]="'切换主题'">
+      <mat-icon>{{ currentTheme }}</mat-icon>
+    </button>
+    <mat-menu #themeMenu=matMenu>
+      @for (mode of themeMode; track mode.icon) {
+        <button mat-menu-item (click)="toggleTheme(mode.icon)" [disabled]="currentTheme === mode.icon">
+          <mat-icon>{{ mode.icon }}</mat-icon>
+          {{ mode.name }}
+        </button>
+      }
+    </mat-menu>
+
     <a mat-icon-button [href]="github" target="_blank" matTooltip="Github">
       <mat-icon svgIcon="github"></mat-icon>
     </a>

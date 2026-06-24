@@ -3,7 +3,7 @@ header {
   flex-direction: column;
   align-items: center;
   position: relative;
-  background-color: #ebd0ff;
+  background-color: var(--mask-color);
   z-index: 1;
 
   &:before {
@@ -44,6 +44,10 @@ header {
     .actions {
       display: flex;
       flex-direction: row;
+
+      a {
+        color: var(--text-default-color);
+      }
 
       & a + a {
         margin-left: 40px;
@@ -101,6 +105,10 @@ mat-divider {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  > a {
+    color: var(--text-color);
+  }
 }
 
 .introduction {
