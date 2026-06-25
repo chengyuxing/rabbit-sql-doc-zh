@@ -9,7 +9,7 @@ const config = {
 const htmlTemplate = (title, body) => `<!doctype html>
 <html lang="en">
 <head>
-  <base href="/">
+  <base href="/${process.argv[2] || ''}">
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -175,6 +175,10 @@ function createIndexPage() {
   const indexHtml = htmlTemplate('静态站点', content);
   fs.writeFileSync(path.join(config.outputDir, 'index.html'), indexHtml);
 }
+
+console.log("----------------")
+console.log(process.argv);
+console.log("----------------")
 
 convertMdFiles('./public/_documents');
 convertMdFiles('./public/_guides');

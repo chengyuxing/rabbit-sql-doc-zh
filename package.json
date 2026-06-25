@@ -6,6 +6,7 @@
     "start": "ng serve",
     "buildHtml": "node scripts/md2html.js",
     "build": "ng build && pnpm run buildHtml",
+    "build:slave": "ng build --base-href=/$BASE_HREF && pnpm run buildHtml $BASE_HREF",
     "copyHljsStyles": "cp ./node_modules/highlight.js/styles/github.css ./node_modules/highlight.js/styles/github-dark.css ./public/hljs-styles/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
