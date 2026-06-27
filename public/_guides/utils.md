@@ -95,6 +95,7 @@ MostDateTime of(String datetime)
 - `yyyy[-/年]MM[-/月]dd[日]`
 - `yyyy[-/年]MM[-/月]dd[日] HH[:时点]mm[:分]ss[秒]`
 - `yyyy[-/]MM[-/]dd HH:mm:ss.[SSS|ffffff|nnnnnnnnn]`
+- 中文日期，例如： `二〇二六年六月二十六日`
 - ISO ，例如： `2019-09-26T03:45:36.656+0800`
 - RFC_1123 ， 例如： `Wed, 04 Jan 2023 09:36:48 GMT`
 - RFC-like ， 例如： `Wed Jan 04 2023 17:36:48 GMT+0800`

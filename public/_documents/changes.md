@@ -1,5 +1,13 @@
 # 框架变更日志
 
+# 10.3.10
+
+- ✅ 工具类增加方法：`StringUtils#forechWindow` （遍历匹配项周围一个区域的文本）
+- ✅ `MostDateTime` 支持解析中文字符日期格式，例如：`二〇二六年六月二十六日` ，日期时间提取识别更宽松
+- ✅ `rabbit-sql-spring-boot-starter` 更新版本 `5.3.10`
+- ✅ **Rabbit SQL CLI** `3.0.1` 支持除存储过程/函数以外的 SQL 和 redis 查询结果导出文件（连接 redis 至少需要 jdk11）
+- ✅ 对核心功能进行了一些优化
+
 # 10.3.9
 
 - ✅ 新增属性接口： `BakiDao#databaseInfoProvider` ，在动态数据源框架下，无需重写 `BakiDao#databaseInfo` 

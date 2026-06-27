@@ -3,7 +3,7 @@
 以 Spring Boot 框架为例，将动态路由数据源整合进 BakiDao 中，无侵入式的使用动态路由数据源，需要准备以下几点：
 
 1. 使用 Spring Boot 框架
-2. 引入 `rabbit-sql-spring-boot-starter` 版本 5.3.9+
+2. 引入 `rabbit-sql-spring-boot-starter` 版本 5.3.10+
 3. 引入一个[动态路由数据源](https://github.com/baomidou/dynamic-datasource)例如：`dynamic-datasource-spring-boot-starter`
 4. 重写 `BakiDao` 相关方法
 5. 添加到 Spring 上下文容器中
