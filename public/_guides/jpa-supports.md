@@ -40,9 +40,19 @@ public String tableName(Class<?> clazz) {
 }
 ```
 
-基于单表对实体字段名和表列名的映射解析，以及 JPA 注解属性含义对列的约束逻辑，其核心注解有： `@Id` ， `@Column` ， `@Transient` 。
+基于单表对实体字段名和表列名的映射解析，以及 JPA 注解属性含义对列的约束逻辑，其核心注解有： `@Id` ， `@Column` ， `@Transient` ，`@GeneratedValue` 。
 
-`ColumnMeta` 中的几个属性分别对应了 `@Column` 的属性 `insertable` 和 `updatable` 作为约束实体操作的插入和更新，`@Id` 作为标记主键对每个实体的强制约束，`@Transient` 标记的列根据 JPA 的含义应被忽略，对应列元数据属性 `ignore` ，Rabbit SQL 的核心接口方法 `Baki#entity()` 会根据这些规则来约束实体的操作：
+`ColumnMeta` 中的几个属性分别对应了：
+
+-  `@Column` 的属性 `insertable` 和 `updatable` 作为约束实体操作的插入和更新
+
+- `@Id` 作为标记主键 `primaryKey` 对每个实体的强制约束
+
+-  `@GeneratedValue` 主键生成策略 `idGenerateStrategy` 搭配 `@Id` ，支持 `IDENTITY` 数据库自动递增或序列默认值，作用于插入语句是否应该包含主键列（**rabbit sql 10.3.11+，starter 5.3.11+**）
+
+- `@Transient` 标记的列根据 JPA 的含义应被忽略，对应列元数据属性 `ignore` 
+
+Rabbit SQL 的核心接口方法 `Baki#entity()` 会根据这些规则来约束实体的操作：
 
 ```java
 @Override
@@ -57,6 +67,12 @@ public EntityManager.ColumnMeta columnMeta(Field field) {
         columnMeta.setUpdatable(column.updatable());
     }
     columnMeta.setPrimaryKey(field.isAnnotationPresent(Id.class));
+    if (field.isAnnotationPresent(GeneratedValue.class)) {
+        GeneratedValue generatedValue = field.getAnnotation(GeneratedValue.class);
+        if (generatedValue.strategy() == GenerationType.IDENTITY) {
+            columnMeta.setIdGenerateStrategy(EntityManager.IdGenerateStrategy.IDENTITY);
+        }
+    }
     columnMeta.setIgnore(field.isAnnotationPresent(Transient.class));
     return columnMeta;
 }
