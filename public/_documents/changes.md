@@ -2,13 +2,16 @@
 
 # 10.3.12
 
-- 分页查询逻辑优化
-- XQL 文件结构化解析逻辑优化
-- SQL 构建器优化
+- ✅ 分页查询逻辑优化
+- ✅ XQL 文件结构化解析逻辑优化
+- ✅ SQL 构建器优化
 - 实体管理器 `EntityManager` ：
-  - 构建 SQL 逻辑优化，提升性能
-  - `EntityMeta` 增加主键生成策略，支持类型 `IDENTITY` ，对应 JPA 注解 `@GeneratedValue` 的策略，在执行 `insert` 时，不包含此列，默认为数据库的自增或序列
-- 喝了一瓶可乐
+  - ✅ 构建 SQL 逻辑优化，提升性能
+  - ✅ `EntityMeta` 增加主键生成策略，支持类型 `IDENTITY` ，对应 JPA 注解 `@GeneratedValue` 的策略，在执行 `insert` 时，不包含此列，默认为数据库的自增或序列
+- ✅ `rabbit-sql-spring-boot-starter` 更新版本 `5.3.12`
+- ✅ **Rabbit SQL CLI** 更新版本 `3.0.2`
+- ✅ 对整体核心功能进行了一些优化
+- 🥤 喝了一瓶可乐
 
 # 10.3.10
 
