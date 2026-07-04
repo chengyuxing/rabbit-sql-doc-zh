@@ -48,7 +48,7 @@ public String tableName(Class<?> clazz) {
 
 - `@Id` 作为标记主键 `primaryKey` 对每个实体的强制约束
 
--  `@GeneratedValue` 主键生成策略 `idGenerateStrategy` 搭配 `@Id` ，支持 `IDENTITY` 数据库自动递增或序列默认值，作用于插入语句是否应该包含主键列（**rabbit sql 10.3.11+，starter 5.3.11+**）
+-  `@GeneratedValue` 主键生成策略 `idGenerateStrategy` 搭配 `@Id` ，支持 `IDENTITY` 数据库自动递增或序列默认值，作用于插入语句是否应该包含主键列（**rabbit sql 10.3.12+，starter 5.3.12+**）
 
 - `@Transient` 标记的列根据 JPA 的含义应被忽略，对应列元数据属性 `ignore` 
 
