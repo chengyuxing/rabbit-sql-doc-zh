@@ -226,11 +226,8 @@ export class MarkdownComponent implements AfterViewInit, OnInit {
         if (lang) {
           if (lang === 'mermaid') {
             if (parent && parent.tagName === 'PRE') {
-              const mermaidPre = document.createElement('pre');
-              mermaidPre.className = "mermaid";
-              mermaidPre.innerHTML = codeBlock.innerHTML;
-              parent.style.display = 'none';
-              parent.insertAdjacentElement('beforebegin', mermaidPre);
+              parent.className = lang;
+              parent.innerHTML = codeBlock.innerHTML;
             }
             continue;
           }
