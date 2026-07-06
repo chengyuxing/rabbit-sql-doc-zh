@@ -1,5 +1,10 @@
 # 框架变更日志
 
+# rabbit-sql-spring-boot-starter
+
+- ✅ XQL 映射接口动态代理注入逻辑优化
+- ✅ 更新版本 `5.3.13`
+
 # 10.3.12
 
 - ✅ 分页查询逻辑优化
@@ -9,7 +14,7 @@
   - ✅ 构建 SQL 逻辑优化，提升性能
   - ✅ `EntityMeta` 增加主键生成策略，支持类型 `IDENTITY` ，对应 JPA 注解 `@GeneratedValue` 的策略，在执行 `insert` 时，不包含此列，默认为数据库的自增或序列
 - ✅ `rabbit-sql-spring-boot-starter` 更新版本 `5.3.12`
-- ✅ **Rabbit SQL CLI** [Releases](https://github.com/chengyuxing/sqlc/releases) 更新版本 `3.0.2` 
+- ✅ **Rabbit SQL CLI** [Releases](https://github.com/chengyuxing/sqlc/releases) 更新版本 `3.0.2`
 - ✅ 对整体核心功能进行了一些优化
 - 🥤 喝了一瓶可乐
 
@@ -23,7 +28,7 @@
 
 # 10.3.9
 
-- ✅ 新增属性接口： `BakiDao#databaseInfoProvider` ，在动态数据源框架下，无需重写 `BakiDao#databaseInfo` 
+- ✅ 新增属性接口： `BakiDao#databaseInfoProvider` ，在动态数据源框架下，无需重写 `BakiDao#databaseInfo`
 - ✅ `BakiDao#executionWatcher` 环绕执行器优化
 - ❌ 删除接口 `ExecutionWatcher`
 - ✅ `rabbit-sql-spring-boot-starter` 更新版本 `5.3.9`
@@ -111,7 +116,10 @@
 ⚠️ 动态 SQL `#for` 指令语法调整，最新的语法结构为：
 
 ```sql
-#for item of :list [| pipe1 | pipeN | ... ] [;index as i] [;last as isLast] ...
+#for
+item of :list [| pipe1 | pipeN | ... ] [;index
+as i] [;
+last as isLast] ...
 ...
 #done
 ```
