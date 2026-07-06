@@ -2,7 +2,7 @@
 
 # rabbit-sql-spring-boot-starter
 
-- ✅ XQL 映射接口动态代理注入逻辑优化
+- ✅ XQL 接口映射动态代理注入逻辑优化
 - ✅ 更新版本 `5.3.13`
 
 # 10.3.12
