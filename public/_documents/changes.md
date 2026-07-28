@@ -1,6 +1,6 @@
 # 框架变更日志
 
-# 10.3.13
+## 10.3.13
 
 - ❌ 动态 SQL 脚本解析器移除内置管道 `type`
 - ✅ `FileResource` 优化，增加 `ConnectionInterceptor` 支持配置请求 HTTP 类型资源的参数选项
@@ -15,7 +15,7 @@
 - ✅ XQL 接口映射支持批量执行标记 `XQL type = batch` 返回类型为 `BatchResult` 的方法
 - ✅ `rabbit-sql-spring-boot-starter` 更新版本 `5.3.14`
 
-## 插件工具
+### 插件工具
 
 - ✅ **Rabbit SQL CLI** [Releases](https://github.com/chengyuxing/sqlc/releases) 更新版本 `3.0.3`
 - IDEA 插件 **Rabbit SQL** 更新版本 `2.4.59` ，新增特性和优化如下：
@@ -35,12 +35,12 @@
   - ✅ 弹窗 UI 表单布局调整优化
   - ✅ 一些代码和逻辑优化
 
-# rabbit-sql-spring-boot-starter
+## rabbit-sql-spring-boot-starter
 
 - ✅ XQL 接口映射动态代理注入逻辑优化
 - ✅ 更新版本 `5.3.13`
 
-# 10.3.12
+## 10.3.12
 
 - ✅ 分页查询逻辑优化
 - ✅ XQL 文件结构化解析逻辑优化
@@ -53,7 +53,7 @@
 - ✅ 对整体核心功能进行了一些优化
 - 🥤 喝了一瓶可乐
 
-# 10.3.10
+## 10.3.10
 
 - ✅ 工具类增加方法：`StringUtils#forechWindow` （遍历匹配项周围一个区域的文本）
 - ✅ `MostDateTime` 支持解析中文字符日期格式，例如：`二〇二六年六月二十六日` ，日期时间提取识别更宽松
@@ -61,7 +61,7 @@
 - ✅ **Rabbit SQL CLI** `3.0.1` 支持除存储过程/函数以外的 SQL 和 redis 查询结果导出文件（连接 redis 至少需要 jdk11）
 - ✅ 对核心功能进行了一些优化
 
-# 10.3.9
+## 10.3.9
 
 - ✅ 新增属性接口： `BakiDao#databaseInfoProvider` ，在动态数据源框架下，无需重写 `BakiDao#databaseInfo`
 - ✅ `BakiDao#executionWatcher` 环绕执行器优化
@@ -71,7 +71,7 @@
   - ✅ 增加自动装配 `DatabaseInfoProvider` 接口 Bean
   - ⚠️ 自动装配 `ExecutionWatcher` 改为 `AroundExecutor<Execution>`
 
-# 10.3.8
+## 10.3.8
 
 - ✅ 修改方法：`IPageable#disableDefaultPageSql` 接收2个参数 `start` 和 `end`
 - ❌ 移除方法：`IPageable#rewriteDefaultPageArgs`
@@ -82,7 +82,7 @@
   - ✅ 接口代码生成器返回类型分页查询支持配置 `@PageableConfig` 注解属性，用以实现自定义分页 SQL 配置自由度
     ![](../images/return-types.png)
 
-# 10.3.7
+## 10.3.7
 
 - ✅ 修复只有一个关键字时 SQL 高亮产生的bug
 - ✅ XQL 内联模版引用格式化优化
@@ -94,7 +94,7 @@
 - ⚠️ 动态 SQL 运行时常量 `_databaseId` 具体类型改为 `com.github.chengyuxing.sql.types.DatabaseInfo` ，通过 `_databaseId.name` 获取数据库名字
 - ✅ 新增命令行版本工具：**Rabbit SQL CLI**，支持 Linux/macOS/Windows 等终端
 
-# 10.3.3
+## 10.3.3
 
 - ✅ 修复了当 JDBC 驱动不支持设置 `queryTimeout` 属性时抛出异常错误的问题，若 `BakiDao#queryTimeoutHandler` 返回 0，则不进行设置
 
