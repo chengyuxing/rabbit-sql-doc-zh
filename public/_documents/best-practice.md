@@ -23,7 +23,7 @@ _java 8+_
 <dependency>
     <groupId>com.github.chengyuxing</groupId>
     <artifactId>rabbit-sql-spring-boot-starter</artifactId>
-    <version>5.3.13</version>
+    <version>5.3.14</version>
 </dependency>
 ```
 
@@ -297,10 +297,6 @@ public void b(){
 ##### 批量操作
 
 对于批量插入、更新等操作，推荐使用批量提交，减少数据库的网络交互次数，提升性能。
-
-```java
-baki.insert("&<sql名>", <Collection>);
-```
 
 ```java
 baki.execute("&<sql名>", <Collection>);

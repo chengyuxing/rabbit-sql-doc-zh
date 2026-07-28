@@ -1,5 +1,40 @@
 # 框架变更日志
 
+# 10.3.13
+
+- ❌ 动态 SQL 脚本解析器移除内置管道 `type`
+- ✅ `FileResource` 优化，增加 `ConnectionInterceptor` 支持配置请求 HTTP 类型资源的参数选项
+- ✅ SQL 高亮优化，支持内联模版、元数据定义高亮
+- ✅ 对象路径表达式新增语法 `['key']` 支持获取 Map 中指定键名的数据，例如： `user.name['first-name']`
+- ✅ 新增方法：`DataRow#walkAs` 支持目录表达式获取值 `user/addresses/0`
+- ✅ 修复 XQL 接口映射查询方法返回 `Boolean` 类型的 bug
+- ⚠️ `BakiDao#executionWatcher` 优化，方法重命名：`onStart` -> `before` , `onStop` -> `after`
+- ✅ XQL 元数据 `-- @name value` 解析优化，逻辑调整为一直往后找，直到没有 `--` 行注释为止
+- ❌ 移除方法：`Baki#insert` , `Baki#update` , `Baki#delete` ，使用 `Baki#execute` 替代
+- ⚠️ 批量执行修改返回类型为 `BatchResult` ，支持获取每一行数据的执行情况
+- ✅ XQL 接口映射支持批量执行标记 `XQL type = batch` 返回类型为 `BatchResult` 的方法
+- ✅ `rabbit-sql-spring-boot-starter` 更新版本 `5.3.14`
+
+## 插件工具
+
+- ✅ **Rabbit SQL CLI** [Releases](https://github.com/chengyuxing/sqlc/releases) 更新版本 `3.0.3`
+- IDEA 插件 **Rabbit SQL** 更新版本 `2.4.59` ，新增特性和优化如下：
+  - ✅ **XQL File Manager** 控制面板完全支持解析和修改所有属性节点：`files` `pipes` `constants` `charset` `named-param-prefix`
+  - ✅ **XQL File Manager** 控制面板**管道节点**支持显示和定位源码内置管道实现
+  - ✅ 项目启动和重建索引触发 XQL 配置解析逻辑优化
+  - ✅ **XQL 接口代码生成器**支持配置参数 `returnType` ，`paramType` ，`pageHelperProvider` 自动生成和管理 Java 类文件
+  - ✅ **XQL 接口代码生成器**添加 SQL 类型、参数类型、返回类型之间关系的规则约束，降低配置错误率
+  - ✅ **XQL 接口代码生成器**支持新的返回类型：`BatchResult` ，当 SQL 类型为 `batch` 时，参数类型定义变为泛型类型，接口将自动将参数包装为 `Iterable<T>`
+  - ✅ XQL 文件编辑器中添加元数据的高亮 `-- @name value`
+  - ✅ XQL 文件编辑器内支持高亮内联模版变量名，支持模版定义 `-- //TEMPLATE-BEGIN:xxx` 和使用位置 `${xxx}` 互相导航跳转
+  - ✅ XQL 文件解析 SQL 名自动完成提示建议过滤模版定义变量名称
+  - ✅ 代码生成器模版优化
+  - ✅ 操作 `Selected opened file` 修复定位不准确的 bug
+  - ✅ 修复操作 `Create XQL fragment` 没有正常弹出的 bug
+  - ❌ 移除 Kotlin 源码文件目录的检测操作
+  - ✅ 弹窗 UI 表单布局调整优化
+  - ✅ 一些代码和逻辑优化
+
 # rabbit-sql-spring-boot-starter
 
 - ✅ XQL 接口映射动态代理注入逻辑优化

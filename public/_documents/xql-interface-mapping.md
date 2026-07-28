@@ -54,6 +54,7 @@ public interface ExampleMapper {
 | insert               | insert \| save \| add \| append \| create                 |
 | update               | update \| modify \| change                                |
 | delete               | delete \| remove                                          |
+| batch                | batch                                                     |
 | procedure / function | call \| proc \| func                                      |
 
 ## 参数类型
@@ -65,19 +66,20 @@ public interface ExampleMapper {
 
 接口方法返回值类型定义如下表：
 
-| 返回类型                                               | sql类型                                       | 备注                             |
-| ------------------------------------------------------ | --------------------------------------------- | -------------------------------- |
-| `List<DataRow/Map<String,Object>/<JavaBean>>`          | query                                         |                                  |
-| `Set<DataRow/Map<String,Object>/<JavaBean>>`           | query                                         |                                  |
-| `Stream<DataRow/Map<String,Object>/<JavaBean>>`        | query                                         |                                  |
-| `Optional<DataRow/Map<String,Object>/<JavaBean>>`      | query                                         |                                  |
-| `Map<String,Object>`                                   | query                                         |                                  |
-| `PagedResource<DataRow/Map<String,Object>/<JavaBean>>` | query                                         | `@CountQuery`，`@PageableConfig` |
-| `IPageable`                                            | query                                         | `@CountQuery`，`@PageableConfig` |
-| `Long` , `Integer` , `Double` ，`String` ，`Boolean`   | query                                         |                                  |
-| `<JavaBean>`                                           | query                                         |                                  |
-| `DataRow`                                              | query, procedure, function, plsql, ddl, unset |                                  |
-| `int/Integer`                                          | insert, update, delete                        |                                  |
+| 返回类型                                               | sql类型                                                      | 备注                             |
+| ------------------------------------------------------ | ------------------------------------------------------------ | -------------------------------- |
+| `List<DataRow/Map<String,Object>/<JavaBean>>`          | query                                                        |                                  |
+| `Set<DataRow/Map<String,Object>/<JavaBean>>`           | query                                                        |                                  |
+| `Stream<DataRow/Map<String,Object>/<JavaBean>>`        | query                                                        |                                  |
+| `Optional<DataRow/Map<String,Object>/<JavaBean>>`      | query                                                        |                                  |
+| `Map<String,Object>`                                   | query                                                        |                                  |
+| `PagedResource<DataRow/Map<String,Object>/<JavaBean>>` | query                                                        | `@CountQuery`，`@PageableConfig` |
+| `IPageable`                                            | query                                                        | `@CountQuery`，`@PageableConfig` |
+| `Long` , `Integer` , `Double` ，`String` ，`Boolean`   | query                                                        |                                  |
+| `<JavaBean>`                                           | query                                                        |                                  |
+| `DataRow`                                              | query, procedure, function, plsql, ddl, unset, insert, update, delete |                                  |
+| `int/Integer`                                          | insert, update, delete                                       |                                  |
+| `BatchResult`                                          | batch                                                        |                                  |
 
 ## 分页查询配置
 

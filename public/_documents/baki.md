@@ -122,12 +122,6 @@ PagedResource<DataRow> res = baki.query("&data.custom_paged")
 
 - `execute(sql, Map?)` ：支持 select ， ddl ， dml 和  plsql 语句；
 - `execute(sql, Collection)` ：批量操作，支持非预编的 ddl 和 dml 语句；
-- `insert(sql, Map)` ：执行插入；
-- `insert(sql, Collection)` ：执行批量插入；
-- `update(sql, Map)` ：执行更新；
-- `update(sql, Collection)` ：执行批量更新；
-- `delete(sql, Map)` ：执行删除；
-- `delete(sql, Collection)` ：执行批量删除；
 
 ## 单表实体操作
 
