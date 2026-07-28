@@ -19,6 +19,7 @@
 
 - ✅ **Rabbit SQL CLI** [Releases](https://github.com/chengyuxing/sqlc/releases) 更新版本 `3.0.3`
 - IDEA 插件 **Rabbit SQL** 更新版本 `2.4.59` ，新增特性和优化如下：
+  - ![](../images/plugin-2.4.59.png)
   - ✅ **XQL File Manager** 控制面板完全支持解析和修改所有属性节点：`files` `pipes` `constants` `charset` `named-param-prefix`
   - ✅ **XQL File Manager** 控制面板**管道节点**支持显示和定位源码内置管道实现
   - ✅ 项目启动和重建索引触发 XQL 配置解析逻辑优化
