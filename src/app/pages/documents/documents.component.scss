@@ -12,49 +12,47 @@ main {
     overflow: auto;
     box-sizing: border-box;
     width: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-    > .navs {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      height: 100%;
+    ul {
+      height: calc(100% - 72px);
+      overflow: auto;
+      border-right: 1px solid variables.$purple-10;
 
-      ul {
-        height: calc(100% - 72px);
-        overflow: auto;
-        border-right: 1px solid variables.$purple-10;
+      list-style: none;
+      margin: 0;
+      padding: 0;
 
-        list-style: none;
-        margin: 0;
-        padding: 0;
+      li {
+        padding: 0 14px 0 16px;
+        border-width: 0;
+        display: flex;
+        outline: none;
+        cursor: pointer;
+        text-decoration: none;
 
-        li {
-          padding: 0 14px 0 16px;
-          border-width: 0;
-          display: flex;
-          outline: none;
-          cursor: pointer;
+        a {
+          display: block;
+          width: 100%;
+          padding: 12px 14px;
           text-decoration: none;
+          color: var(--text-color);
+          transition: color 0.2s ease;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
 
-          a {
-            display: block;
-            width: 100%;
-            padding: 12px 14px;
-            text-decoration: none;
-            color: var(--text-color);
-            transition: color 0.2s ease;
+          &.doc-active {
+            position: relative;
+            left: -2px;
+            color: variables.$purple-10;
+            border-left: 2px solid variables.$purple-10;
+          }
 
-
-            &.doc-active {
-              position: relative;
-              left: -2px;
-              color: variables.$purple-10;
-              border-left: 2px solid variables.$purple-10;
-            }
-
-            &:hover {
-              color: variables.$purple-50;
-            }
+          &:hover {
+            color: variables.$purple-50;
           }
         }
       }

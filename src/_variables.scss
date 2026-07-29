@@ -2,7 +2,7 @@ $purple-10: #b480dd;
 $purple-50: #a15dd8;
 
 @mixin side-push-close {
-  > div {
+  > div, ul {
     visibility: hidden !important;
   }
 
