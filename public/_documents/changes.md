@@ -1,5 +1,13 @@
 # 框架变更日志
 
+## 10.3.15
+
+- 新增方法：`DataRow#accessAsIgnoreCase` 支持键名忽略大小写获取一个值
+- 实体管理器增加内置默认简易实现：`EntityMetaProvider`
+- 方法互相重命名：`StringUtils#isEmpty` 和 `StringUtils#isBlank`
+- `rabbit-sql-spring-boot-starter` 更新版本 `5.3.16`
+- IDEA 插件 **Rabbit SQL** 更新版本 `2.4.60`
+
 ## 10.3.14
 
 - ✅ 修复实体映射转换实体时数据不存在将实体字段写入 `null` 覆盖默认值的问题
