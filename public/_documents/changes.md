@@ -1,5 +1,12 @@
 # 框架变更日志
 
+## 10.3.16
+
+- ✅ 修复动态 SQL 中 `blank` 的判断对于 `Iterable` 类型参数的 bug
+- ❌ 移除方法 `StringUtils#isEmpty`
+- ✅ `rabbit-sql-spring-boot-starter` 更新版本 `5.3.17`
+- ✅ IDEA 插件 **Rabbit SQL** 更新版本 `2.4.61`
+
 ## 10.3.15
 
 - ✅ 新增方法：`DataRow#accessAsIgnoreCase` 支持键名忽略大小写获取一个值
