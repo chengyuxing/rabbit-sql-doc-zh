@@ -55,8 +55,8 @@ ul {
       border: none;
       outline: none;
       z-index: 10;
-      border-top: 1px solid #c4c4c4;
-      border-bottom: 1px solid #c4c4c4;
+      border-top: 1px solid var(--text-secondary-color);
+      border-bottom: 1px solid var(--text-secondary-color);
       background: transparent;
     }
 
