@@ -5,12 +5,17 @@
   <url><loc>https://rabbit-sql.com/documents</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-overview</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-baki</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-query-executor</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-sql-params</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-args</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-transaction</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-procedure</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-entity</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-pagination</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-api-config</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-execution-plugins</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-security</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-testing</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-bakidao</loc></url>
   <url><loc>https://rabbit-sql.com/documents/xql-overview</loc></url>
   <url><loc>https://rabbit-sql.com/documents/xql-file-manager</loc></url>
@@ -18,8 +23,10 @@
   <url><loc>https://rabbit-sql.com/documents/xql-interface-mapping</loc></url>
   <url><loc>https://rabbit-sql.com/documents/integration-overview</loc></url>
   <url><loc>https://rabbit-sql.com/documents/spring-boot</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/spring-boot-configuration</loc></url>
   <url><loc>https://rabbit-sql.com/documents/cli</loc></url>
   <url><loc>https://rabbit-sql.com/documents/database-compatibility</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-datasource</loc></url>
   <url><loc>https://rabbit-sql.com/documents/best-practice</loc></url>
   <url><loc>https://rabbit-sql.com/documents/best-practice-project-init</loc></url>
   <url><loc>https://rabbit-sql.com/documents/best-practice-xql</loc></url>
@@ -48,12 +55,17 @@
 
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-overview.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-baki.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-query-executor.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-sql-params.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-args.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-transaction.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-procedure.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-entity.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-pagination.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-api-config.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-execution-plugins.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-security.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-testing.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-bakidao.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/xql-overview.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/xql-file-manager.html</loc></url>
@@ -61,8 +73,10 @@
   <url><loc>https://rabbit-sql.com/static-pages/_documents/xql-interface-mapping.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/integration-overview.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/spring-boot.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/spring-boot-configuration.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/cli.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/database-compatibility.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-datasource.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice-project-init.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice-xql.html</loc></url>

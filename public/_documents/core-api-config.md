@@ -34,7 +34,6 @@ SQL 拦截器。在 **SQL 解析开始**时，可以通过抛出特定异常拦�
 
 - `java.util.Date`
 - java8 新的日期时间：`LocalDateTime` ， `LocalDate` ，`LocalTime` ， `OffsetDateTime` ， `OffsetTime` ， `ZonedDateTime` ， `Instant` 
-- `com.github.chengyuxing.common.MostDateTime`
 - `java.util.UUID`
 - `java.io.InputStream`
 - `java.io.File`

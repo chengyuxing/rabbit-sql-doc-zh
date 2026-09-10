@@ -12,6 +12,11 @@
       "title": "核心接口 Baki"
     },
     {
+      "id": "core-query-executor",
+      "pid": "core-overview",
+      "title": "查询执行器"
+    },
+    {
       "id": "core-sql-params",
       "pid": "core-overview",
       "title": "SQL 参数占位符"
@@ -27,6 +32,11 @@
       "title": "事务"
     },
     {
+      "id": "core-procedure",
+      "pid": "core-overview",
+      "title": "存储过程与函数"
+    },
+    {
       "id": "core-entity",
       "pid": "core-overview",
       "title": "实体操作与 DSL 查询"
@@ -40,6 +50,21 @@
       "id": "core-api-config",
       "pid": "core-overview",
       "title": "配置项"
+    },
+    {
+      "id": "core-execution-plugins",
+      "pid": "core-overview",
+      "title": "SQL 执行扩展点"
+    },
+    {
+      "id": "core-security",
+      "pid": "core-overview",
+      "title": "安全与审计"
+    },
+    {
+      "id": "core-testing",
+      "pid": "core-overview",
+      "title": "动态 SQL 测试"
     },
     {
       "id": "core-bakidao",
@@ -77,6 +102,11 @@
       "title": "集成 Spring Boot"
     },
     {
+      "id": "spring-boot-configuration",
+      "pid": "integration-overview",
+      "title": "Spring Boot 配置项"
+    },
+    {
       "id": "cli",
       "pid": "integration-overview",
       "title": "CLI 命令行工具"
@@ -85,6 +115,11 @@
       "id": "database-compatibility",
       "pid": "integration-overview",
       "title": "数据库兼容性"
+    },
+    {
+      "id": "core-datasource",
+      "pid": "integration-overview",
+      "title": "数据源与 DatabaseInfo"
     },
     {
       "id": "best-practice",
