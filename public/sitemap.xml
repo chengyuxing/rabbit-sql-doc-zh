@@ -3,21 +3,32 @@
   <url><loc>https://rabbit-sql.com/</loc></url>
 
   <url><loc>https://rabbit-sql.com/documents</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-overview</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-baki</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-sql-params</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-args</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-transaction</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-entity</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-pagination</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-api-config</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-bakidao</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/xql-overview</loc></url>
   <url><loc>https://rabbit-sql.com/documents/xql-file-manager</loc></url>
   <url><loc>https://rabbit-sql.com/documents/xql-dynamic-sql</loc></url>
   <url><loc>https://rabbit-sql.com/documents/xql-interface-mapping</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/integration-overview</loc></url>
   <url><loc>https://rabbit-sql.com/documents/spring-boot</loc></url>
   <url><loc>https://rabbit-sql.com/documents/cli</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/database-compatibility</loc></url>
   <url><loc>https://rabbit-sql.com/documents/best-practice</loc></url>
   <url><loc>https://rabbit-sql.com/documents/best-practice-project-init</loc></url>
   <url><loc>https://rabbit-sql.com/documents/best-practice-xql</loc></url>
   <url><loc>https://rabbit-sql.com/documents/best-practice-mapper</loc></url>
   <url><loc>https://rabbit-sql.com/documents/best-practice-performance</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/change-overview</loc></url>
   <url><loc>https://rabbit-sql.com/documents/changes</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/migration</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/troubleshooting</loc></url>
 
   <url><loc>https://rabbit-sql.com/guides</loc></url>
   <url><loc>https://rabbit-sql.com/guides/getting-started-standalone</loc></url>
@@ -35,21 +46,32 @@
 
   <url><loc>https://rabbit-sql.com/static-pages/index.html</loc></url>
 
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-overview.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-baki.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-sql-params.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-args.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-transaction.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-entity.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-pagination.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-api-config.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-bakidao.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/xql-overview.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/xql-file-manager.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/xql-dynamic-sql.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/xql-interface-mapping.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/integration-overview.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/spring-boot.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/cli.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/database-compatibility.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice-project-init.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice-xql.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice-mapper.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice-performance.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/change-overview.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/changes.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/migration.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/troubleshooting.html</loc></url>
 
   <url><loc>https://rabbit-sql.com/static-pages/_guides/getting-started-standalone.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_guides/getting-started-spring-boot.html</loc></url>

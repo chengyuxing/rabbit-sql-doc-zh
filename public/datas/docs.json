@@ -2,49 +2,89 @@
   "host": "_documents/",
   "resources": [
     {
-      "id": "core-baki",
+      "id": "core-overview",
       "pid": null,
+      "title": "核心使用"
+    },
+    {
+      "id": "core-baki",
+      "pid": "core-overview",
       "title": "核心接口 Baki"
     },
     {
       "id": "core-sql-params",
-      "pid": null,
+      "pid": "core-overview",
       "title": "SQL 参数占位符"
     },
     {
+      "id": "core-args",
+      "pid": "core-overview",
+      "title": "参数与结果对象"
+    },
+    {
       "id": "core-transaction",
-      "pid": null,
+      "pid": "core-overview",
       "title": "事务"
     },
     {
+      "id": "core-entity",
+      "pid": "core-overview",
+      "title": "实体操作与 DSL 查询"
+    },
+    {
+      "id": "core-pagination",
+      "pid": "core-overview",
+      "title": "分页查询"
+    },
+    {
       "id": "core-api-config",
-      "pid": null,
+      "pid": "core-overview",
       "title": "配置项"
     },
     {
-      "id": "xql-file-manager",
+      "id": "core-bakidao",
+      "pid": "core-overview",
+      "title": "BakiDao 低级执行方法"
+    },
+    {
+      "id": "xql-overview",
       "pid": null,
+      "title": "XQL 体系"
+    },
+    {
+      "id": "xql-file-manager",
+      "pid": "xql-overview",
       "title": "XQL 文件管理器"
     },
     {
       "id": "xql-dynamic-sql",
-      "pid": null,
+      "pid": "xql-overview",
       "title": "动态 SQL"
     },
     {
       "id": "xql-interface-mapping",
-      "pid": null,
+      "pid": "xql-overview",
       "title": "XQL 接口映射"
     },
     {
-      "id": "spring-boot",
+      "id": "integration-overview",
       "pid": null,
+      "title": "集成"
+    },
+    {
+      "id": "spring-boot",
+      "pid": "integration-overview",
       "title": "集成 Spring Boot"
     },
     {
       "id": "cli",
-      "pid": null,
+      "pid": "integration-overview",
       "title": "CLI 命令行工具"
+    },
+    {
+      "id": "database-compatibility",
+      "pid": "integration-overview",
+      "title": "数据库兼容性"
     },
     {
       "id": "best-practice",
@@ -72,9 +112,24 @@
       "title": "性能、安全与部署"
     },
     {
-      "id": "changes",
+      "id": "change-overview",
       "pid": null,
+      "title": "变更与迁移"
+    },
+    {
+      "id": "changes",
+      "pid": "change-overview",
       "title": "变更日志"
+    },
+    {
+      "id": "migration",
+      "pid": "change-overview",
+      "title": "升级与迁移"
+    },
+    {
+      "id": "troubleshooting",
+      "pid": null,
+      "title": "故障排查"
     }
   ]
 }
