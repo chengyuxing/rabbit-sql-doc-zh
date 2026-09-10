@@ -35,6 +35,10 @@ export class DocumentsComponent implements OnInit {
   }
 
   protected navigateTo(docs: Docs) {
+    if (docs.external) {
+      window.open(docs.external, '_blank');
+      return;
+    }
     this.router.navigate(['/documents', docs.id]);
   }
 }

@@ -21,6 +21,9 @@
       <a mat-ripple (click)="forwardMenu(item)" [class.link-active]="item.id === currentId">
         <span>{{ item.title }}</span>
         <div class="spacer"></div>
+        @if (item.external) {
+          <mat-icon>open_in_new</mat-icon>
+        }
         @if (item.children!.length > 0) {
           <mat-icon>chevron_right</mat-icon>
         }

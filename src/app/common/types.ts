@@ -9,6 +9,7 @@ export interface Guide {
 export interface Docs extends DataNode<Docs, string> {
   id: string;
   title: string;
+  external?: string;
 }
 
 export interface MarkDownHead {
