@@ -33,7 +33,7 @@ public interface ExampleMapper {
 
 > @XQLMapper 注解中的值对应 XQLFileManager 中已注册的 XQL 文件别名。
 >
-> 如果装有 Rabbit SQL 插件，可以使用插件来快速生成接口，参考指南 [IDEA 插件](guides/plugin#generate-interface) 。
+> 如果装有 Rabbit SQL 插件，可以使用插件快速生成接口，参考指南 [IDEA 插件](guides/plugin#md-head-6)。
 
 ## 接口规范
 
@@ -46,9 +46,9 @@ public interface ExampleMapper {
 
 ## 映射规则
 
-默认情况下，所有方法均根据前缀来确定执行类型，并且**SQL名字**和**接口方法**一一对应，如果不对应的情况下，使用注解 `@XQL(value = "sql名",type = SqlStatementType.insert)` 来指定具体的sql名字和覆盖默认行为 `unset`，接口方法定义需遵循如下规范：
+默认情况下，所有方法都根据方法名前缀来确定执行类型，并且 **SQL 名字**和**接口方法名**一一对应。如果二者不对应，可以使用注解 `@XQL(value = "sql名", type = SqlStatementType.insert)` 指定具体 SQL 名，并覆盖默认的 SQL 类型推断。接口方法定义需遵循以下规范：
 
-| sql类型              | 方法前缀                                                  |
+| SQL 类型             | 方法前缀                                                  |
 | -------------------- | --------------------------------------------------------- |
 | select               | select \| query \| find \| get \| fetch \| search \| list |
 | insert               | insert \| save \| add \| append \| create                 |
@@ -66,7 +66,7 @@ public interface ExampleMapper {
 
 接口方法返回值类型定义如下表：
 
-| 返回类型                                               | sql类型                                                      | 备注                             |
+| 返回类型                                               | SQL 类型                                                     | 备注                             |
 | ------------------------------------------------------ | ------------------------------------------------------------ | -------------------------------- |
 | `List<DataRow/Map<String,Object>/<JavaBean>>`          | query                                                        |                                  |
 | `Set<DataRow/Map<String,Object>/<JavaBean>>`           | query                                                        |                                  |
@@ -75,7 +75,7 @@ public interface ExampleMapper {
 | `Map<String,Object>`                                   | query                                                        |                                  |
 | `PagedResource<DataRow/Map<String,Object>/<JavaBean>>` | query                                                        | `@CountQuery`，`@PageableConfig` |
 | `IPageable`                                            | query                                                        | `@CountQuery`，`@PageableConfig` |
-| `Long` , `Integer` , `Double` ，`String` ，`Boolean`   | query                                                        |                                  |
+| `Long`、`Integer`、`Double`、`String`、`Boolean`       | query                                                        |                                  |
 | `<JavaBean>`                                           | query                                                        |                                  |
 | `DataRow`                                              | query, procedure, function, plsql, ddl, unset, insert, update, delete |                                  |
 | `int/Integer`                                          | insert, update, delete                                       |                                  |
@@ -83,19 +83,19 @@ public interface ExampleMapper {
 
 ## 分页查询配置
 
-如果方法返回值类型为 `PagedResource` 或 `IPageable` 可配置更多的参数。
+如果方法返回类型为 `PagedResource` 或 `IPageable`，还可以配置更多分页参数。
 
-**条数查询配置**：默认情况下，条数查询语句将使用简单的 `count(*)` 语句来构建，例如:
+**条数查询配置**：默认情况下，条数查询语句使用简单的 `count(*)` 构建，例如：
 
 ```sql
 select count(*) from ( /*你的查询语句*/ );
 ```
 
-可通过注解 `@CountQuery()` ，自定义条数查询语句。
+可以通过 `@CountQuery()` 自定义条数查询语句。
 
 **分页参数配置** `@PageableConfig` 属性：
 
-- `disableDefaultPageSql` : 禁用框架内置的自动构建分页查询 SQL 并**按顺序**指定分页参数键名 `[start, end]` ，框架计算好的参数，例如：
+- `disableDefaultPageSql`：禁用框架内置的自动分页 SQL 生成，并**按顺序**指定分页参数键名 `[start, end]`。框架会按这两个键名绑定计算好的分页参数，例如：
 
   ```sql
   # PostgreSQL
@@ -113,7 +113,6 @@ select count(*) from ( /*你的查询语句*/ );
 
 ![](../images/return-types.png)
 
-通过[插件](guides/plugin)来配置分页参数，参数对应如上图。
+可以通过[插件](guides/plugin)配置分页参数，参数对应关系如上图。
 
-Spring Boot 自动扫描机制：通过在启动类上加上注解 `@XQLMapperScan` 来实现自动生成代理，即可注入使用，具体可参考文档 [集成 Spring Boot](documents/with-spring-boot#md-head-7) 和 [最佳实践](documents/best-practice#md-head-12) 。
-
+Spring Boot 自动扫描机制：通过在启动类上加上注解 `@XQLMapperScan` 来实现自动生成代理，即可注入使用，具体可参考文档 [集成 Spring Boot](documents/spring-boot#md-head-7) 和 [接口映射与插件](documents/best-practice-mapper)。

@@ -3,7 +3,7 @@
 直接提供数据库访问功能的接口 `Baki` ，通过实例化此接口的默认实现 `BakiDao` 来执行各种操作，初始化流程如下：
 
 ```java
-Datasource datasource = new HikariDataSource();
+DataSource datasource = new HikariDataSource();
 ...
 BakiDao baki = new BakiDao(dataSource);
 ```
@@ -37,7 +37,7 @@ baki.query("select … where id = :id").args("id", "1")
 baki.query("&my.users").args("id", "1")
 ```
 
-> SQL 语法中形如 `:id` 是默认的[命名参数占位符](documents/sql-params)语法。
+> SQL 语法中形如 `:id` 是默认的[命名参数占位符](documents/core-sql-params)语法。
 
 ## 查询
 
@@ -65,9 +65,9 @@ baki.query("&my.users").args("id", "1")
 
 ### 惰性查询
 
-惰性查询返回一个 `Stream` 对象，其内部持有一个 JDBC `Connection` ，当执行调用终端操作执行查询之后，必须关闭 `Stream` ，否则连接不会释放，直到连接池耗尽。
+惰性查询返回一个 `Stream` 对象，其内部持有 JDBC `Connection`。执行终端操作后，必须关闭 `Stream`，否则连接不会释放，最终可能导致连接池耗尽。
 
-当进行终端操作时才会真正的开始执行查询，例如 `Stream#collect()` ，需要特别注意，推荐使用 **try-with-resource** 语句进行包裹，在查询完成后将自动释放连接对象：
+只有执行终端操作时才会真正开始查询，例如 `Stream#collect()`。请特别注意，推荐使用 **try-with-resource** 包裹，查询完成后自动释放连接对象：
 
 ```java
 try (Stream<DataRow> s = baki.query("&my.query").args("id", 5).stream()) {
@@ -75,7 +75,7 @@ try (Stream<DataRow> s = baki.query("&my.query").args("id", 5).stream()) {
 }
 ```
 
-> 需要对结果集进行二次处理，例如调用 `.map(...).filter(...)` 等操作，使用此方法可以有效提高性能。
+> 如果需要对结果集做二次处理，例如调用 `.map(...)`、`.filter(...)` 等操作，使用惰性查询可以有效提高性能。
 
 ### 分页查询
 
@@ -90,7 +90,7 @@ PagedResource<DataRow> resource = baki.query("select ... where id < :id")
                 .collect();
 ```
 
-> 内建的条数查询 SQL 语句进进行简单的包裹，若要最好的性能，可自行写条数查询 SQL 语句，通过方法 `.count(sql)` 来指定。
+> 内置的条数查询 SQL 只会做简单包裹。如果要获得最佳性能，可以自行编写条数查询 SQL，并通过 `.count(sql)` 指定。
 
 #### 自定义分页查询
 
@@ -121,7 +121,7 @@ PagedResource<DataRow> res = baki.query("&data.custom_paged")
 ## 增删改
 
 - `execute(sql, Map?)` ：支持 select ， ddl ， dml 和  plsql 语句；
-- `execute(sql, Collection)` ：批量操作，支持非预编的 ddl 和 dml 语句；
+- `execute(sql, Collection)`：批量操作，支持非预编译的 DDL 和 DML 语句；
 
 ## 单表实体操作
 
@@ -135,9 +135,9 @@ PagedResource<DataRow> res = baki.query("&data.custom_paged")
 
 ### 查询
 
-针对条件构建器 `where` 进行一下说明，条件构建器支持条件嵌套，默认情况下每个条件都以 `and` 关键字连在一起。
+下面对条件构建器 `where` 做进一步说明。条件构建器支持条件嵌套，默认情况下每个条件都以 `and` 关键字连接。
 
-根据嵌套条件表达式在大部分情况下进行了逻辑调整，特殊情况，针对 `and()` 和 `or()` 嵌套逻辑：
+框架会根据嵌套条件表达式在多数情况下自动调整逻辑。对于 `and()` 和 `or()` 嵌套的特殊情况：
 
 - `and()` ：内部所有条件判断以关键字 `or` 相连
 - `or()` ：内部所有条件判断以关键字 `and` 相连
@@ -206,7 +206,7 @@ baki.entity(Guest.class)
     .save();
 ```
 
-## 单表DML操作
+## 单表 DML 操作
 
 对于单表的简单 DML 操作，通过方法 `baki#table` 传入表名执行相应的操作。
 
@@ -214,7 +214,7 @@ baki.entity(Guest.class)
 
 通过调用方法 `enableBatch()` 执行底层 JDBC 的批量操作。
 
-按条件更新和删除通过方法 `by(column,...)`  内部实现为根据 `and` 将多个字段构建为等式连在一起：
+按条件更新和删除通过方法 `by(column, ...)` 实现，内部会用 `and` 把多个字段构建为等式连接：
 
 ```java
 baki.table("test.guest")
@@ -226,7 +226,7 @@ baki.table("test.guest")
 
 ## 执行存储过程/函数
 
-方法 `call(params)` 返回一个 `DataRow` 包装对象结果，通过命名参数名来获取相应的结果，如果返回值是游标，结果类型为： `List<DataRow>` ，其他情况下返回值类型都为数据库字段类型所对应的 java 数据类型。
+方法 `call(params)` 返回 `DataRow` 包装对象结果。通过命名参数名获取结果；如果返回值是游标，结果类型为 `List<DataRow>`，其他情况下返回数据库字段类型对应的 Java 数据类型。
 
 ```java
 baki.call("{:res = call test.sum(:a, :b)}",
@@ -268,15 +268,15 @@ create function sum(a integer, b integer) returns integer
 
 ### 注意事项
 
-有些情况下，不同的数据库不同的函数定义方式，也限定了只能用某种写法，具体可在调试过程中来调整合适的语法。
+不同数据库和不同的函数定义方式，可能会限定只能用某种写法，具体可以在调试过程中调整合适的语法。
 
-例如，如果在 PostgreSQL v13+ 中使用语法 `create procedure` 创建的过程调用写法如下不能加 `{}` 括号：
+例如，在 PostgreSQL v13+ 中使用 `create procedure` 创建的过程，调用时不能加 `{}` 括号：
 
 ```sql
 call procedure()
 ```
 
-PostgreSQL 中使用 python 创建的函数返回值，只能使用**匿名返回值写法**，否则会抛出异常：
+PostgreSQL 中使用 Python 创建的函数，返回值只能使用**匿名返回值写法**，否则会抛出异常：
 
 ```sql
 create function mvnd(keyword text)

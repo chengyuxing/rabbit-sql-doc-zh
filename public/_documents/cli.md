@@ -14,7 +14,7 @@
 - 格式化输出执行 SQL 结果，格式支持：`csv` `tsv` `excel` `json`
 - 导出查询结果到文件，支持： `.sql` (包含二进制的 insert 语句) `.csv` `.tsv` `.xls(x)` `.json`
 - 批量导入数据，支持： `.sql` (包含二进制的 insert 语句) `.csv` `.tsv` `.xls(x)` `.json`
-- 管理 [XQL](documents/xql-file-manager) 文件，执行[动态 SQL](documents/dynamic-sql)
+- 管理 [XQL](documents/xql-file-manager) 文件，执行[动态 SQL](documents/xql-dynamic-sql)
 - 支持方向键 <kbd>↑</kbd> <kbd>↓</kbd> 翻阅历史记录，<kbd>Tab</kbd> 关键字、表名、文件路径自动补全，<kbd>Ctrl r</kbd> 查询历史记录等等
 
 ### 软件目录结构
@@ -31,7 +31,7 @@ sqlc-x.x.x/
   |- sqlc.bat
 ```
 
-- `completions` 下存放关键字自动完成文件：
+- `completion` 下存放关键字自动完成文件：
 
   - `database.xql` 可以自行添加数据库查询表名或对象名的 SQL ，格式化标准 XQL 文件，名称为 数据库名，通过 `DatabaseMetadata#getDatabaseProductName` 获取
 
@@ -62,7 +62,7 @@ sqlc-x.x.x/
 
 ## 登录
 
-参数 `-u` 为必填，**用户名**和**密码**自动弹出输入框，但在**标准输入模式**中，如果数据库有用户名和密码，必须指定，否则无法登陆。
+参数 `-u` 为必填。**用户名**和**密码**可以交互式弹出输入框，但在**标准输入模式**中，如果数据库有用户名和密码，必须显式指定，否则无法登录。
 
 ```bash
 $ ./sqlc -ujdbc:postgresql://127.0.0.1:5432/postgres -nchengyuxing
@@ -70,7 +70,7 @@ $ ./sqlc -ujdbc:postgresql://127.0.0.1:5432/postgres -nchengyuxing
 
 > 如果 url 包含特殊符号例如 `?` ，需要使用引号把 url 参数括起来，`-u"jdbc..."`
 
-默认情况下，如果没有其他指令和输入，则进入**交互模式**，连续交互输入 SQL 和指令来实现一些列操作。
+默认情况下，如果没有其他指令和输入，则进入**交互模式**，连续输入 SQL 和指令来完成一系列操作。
 
 ## 全局参数
 
@@ -233,7 +233,7 @@ insert into test.guest(name, age, photo) values ('cyx', 13, :photo_1);
 
 ### 交互模式
 
-登录一次，进入交互终端，持续输入 SQL 或指令来完成一些列操作。
+登录一次后进入交互终端，持续输入 SQL 或指令来完成一系列操作。
 
 ```bash
 $ ./sqlc <login>
@@ -305,7 +305,7 @@ $ ./sqlc <login>
 
 - 如果有用户名和密码，需要显示指定 `-n` 和 `-p` 
 - 无法使用预编译 SQL，只能执行普通 SQL
-- 输出重定向无法输出 Excel(`.xqls(x)`) 二进制文件（使用 `-o` 替代）
+- 输出重定向无法输出 Excel（`.xls(x)`）二进制文件（可用 `-o` 替代）
 
 输入和输出支持的参数有：
 
@@ -373,7 +373,7 @@ $ cat ~/1.sql | ./sqlc -ujdbc:postgresql://127.0.0.1:5432/postgres -fjson | jq >
 
 ### SQL 关键字补全
 
-配置文件位于[软件目录](#软件目录结构)的：`completion` 文件夹下。
+配置文件位于[软件目录](#md-head-3)的 `completion` 文件夹下。
 
 #### 静态配置
 

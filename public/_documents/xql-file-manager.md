@@ -6,7 +6,7 @@ XQL 文件管理器是在 **标准 SQL 文件之上进行无侵入扩展** 的�
 
 它通过约定格式的注释语法，为普通 SQL 增强以下能力：
 
-- [动态 SQL](documents/dynamic-sql) 脚本
+- [动态 SQL](documents/xql-dynamic-sql) 脚本
 - SQL 片段复用（模板）
 - SQL 元数据定义
 - 多文件统一管理
@@ -91,7 +91,7 @@ named-param-prefix: ':'
 
 ### 管道（pipes）
 
-注册[动态 SQL](documents/dynamic-sql) 中使用的自定义管道操作符。
+注册[动态 SQL](documents/xql-dynamic-sql) 中使用的自定义管道操作符。
 
 值必须为实现类的 **完整限定类名**。
 
@@ -147,7 +147,7 @@ SQL 对象之间通过 `;` 分隔，这是解析阶段的核心边界。
    - 合并内联模板
    - 构建 SQL 结构模型
 2. SQL 调用阶段：
-   - 执行[动态 SQL](documents/dynamic-sql) 脚本
+   - 执行[动态 SQL](documents/xql-dynamic-sql) 脚本
    - 生成最终可执行 SQL
 
 #### SQL 对象结构
@@ -185,7 +185,7 @@ and name in (
 | 元数据   | `-- @key value`       |
 | 函数体   | SQL + 动态脚本 + 模板 |
 
-#### 模版片段
+#### 模板片段
 
 模板用于 SQL 复用，通过 `${}` 引用。
 
@@ -194,9 +194,9 @@ and name in (
 - 独立模板
 - 内联模板
 
-模板可递归引用其他模板。
+模板可以递归引用其他模板。
 
-##### 独立模版
+##### 独立模板
 
 定义方式：
 
@@ -213,14 +213,14 @@ select * from users ${where};
 
 ⚠️ 局限：由于不完整的 SQL 片段在 IDE 中会高亮语法错误，在格式化和视觉上有一定影响。
 
-##### 内联模版
+##### 内联模板
 
 直接在 **单个 SQL 对象内部** 标记一块区域来定义为可被其他 SQL 复用片段。
 
 特点：
 
-- 不参与[动态 SQL](documents/dynamic-sql) 解析
-- 避免独立的 where 条件模版导致 IDE SQL 校验误报
+- 不参与[动态 SQL](documents/xql-dynamic-sql) 解析
+- 避免独立的 where 条件模板导致 IDE SQL 校验误报
 - 提高整个 XQL 文件每个 SQL 对象的完整性
 
 定义：
@@ -272,7 +272,7 @@ select * from users;
 
 特点：
 
-- 不参与[动态 SQL](documents/dynamic-sql)
+- 不参与[动态 SQL](documents/xql-dynamic-sql)
 - 不影响执行结果
 - 可被拦截器、缓存组件等读取
 
@@ -302,7 +302,7 @@ end;
 
 详细说明请参考：
 
-👉 [动态 SQL](documents/dynamic-sql) 文档
+👉 [动态 SQL](documents/xql-dynamic-sql) 文档
 
 ## 设计理念
 

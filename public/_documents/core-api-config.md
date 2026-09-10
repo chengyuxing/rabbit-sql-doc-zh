@@ -8,7 +8,7 @@ Baki 接口的默认实现。
 
 ### globalPageHelperProvider
 
-全局分页提供程序，通过实现此接口来支持更多的数据库分页，例如内置的实现并没有匹配人大金仓 、达梦等数据库，BakiDao内置通过 JDBC 驱动来获取数据库名称来决定使用哪个分页实现：
+全局分页提供程序，通过实现此接口来支持更多数据库分页。例如内置实现没有直接匹配人大金仓、达梦等数据库，BakiDao 会通过 JDBC 驱动获取数据库名称，再决定使用哪个分页实现：
 
 ```java
 (info, namedParamPrefix) -> {
@@ -26,7 +26,7 @@ Baki 接口的默认实现。
 
 ### sqlInterceptor
 
-SQL 拦截器，在**SQL解析开始**时通过抛出特定异常来拦截不满足条件的 SQL，阻止 SQL 执行。
+SQL 拦截器。在 **SQL 解析开始**时，可以通过抛出特定异常拦截不满足条件的 SQL，阻止其执行。
 
 ### statementValueHandler
 
@@ -46,7 +46,7 @@ SQL 执行观察者，可用于记录 SQL 执行开始时间和结束时间，�
 
 ### xqlFileManager
 
-[XQL 文件管理器](documents/xql-file-manager)，统一管理 SQL，执行[动态 SQL](documents/dynamic-sql)，和[插件](guides/plugin)协同工作，支持 [Baki](documents/baki) 接口通过 `&` 取地址符来获取并执行动态 SQL
+[XQL 文件管理器](documents/xql-file-manager)，统一管理 SQL，执行[动态 SQL](documents/xql-dynamic-sql)，和[插件](guides/plugin)协同工作，支持 [Baki](documents/core-baki) 接口通过 `&` 取地址符来获取并执行动态 SQL
 
 ### batchSize
 
@@ -62,17 +62,17 @@ JDBC 底层批量操作大小，默认为 1000。
 
 ### queryTimeoutHandler
 
-查询超时处理器，默认值为 0 ，表示没有超时限制，根据需求自行设置超时时间，可避免慢查询堆积沾满连接池。
+查询超时处理器，默认值为 `0`，表示没有超时限制。可根据需求设置超时时间，避免慢查询堆积占满连接池。
 
 ### queryCacheManager
 
-查询缓存管理器，支持自定义缓存实现，如 Redis 、内存数据库等，如果命中缓存，直接从缓存中获取结果，提高性能，支持的接口方法为：
+查询缓存管理器，支持自定义缓存实现，如 Redis、内存缓存等。命中缓存时直接从缓存中获取结果，提高性能。启用后会作用于以下查询：
 
 - `query()` 
 - `executeQueryStream()` 
 - `entity(class).query()` 
 
-详细配置参考文档[查询缓存管理](guides/redis-query-cache-manager) 。
+详细配置参考[查询缓存管理](guides/cache-redis)。
 
 ### entityMetaProvider
 
@@ -80,9 +80,9 @@ JDBC 底层批量操作大小，默认为 1000。
 
 ### databaseInfoProvider
 
-数据库信息提供者，主要为了动态数据源或者其他一些不需要默认值的情况，通过实现此方法，改变内部的初始化值。
+数据库信息提供者，主要用于动态数据源或其他不需要默认数据库信息的情况。通过实现该接口，可以改变框架内部的数据库信息初始化逻辑。
 
-例如：`baki.query(...).findFirstEntity(class)`
+例如：`baki.query(...).findFirstEntity(User.class)`
 
 ##  IPageable
 
@@ -90,19 +90,19 @@ JDBC 底层批量操作大小，默认为 1000。
 
 ### args
 
-分页查询 SQL 总的参数。
+分页查询 SQL 的总参数。
 
 ### count
 
-记录条数：可以传入数字记录条数，或者字符串为 `count` 查询语句。
+记录条数：可以传入数字总条数，也可以传入字符串形式的 `count` 查询语句。
 
 ### disableDefaultPageSql
 
-禁用默认的字段分页查询 SQL 生成，并指定条数查询语句，并重写默认的分页参数 `[start, end]` 。
+禁用默认分页查询 SQL 生成，并指定条数查询语句，同时重写默认分页参数 `[start, end]`。
 
 ### pageHelper
 
-针对当前执行的 SQL ，优先使用局部的分页提供者，其次使用全局的分页帮助提供者 `BakiDao#globalPageHelperProvider` 。
+针对当前执行的 SQL，优先使用局部配置的分页提供者；未配置时，使用全局分页提供者 `BakiDao#globalPageHelperProvider`。
 
 ## XQLFileManager
 
@@ -125,13 +125,13 @@ named-param-prefix: ':'
 
 ### constants
 
-字符串模版常量池，在初始化时，例如 SQL 中有 `${base}` 的模版占位符，则从常量池中查找，如果找到就替换为 `pgsql` 。
+字符串模板常量池。初始化时，如果 SQL 中出现 `${base}` 这样的模板占位符，框架会从常量池中查找并替换为对应值，例如 `pgsql`。
 
-也能通过 Yaml 的语法为常量定一个锚点 `&basePath` ，用在后面的变量中。
+也可以通过 YAML 的锚点语法为常量定义 `&basePath`，供后面的变量引用。
 
 ### files
 
-XQL 文件字典集合，键为别名，值为 SQL 文件名，路径支持 Yaml 的数组语法，通过内置的 `!path` 函数自动连接为一个路径，可通过 `别名.sql名` 来获取 SQL，如上例子：`my.query`；
+XQL 文件字典集合，键为别名，值为 SQL 文件名。路径支持 YAML 数组语法，通过内置 `!path` 函数自动连接为一个路径。之后可以通过 `别名.SQL名` 获取 SQL，例如 `my.query`。
 
 文件路径支持的格式有：
 
@@ -146,12 +146,12 @@ XQL 文件字典集合，键为别名，值为 SQL 文件名，路径支持 Yaml
 
 ### pipes
 
-动态 SQL 脚本引擎自定义管道操作符字典，**key** 为管道名，**value **为管道类全名，通过添加实现自定义的**管道**来增强[动态 SQL 表达式](documents/dynamic-sql)的功能。
+动态 SQL 脚本引擎的自定义管道操作符字典，**key** 是管道名，**value** 是管道实现类的完整限定类名。通过添加自定义**管道**可以增强[动态 SQL 表达式](documents/xql-dynamic-sql)的能力。
 
 ### charset
 
-解析XQL文件所使用的编码，默认：`UTF-8`。
+解析 XQL 文件所使用的编码，默认为 `UTF-8`。
 
 ### namedParamPrefix
 
-命名参数前缀符号，默认为 `:` ，例如 `where id = :id` ，可以自定义来适配不同的环境，例如图数据库 `Neo4j` 的语法中 `:` 表示类型，此时和命名参数前缀冲突，可以自定义为其他符号来避免执行异常。
+命名参数前缀符号，默认为 `:`，例如 `where id = :id`。可以自定义以适配不同环境。例如图数据库 `Neo4j` 的语法中 `:` 表示类型，会和命名参数前缀冲突，此时可以改为其他符号来避免执行异常。

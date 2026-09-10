@@ -3,56 +3,64 @@
   <url><loc>https://rabbit-sql.com/</loc></url>
 
   <url><loc>https://rabbit-sql.com/documents</loc></url>
-  <url><loc>https://rabbit-sql.com/documents/baki</loc></url>
-  <url><loc>https://rabbit-sql.com/documents/with-spring-boot</loc></url>
-  <url><loc>https://rabbit-sql.com/documents/xql-interface-mapping</loc></url>
-  <url><loc>https://rabbit-sql.com/documents/transaction</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-baki</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-sql-params</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-transaction</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/core-api-config</loc></url>
   <url><loc>https://rabbit-sql.com/documents/xql-file-manager</loc></url>
-  <url><loc>https://rabbit-sql.com/documents/dynamic-sql</loc></url>
-  <url><loc>https://rabbit-sql.com/documents/sql-params</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/xql-dynamic-sql</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/xql-interface-mapping</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/spring-boot</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/cli</loc></url>
   <url><loc>https://rabbit-sql.com/documents/best-practice</loc></url>
-  <url><loc>https://rabbit-sql.com/documents/api-config</loc></url>
-  <url><loc>https://rabbit-sql.com/documents/rabbit-sql-cli</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/best-practice-project-init</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/best-practice-xql</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/best-practice-mapper</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/best-practice-performance</loc></url>
   <url><loc>https://rabbit-sql.com/documents/changes</loc></url>
 
   <url><loc>https://rabbit-sql.com/guides</loc></url>
-  <url><loc>https://rabbit-sql.com/guides/initialization</loc></url>
-  <url><loc>https://rabbit-sql.com/guides/spring-boot-starter</loc></url>
+  <url><loc>https://rabbit-sql.com/guides/getting-started-standalone</loc></url>
+  <url><loc>https://rabbit-sql.com/guides/getting-started-spring-boot</loc></url>
   <url><loc>https://rabbit-sql.com/guides/plugin</loc></url>
+  <url><loc>https://rabbit-sql.com/guides/advanced-prepared-sql</loc></url>
+  <url><loc>https://rabbit-sql.com/guides/advanced-statement-value-handler</loc></url>
+  <url><loc>https://rabbit-sql.com/guides/advanced-jpa</loc></url>
+  <url><loc>https://rabbit-sql.com/guides/advanced-dynamic-sql</loc></url>
+  <url><loc>https://rabbit-sql.com/guides/advanced-sql-template</loc></url>
+  <url><loc>https://rabbit-sql.com/guides/cache-redis</loc></url>
+  <url><loc>https://rabbit-sql.com/guides/cache-memory</loc></url>
+  <url><loc>https://rabbit-sql.com/guides/advanced-dynamic-datasource</loc></url>
   <url><loc>https://rabbit-sql.com/guides/utils</loc></url>
-  <url><loc>https://rabbit-sql.com/guides/prepared-sql</loc></url>
-  <url><loc>https://rabbit-sql.com/guides/statement-value-handler-extends</loc></url>
-  <url><loc>https://rabbit-sql.com/guides/jpa-supports</loc></url>
-  <url><loc>https://rabbit-sql.com/guides/dynamic-sql-details</loc></url>
-  <url><loc>https://rabbit-sql.com/guides/redis-query-cache-manager</loc></url>
-  <url><loc>https://rabbit-sql.com/guides/memory-query-cache-manager</loc></url>
-  <url><loc>https://rabbit-sql.com/guides/dynamic-routing-datasource</loc></url>
-  <url><loc>https://rabbit-sql.com/guides/sql-template</loc></url>
 
   <url><loc>https://rabbit-sql.com/static-pages/index.html</loc></url>
 
-  <url><loc>https://rabbit-sql.com/static-pages/_documents/baki.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_documents/dynamic-sql.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-baki.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-sql-params.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-transaction.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/core-api-config.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/xql-file-manager.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_documents/api-config.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_documents/sql-params.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_documents/transaction.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_documents/with-spring-boot.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/xql-dynamic-sql.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/xql-interface-mapping.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/spring-boot.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/cli.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice-project-init.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice-xql.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice-mapper.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice-performance.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/changes.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_documents/rabbit-sql-cli.html</loc></url>
 
-  <url><loc>https://rabbit-sql.com/static-pages/_guides/initialization.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_guides/dynamic-sql-details.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_guides/spring-boot-starter.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_guides/getting-started-standalone.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_guides/getting-started-spring-boot.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_guides/plugin.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_guides/prepared-sql.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_guides/jpa-supports.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_guides/statement-value-handler-extends.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_guides/redis-query-cache-manager.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_guides/memory-query-cache-manager.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_guides/advanced-prepared-sql.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_guides/advanced-statement-value-handler.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_guides/advanced-jpa.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_guides/advanced-dynamic-sql.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_guides/advanced-sql-template.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_guides/cache-redis.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_guides/cache-memory.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_guides/advanced-dynamic-datasource.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_guides/utils.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_guides/dynamic-routing-datasource.html</loc></url>
-  <url><loc>https://rabbit-sql.com/static-pages/_guides/sql-template.html</loc></url>
 </urlset>

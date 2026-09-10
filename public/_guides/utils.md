@@ -31,7 +31,7 @@ String highlight(String sql, BiFunction<TAG, String, String> replacer);
 
 继承自 `LinkedHashMap<String, Object>` 的一个实用数据类，提供了一些常用方法。
 
-输入不定常的键值对数据来构建一个 Map ：
+传入不定长的键值对数据来构建一个 Map：
 
 ```java
 DataRow of(Object... input);
@@ -51,7 +51,7 @@ DataRow ofEntity(Object entity);
 <T> T getAs(String name, T... defaults);
 ```
 
-按顺序取直：
+按顺序取值：
 
 ```java
 <T> T getAs(int index, T... defaults);
@@ -122,11 +122,11 @@ long toEpochMilli(String datetime);
 ...
 ```
 
-## 字符串模版格式化工具
+## 字符串模板格式化工具
 
 `com.github.chengyuxing.common.StringFormatter`
 
-格式化带有模版占位参数的字符串：
+格式化带有模板占位参数的字符串：
 
 ```java
 String format(String template, Map<String, ?> data);
@@ -273,10 +273,10 @@ String hash(String content, String algorithm);
 
 `com.github.chengyuxing.common.io.FileResource`
 
-路径支持 URI 和 Classpath下的资源：
+路径支持 URI 和 Classpath 下的资源：
 
 ```java
-FileResource(@Subst("uri or classpath") String path);
+FileResource(@NotNull String path);
 ```
 
 - ClassPath: `sql/rabbit.sql`

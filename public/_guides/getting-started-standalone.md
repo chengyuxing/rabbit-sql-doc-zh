@@ -1,8 +1,8 @@
 # 单独使用初始化
 
-在 maven 项目 `pom.xml` 中引入依赖：
+在 Maven 项目的 `pom.xml` 中引入依赖：
 
-_java 8+_
+*JDK 8+*
 
 ```xml
 <dependency>
@@ -31,10 +31,10 @@ files:
 # named-param-prefix: ':'
 ```
 
-实例化 `BakiDao` ：
+实例化 `BakiDao`：
 
 ```java
-Datasource datasource = new HikariDataSource();
+DataSource datasource = new HikariDataSource();
 datasource.setJdbcUrl();
 datasource.setUsername();
 datasource.setPassword();
@@ -50,4 +50,4 @@ XQLFileManager xqlFileManager = new XQLFileManager("xql-file-manager.yml");
 baki.setXqlFileManager(xqlFileManager);
 ```
 
-通过 `baki` 来执行 SQL 访问数据库，具体操作可以[参考详细文档](documents/baki)或直接参考[最佳实践](documents/best-practice) 。
+之后就可以通过 `baki` 执行 SQL 访问数据库。具体操作可以查看 [Baki 核心接口](documents/core-baki)，也可以直接参考[最佳实践](documents/best-practice)。

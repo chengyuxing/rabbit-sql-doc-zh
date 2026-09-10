@@ -1,26 +1,35 @@
-# 实现一个基于 Redis 的缓存管理器
+# 实现一个基于内存的缓存管理器
 
-我们实现一个简易版的缓存管理器：软过期 + 硬过期 + 双重检测。
+我们实现一个简易版缓存管理器：软过期 + 硬过期 + 双重检测。
 
-其核心为实现接口：`com.github.chengyuxing.sql.plugins.QueryCacheManager`
+核心是实现接口 `com.github.chengyuxing.sql.plugins.QueryCacheManager`。
 
-设置到 `BakiDao` 配置完成后根据规则即可达到 `BakiDao` 中的查询接口就能无感查询缓存，业务代码无需任何更改。
+配置到 `BakiDao` 后，`BakiDao` 中的查询接口即可无感使用查询缓存，业务代码无需任何改动。
 
-为了方便，我使用 springboot 项目来进行配置，首先 Maven 引入依赖：
+为了方便，这里使用 Spring Boot 项目进行配置，首先在 Maven 中引入依赖：
 
 - `rabbit-sql-spring-boot-starter` （5.0.9+）
-- `spring-boot-starter-data-redis`
 
-我这里使用默认单数据源自动配置。
+内存缓存依赖：
+
+```xml
+<dependency>
+    <groupId>com.github.ben-manes.caffeine</groupId>
+    <artifactId>caffeine</artifactId>
+    <version>2.9.3</version>
+</dependency>
+```
+
+这里使用默认的单数据源自动配置。
 
 ```java
 @Component
-public class RedisCacheManager implements QueryCacheManager {
+public class MemoryCacheManager implements QueryCacheManager {
   ...
 }
 ```
 
-创建一个缓存对象类，也是序列化到 redis 的数据结构：
+创建一个缓存对象类：
 
 ```java
 public static class CacheEntry implements Serializable {
@@ -31,13 +40,36 @@ public static class CacheEntry implements Serializable {
 }
 ```
 
-依赖注入 `RedisTemplate<Object, Object> redisTemplate;`
+配置必要的成员变量：
+
+```java
+private final Map<String, Object> locks = new ConcurrentHashMap<>();
+private final Cache<String, CacheEntry> cache = Caffeine.newBuilder()
+        .maximumSize(1000)
+        .expireAfter(new Expiry<String, CacheEntry>() {
+            @Override
+            public long expireAfterCreate(@NotNull String key, @NotNull CacheEntry value, long currentTime) {
+                return TimeUnit.MILLISECONDS.toNanos(value.hardExpireAt);
+            }
+
+            @Override
+            public long expireAfterUpdate(@NotNull String key, @NotNull CacheEntry value, long currentTime, @NonNegative long currentDuration) {
+                return currentDuration;
+            }
+
+            @Override
+            public long expireAfterRead(@NotNull String key, @NotNull CacheEntry value, long currentTime, @NonNegative long currentDuration) {
+                return currentDuration;
+            }
+        })
+        .build();
+```
 
 ## 构建缓存 Key
 
-其次，既然要进行缓存，就要考虑到缓存 key 的生成。
+既然要进行缓存，首先要考虑缓存 key 的生成。
 
-为了保证缓存的命中率，那么 key  的生成就要尽可能唯一，这是一个 key 生成的小例子，通过 SQL 和参数来进行 MD5 处理：
+为了保证缓存命中率，key 的生成应尽可能唯一。下面是一个小例子，通过 SQL 和参数进行 MD5 处理：
 
 ```java
 @NotNull String uniqueKey(@NotNull String sql, Map<String, ?> args) {
@@ -70,32 +102,30 @@ public static class CacheEntry implements Serializable {
 
 ```java
 private final ExecutorService refreshPool = Executors.newSingleThreadExecutor(r -> {
-    Thread thread = new Thread(r, "Rabbit-SQL Refresh Thread");
+    Thread thread = new Thread(r, "Rabbit-SQL Query Cache Refresh Thread");
     thread.setDaemon(true);
     return thread;
 });
 
 void asyncRefresh(@NotNull String sql, Map<String, ?> args, @NotNull RawQueryProvider provider) {
     String key = uniqueKey(sql, args);
-    String lockKey = "lock:" + key;
-    // 这里设置一个锁的过期时间，避免长时间占用，导致其他线程获取不到数据
-    Boolean ok = redisTemplate.opsForValue().setIfAbsent(lockKey, 1, 30, TimeUnit.SECONDS);
-    if (ok == null || !ok) {
+    Object lock = new Object();
+    if (locks.putIfAbsent(key, lock) != null) {
         return;
     }
     refreshPool.execute(() -> {
-        // 双重检测，避免击穿
-        CacheEntry entry = (CacheEntry) redisTemplate.opsForValue().get(key);
-        // 如果缓存还没有软过期，那就取消查库刷新
+        // 双重检测，避免缓存击穿
+        CacheEntry entry = cache.getIfPresent(key);
+        // 如果缓存还没有软过期，则取消查库刷新
         if (entry != null && System.currentTimeMillis() < entry.softExpireAt) {
             return;
         }
         try (Stream<DataRow> s = provider.query()) {
             List<DataRow> result = s.collect(Collectors.toList());
-            saveEntry(key, result);
+            saveEntry(sql, key, result);
         } finally {
-          	// 释放锁
-            redisTemplate.delete(lockKey);
+            // 释放锁
+            locks.remove(key);
         }
     });
 }
@@ -103,7 +133,7 @@ void asyncRefresh(@NotNull String sql, Map<String, ?> args, @NotNull RawQueryPro
 
 ## 重写核心接口
 
-本例子缓存策略的具体逻辑为：
+本示例缓存策略的具体逻辑为：
 
 1. 第一次请求或缓存已硬过期，直接通过流式查询数据库，并在关闭时将结果写进缓存；
 2. 如果请求缓存存在并且没有软过期，直接返回缓存；
@@ -114,12 +144,12 @@ void asyncRefresh(@NotNull String sql, Map<String, ?> args, @NotNull RawQueryPro
 public @NotNull Stream<DataRow> get(@NotNull String sql, Map<String, ?> args, @NotNull RawQueryProvider provider) {
     String key = uniqueKey(sql, args);
     long now = System.currentTimeMillis();
-    CacheEntry entry = (CacheEntry) redisTemplate.opsForValue().get(key);
+    CacheEntry entry = cache.getIfPresent(key);
     if (entry == null || now >= entry.hardExpireAt) {
         List<DataRow> result = new ArrayList<>();
         return provider.query()
                 .peek(result::add)
-                .onClose(() -> saveEntry(key, result));
+                .onClose(() -> saveEntry(sql, key, result));
     }
     if (now < entry.softExpireAt) {
         return entry.value.stream();
@@ -131,7 +161,7 @@ public @NotNull Stream<DataRow> get(@NotNull String sql, Map<String, ?> args, @N
 
 > 整个过程使用异步刷新机制，避免使用同步块导致阻塞。
 
-缓存写入策略软/硬过期时间其实最好还可以加一个随机数 10 - 50 左右，避免一些情况下缓存同时过期的问题，硬过期时间写入 redis 的缓存过期时间：
+软/硬过期时间最好再加上一个约 10-50ms 的随机数，避免某些情况下缓存同时过期：
 
 ```java
 void saveEntry(@NotNull String key, List<DataRow> value) {
@@ -140,13 +170,13 @@ void saveEntry(@NotNull String key, List<DataRow> value) {
     entry.value = value;
     entry.softExpireAt = now + 5000;
     entry.hardExpireAt = now + 60000;
-    redisTemplate.opsForValue().set(key, entry, 60000, TimeUnit.MILLISECONDS);
+    cache.put(key, entry);
 }
 ```
 
 ## 激活缓存
 
-如果仅仅只想对某些满足条件的 sql 才启用缓存，根据 SQL 名字或者参数包含某个键值来过滤，通过实现 `isAvailable` 方法：
+如果只想对满足条件的 SQL 启用缓存，可以根据 SQL 名字或参数中的某个键值来过滤，通过实现 `isAvailable` 方法完成：
 
 ```java
 @Override
@@ -158,5 +188,4 @@ public boolean isAvailable(@NotNull String sql, Map<String, ?> args) {
 }
 ```
 
-最后，一个强大且高性能的缓存管理器肯定不止于此！
-
+内存缓存只适用于简单单节点实例；在分布式集群场景下，建议使用 Redis 实现，可参考指南中的 Redis 版本示例。

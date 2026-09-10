@@ -2,44 +2,60 @@
   "host": "_documents/",
   "resources": [
     {
-      "id": "baki",
+      "id": "core-baki",
       "title": "核心接口 Baki"
     },
     {
-      "id": "with-spring-boot",
-      "title": "集成 Spring Boot"
+      "id": "core-sql-params",
+      "title": "SQL 参数占位符"
     },
     {
-      "id": "xql-interface-mapping",
-      "title": "XQL 接口映射"
-    },
-    {
-      "id": "transaction",
+      "id": "core-transaction",
       "title": "事务"
+    },
+    {
+      "id": "core-api-config",
+      "title": "配置项"
     },
     {
       "id": "xql-file-manager",
       "title": "XQL 文件管理器"
     },
     {
-      "id": "dynamic-sql",
+      "id": "xql-dynamic-sql",
       "title": "动态 SQL"
     },
     {
-      "id": "sql-params",
-      "title": "SQL 参数占位符"
+      "id": "xql-interface-mapping",
+      "title": "XQL 接口映射"
+    },
+    {
+      "id": "spring-boot",
+      "title": "集成 Spring Boot"
+    },
+    {
+      "id": "cli",
+      "title": "CLI 命令行工具"
     },
     {
       "id": "best-practice",
       "title": "最佳实践"
     },
     {
-      "id": "api-config",
-      "title": "配置项"
+      "id": "best-practice-project-init",
+      "title": "项目初始化"
     },
     {
-      "id": "rabbit-sql-cli",
-      "title": "CLI 命令行工具"
+      "id": "best-practice-xql",
+      "title": "XQL 编写最佳实践"
+    },
+    {
+      "id": "best-practice-mapper",
+      "title": "接口映射与插件"
+    },
+    {
+      "id": "best-practice-performance",
+      "title": "性能、安全与部署"
     },
     {
       "id": "changes",

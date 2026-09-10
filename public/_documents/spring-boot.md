@@ -1,20 +1,20 @@
 # 集成 Spring Boot
 
-基于 rabbit-sql 制作的 spring-boot 自动装配 **starter**，默认使用 spring 的事务管理，方法头上可通过注解 `@Transactional` 生效或者手动注入 `com.github.chengyuxing.sql.spring.autoconfigure.Tx` （对 spring 事务的简易封装）来使用事务。
+这是基于 Rabbit SQL 制作的 Spring Boot 自动装配 **Starter**。默认使用 Spring 事务管理，可以通过方法上的 `@Transactional` 注解，或手动注入 `com.github.chengyuxing.sql.spring.autoconfigure.Tx`（Spring 事务的简易封装）来使用事务。
 
-- 兼容 spring jdbc 事务；
-- 兼容 mybatis、spring-data-jpa 等同时进行事务处理；
+- 兼容 Spring JDBC 事务；
+- 兼容 MyBatis、Spring Data JPA 等框架一起进行事务处理；
 
-⚠️ 请勿使用 rabbit-sql 内置的 `Tx` 事务，事务已完全由 spring 全局事务替代。
+⚠️ 请勿使用 Rabbit SQL 内置的 `Tx` 事务，事务已完全由 Spring 全局事务替代。
 
 - ~~com.github.chengyuxing.sql.transaction.Tx~~ ❌
 - com.github.chengyuxing.sql.spring.autoconfigure.Tx ✅
 
 ## Maven 依赖
 
-项目 pom.xml 中引入依赖：
+项目 `pom.xml` 中引入依赖：
 
-*jdk8+*
+*JDK 8+*
 
 ```xml
 <dependency>
@@ -46,14 +46,14 @@ spring:
 Baki baki;
 ```
 
-通过实现 BakiDao 中的**接口属性**来自动注入到到 BakiDao 中，可以使用 @Component 或 @Bean 的方式来替代 starter 的默认值，如下：
+通过实现 `BakiDao` 中的**接口属性**，并使用 `@Component` 或 `@Bean` 方式注册 Bean，可以替换 Starter 的默认值，例如：
 
 ```java
 @Component
 public class RedisCacheManager implements QueryCacheManager {
     final RedisTemplate<Object, Object> redisTemplate;
   
-    public RedisCache(RedisTemplate<Object, Object> redisTemplate) {
+    public RedisCacheManager(RedisTemplate<Object, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
   
@@ -96,7 +96,7 @@ Baki baki;
 
 ```java
 @SpringBootApplication
-@XQLMapperScan(basePackages = )
+@XQLMapperScan(basePackages = "com.example.mapper")
 public class App{
   
 }
@@ -117,7 +117,7 @@ public interface ExampleXMapper {
 public class HomeService {
     final ExampleXMapper exampleXMapper;
 
-    public HomeController(ExampleXMapper exampleXMapper) {
+    public HomeService(ExampleXMapper exampleXMapper) {
         this.exampleXMapper = exampleXMapper;
     }
     ...
@@ -155,7 +155,7 @@ public class MyService {
 
 ## 入口参数
 
-通过入口参数来按需求动态调整配置：
+可以通过启动参数按需求动态调整配置：
 
 - **xql.config.location** ： 动态指定 `XQLFileManager` 的配置文件
 

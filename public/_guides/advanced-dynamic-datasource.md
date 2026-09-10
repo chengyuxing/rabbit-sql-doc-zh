@@ -3,7 +3,7 @@
 以 Spring Boot 框架为例，将动态路由数据源整合进 BakiDao 中，无侵入式的使用动态路由数据源，需要准备以下几点：
 
 1. 使用 Spring Boot 框架
-2. 引入 `rabbit-sql-spring-boot-starter` 版本 5.3.10+
+2. 引入 `rabbit-sql-spring-boot-starter` 版本 `5.3.10+`
 3. 引入一个[动态路由数据源](https://github.com/baomidou/dynamic-datasource)例如：`dynamic-datasource-spring-boot-starter`
 4. 重写 `BakiDao` 相关方法
 5. 添加到 Spring 上下文容器中
@@ -12,12 +12,12 @@
 
 ## 核心接口配置
 
-### 5.3.9以下
+### Starter 5.3.9 以下
 
 继承 `SpringManagedBaki` 重写方法 `databaseInfo()`：
 
 ```java
-public DynamicDatasourceBaki extends SpringManagedBaki{
+public class DynamicDatasourceBaki extends SpringManagedBaki {
     private final Map<String, DatabaseInfo> DB_INFO = new ConcurrentHashMap<>();
   
     public DynamicDatasourceBaki(DataSource dataSource){
@@ -65,9 +65,9 @@ public Baki baki(DataSource dataSource,
 
 ![](../images/spring-boot-auto-config.png)
 
-### 5.3.9+
+### Starter 5.3.9 及以上
 
-无需重写 `BakiDao#databaseInfo` ，实现接口 `com.github.chengyuxing.sql.plugins.DatabaseInfoProvider` 配置为 Bean 即可生效。
+无需重写 `BakiDao#databaseInfo`，只需实现接口 `com.github.chengyuxing.sql.plugins.DatabaseInfoProvider` 并配置为 Bean 即可生效。
 
 ```java
 @Component
@@ -89,11 +89,11 @@ public class DynamicDatabaseInfoProvider implements DatabaseInfoProvider {
 
 ## 应用
 
-除核心接口 `Baki` 外， Rabbit SQL 支持[接口映射](documents/xql-interface-mapping)，在动态数据源的场景中，会更加直观规范化。
+除核心接口 `Baki` 外，Rabbit SQL 还支持[接口映射](documents/xql-interface-mapping)。在动态数据源场景中，接口映射会让代码更直观、更规范。
 
 在接口上添加注解 `@DS("slave_db")` 即可切换数据源。
 
-推荐使用[插件](guides/plugin#md-head-12) <kbd>Generate Mapper...</kbd> 来生成接口类，其中有3个区域可手动增加内容不会在重复生成的过程中丢失，注解添加在如下区域内 `//CODE-BEGIN/END:annotations`：
+推荐使用[插件](guides/plugin#md-head-6) <kbd>Generate Mapper...</kbd> 来生成接口类，其中有3个区域可手动增加内容且不会在重复生成过程中丢失，注解添加在如下区域内 `//CODE-BEGIN/END:annotations`：
 
 ```java
 // Rabbit SQL plugin - Your annotations  //CODE-BEGIN:annotations
@@ -105,4 +105,4 @@ public interface HomeMapper{
 }
 ```
 
-在 service 中注入 `HomeMapper`  即可连接 `slave_db` 这个数据源进行一系列操作。
+在 Service 中注入 `HomeMapper`，即可连接 `slave_db` 数据源进行一系列操作。

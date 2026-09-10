@@ -1,8 +1,8 @@
-# 与Spring Boot 集成
+# 与 Spring Boot 集成
 
-在 maven 项目 `pom.xml` 中引入依赖：
+在 Maven 项目的 `pom.xml` 中引入依赖：
 
-_java 8+_
+*JDK 8+*
 
 ```xml
 <dependency>
@@ -48,4 +48,4 @@ files:
 Baki baki;
 ```
 
-具体操作可以[参考详细文档](documents/with-spring-boot)或直接参考[最佳实践](documents/best-practice) 。
+具体操作可以查看 [集成 Spring Boot](documents/spring-boot)，也可以直接参考[最佳实践](documents/best-practice)。

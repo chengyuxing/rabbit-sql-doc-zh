@@ -4,14 +4,14 @@
 
 动态 SQL 的内置控制指令包括：
 
-- [变量定义](documents/dynamic-sql#md-head-3)：`#var`
-- [断言检查](documents/dynamic-sql#md-head-2)：`#check`
+- [变量定义](documents/xql-dynamic-sql#md-head-3)：`#var`
+- [断言检查](documents/xql-dynamic-sql#md-head-2)：`#check`
 
-- [If 逻辑判断](documents/dynamic-sql#md-head-4)：`#if` , `#else` , `#fi`
-- [守卫语句](documents/dynamic-sql#md-head-5)：`#guard` , `#throw`
-- [Switch 分支判断](documents/dynamic-sql#md-head-6)：`#switch` , `#case` , `#default` , `#break` , `#end`
-- [Choose 分支判断](documents/dynamic-sql#md-head-7)：`#choose` , `#when` , `#default` , `#break` , `#end`
-- [For 循环](documents/dynamic-sql#md-head-8)：`#for` , `#done`
+- [If 逻辑判断](documents/xql-dynamic-sql#md-head-4)：`#if` , `#else` , `#fi`
+- [守卫语句](documents/xql-dynamic-sql#md-head-5)：`#guard` , `#throw`
+- [Switch 分支判断](documents/xql-dynamic-sql#md-head-6)：`#switch` , `#case` , `#default` , `#break` , `#end`
+- [Choose 分支判断](documents/xql-dynamic-sql#md-head-7)：`#choose` , `#when` , `#default` , `#break` , `#end`
+- [For 循环](documents/xql-dynamic-sql#md-head-8)：`#for` , `#done`
 
 每个指令关键字以 `#` 号开头， 都必须单独成为一行，指令的组合有严格的规则，和程序语言中的几乎一致。
 
@@ -47,11 +47,11 @@
 
 > 相比于在代码层面去验证参数合法性更加底层，特别是同一条 SQL 会被多个地方调用时，更加不容易遗漏参数校验。
 >
-> 代码层面则可以更加专注于业务方面，指责分离。
+> 代码层面则可以更专注于业务，做到职责分离。
 
 ### 变量定义
 
-变量定义语句，变量值可以是[常量](documents/dynamic-sql#md-head-10)，也可以是传入的参数经过[管道](documents/dynamic-sql#md-head-15)处理，通过扩展管道，实现各种复杂的变量定义。
+变量定义语句，变量值可以是[常量](documents/xql-dynamic-sql#md-head-10)，也可以是传入的参数经过[管道](documents/xql-dynamic-sql#md-head-15)处理，通过扩展管道，实现各种复杂的变量定义。
 
 定义的变量可以通过 SQL 的命名参数形式传递给 SQL，同样也以为其他指令提供变量。
 
@@ -69,9 +69,9 @@ select * from table where id = :newId and name in (
 )
 ```
 
-### IF逻辑判断
+### IF 逻辑判断
 
-IF 条件判断语句，逻辑效果和程序语言的 if 一样，作为使用频率最高的指令，也是最简单的一个结构，其完整的语法如下，`#else` 是可选的，没有 `else if` ，对于这样的结构，使用 `#choose` 指令会是更好的选择。
+IF 条件判断语句，逻辑和编程语言中的 if 一样，是使用频率最高、也最简单的指令。完整语法如下，`#else` 可选。它没有 `else if`，如果需要多分支，使用 `#choose` 会更合适。
 
 ```sql
 -- #if :user <> null
@@ -96,11 +96,11 @@ IF 条件判断语句，逻辑效果和程序语言的 if 一样，作为使用�
 
 > 对于需要拼动态 SQL 的部分，相当于 `#check` 和 `#if` 指令的组合使用，守卫语句则更加简洁。
 
-### SWITCH分支判断
+### SWITCH 分支判断
 
-效果和程序语言的 switch 一样，按顺序匹配每个 case 分支，执行**等于**判断，当第一个条件满足则直接跳出整个 switch 。
+效果和编程语言中的 switch 一样，按顺序匹配每个 case 分支并执行**等于**判断，第一个条件满足后直接跳出整个 switch。
 
- `#case` 指令支持多组值：如果多个值都满足相同的条件时，通过逗号分隔多组值来简化分支，`#default` 分支同样是可选的。
+`#case` 指令支持多组值：当多个值满足相同分支时，可以用逗号分隔来简化写法。`#default` 分支同样是可选的。
 
 ```sql
 -- #switch :name
@@ -117,13 +117,13 @@ IF 条件判断语句，逻辑效果和程序语言的 if 一样，作为使用�
 -- #end
 ```
 
-> 在上面例子中，值 `c` 没有加引号，这不是错误，是动态 SQL 脚本中所支持的隐式转换，详细说明参考[字符串常量值](documents/dynamic-sql#md-head-11)语法规则。
+> 在上面例子中，值 `c` 没有加引号，这不是错误，是动态 SQL 脚本中所支持的隐式转换，详细说明参考[字符串常量值](documents/xql-dynamic-sql#md-head-11)语法规则。
 
-### CHOOSE分支判断
+### CHOOSE 分支判断
 
-结构和 `#switch` 语句相同，但每个 `#when` 分支接受一个比较表达式，按顺序匹配每个 `#when` 分支，当第一个条件满足则直接跳出整个 choose 。
+结构和 `#switch` 相同，但每个 `#when` 分支接受一个比较表达式，按顺序匹配，第一个条件满足后直接跳出整个 choose。
 
-choose 可以模拟出：**如果-否则如果1-...-否则如果N-否则** 这样的结构，同样的，`#default` 分支是可选的。
+choose 可以模拟 **如果-否则如果1-...-否则如果N-否则** 这样的结构。`#default` 分支同样是可选的。
 
 ```sql
 -- #choose
@@ -137,9 +137,9 @@ choose 可以模拟出：**如果-否则如果1-...-否则如果N-否则** 这�
 -- #end
 ```
 
-### FOR循环
+### FOR 循环
 
-集合遍历语句，效果和程序语言一样，对一个集合进行遍历，将循环体内的内容进行累加。
+集合遍历语句，效果和编程语言一样，遍历一个集合并将循环体内容进行累加。
 
 ```sql
 -- #for item of :list; index as i; last as isLast
@@ -157,7 +157,7 @@ item of :list [| pipe1 | pipeN | ... ] [;index as i] [;last as isLast] ...
 
 - `[...]` 表示可选配置项；
 - `item` 表示当前值；
-- `:list` 表示当前迭代的对象，后面可以追加[管道](documents/dynamic-sql#md-head-15)进行一些特殊处理；
+- `:list` 表示当前迭代的对象，后面可以追加[管道](documents/xql-dynamic-sql#md-head-15)进行一些特殊处理；
 - 上下文属性：
   - `index` 当前项目的索引；
   - `first` 当前项目是否为第一个；
@@ -192,7 +192,7 @@ item of :list [| pipe1 | pipeN | ... ] [;index as i] [;last as isLast] ...
 
 例如：`a_b` , `"a_b"` , `'a_b'` 都是等价的，如果数字和关键字加上引号则真实类型就是字符串，例如：`blank` 不等于 `'blank'`。
 
-所以在大多数情况下条件表达式判断字符串比较中，可以省略引号，简化写法，例如：
+因此，在大多数条件表达式的字符串比较中，可以省略引号以简化写法，例如：
 
 ```
 :name = cyx
@@ -279,9 +279,9 @@ or id in (
 {"ids": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
 ```
 
-在sql中以 `:` 开头的变量名，意味着这是一个将会进行预编译的命名参数；
+在 SQL 中以 `:` 开头的变量名，表示这是一个会被预编译的命名参数；
 
-> 如果 `in` 部分的数据来源可靠并且不强求预编译的话，可以使用字符串模版实现，如上可以改为 `... or id in (${!ids})` ，具体的含义可以参考[字符串模版](documents/sql-params#md-head-2) 。
+> 如果 `in` 部分的数据来源可靠并且不强求预编译，也可以使用字符串模板实现，例如改成 `... or id in (${!ids})`。具体含义可参考[字符串模板](documents/core-sql-params#md-head-2)。
 
 **for** 也可以用来构建 `update` 语句：
 
@@ -312,7 +312,7 @@ where id = :id;
 
 说明：
 
-- `:sets` 对应的值是一个 Map 对象，经过 `kv` **管道**后变成了一个**键值对集合**，所以可以用于 **for** 表达式；
+- `:sets` 对应的值是一个 Map 对象，经过 `kv` **管道**后变成**键值对集合**，因此可以用于 **for** 表达式；
 
 根据不同数据库进行判断来拼接适合的 SQL：
 
@@ -329,4 +329,4 @@ where id = 3
 ;
 ```
 
-> 内置变量名 `_databaseId` 值为当前数据库信息对象：`com.github.chengyuxing.sql.types.DatabaseInfo`，在运行时由 BakiDao 提供。
+> 内置变量 `_databaseId` 的值是当前数据库信息对象 `com.github.chengyuxing.sql.types.DatabaseInfo`，由 BakiDao 在运行时提供。

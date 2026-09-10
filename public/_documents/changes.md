@@ -24,7 +24,7 @@
 
 - ❌ 动态 SQL 脚本解析器移除内置管道 `type`
 - ✅ `FileResource` 优化，增加 `ConnectionInterceptor` 支持配置请求 HTTP 类型资源的参数选项
-- ✅ SQL 高亮优化，支持内联模版、元数据定义高亮
+- ✅ SQL 高亮优化，支持内联模板、元数据定义高亮
 - ✅ 对象路径表达式新增语法 `['key']` 支持获取 Map 中指定键名的数据，例如： `user.name['first-name']`
 - ✅ 新增方法：`DataRow#walkAs` 支持目录表达式获取值 `user/addresses/0`
 - ✅ 修复 XQL 接口映射查询方法返回 `Boolean` 类型的 bug
@@ -47,9 +47,9 @@
   - ✅ **XQL 接口代码生成器**添加 SQL 类型、参数类型、返回类型之间关系的规则约束，降低配置错误率
   - ✅ **XQL 接口代码生成器**支持新的返回类型：`BatchResult` ，当 SQL 类型为 `batch` 时，参数类型定义变为泛型类型，接口将自动将参数包装为 `Iterable<T>`
   - ✅ XQL 文件编辑器中添加元数据的高亮 `-- @name value`
-  - ✅ XQL 文件编辑器内支持高亮内联模版变量名，支持模版定义 `-- //TEMPLATE-BEGIN:xxx` 和使用位置 `${xxx}` 互相导航跳转
-  - ✅ XQL 文件解析 SQL 名自动完成提示建议过滤模版定义变量名称
-  - ✅ 代码生成器模版优化
+  - ✅ XQL 文件编辑器内支持高亮内联模板变量名，支持模板定义 `-- //TEMPLATE-BEGIN:xxx` 和使用位置 `${xxx}` 互相导航跳转
+  - ✅ XQL 文件解析 SQL 名自动完成提示建议过滤模板定义变量名称
+  - ✅ 代码生成器模板优化
   - ✅ 操作 `Selected opened file` 修复定位不准确的 bug
   - ✅ 修复操作 `Create XQL fragment` 没有正常弹出的 bug
   - ❌ 移除 Kotlin 源码文件目录的检测操作
@@ -76,7 +76,7 @@
 
 ## 10.3.10
 
-- ✅ 工具类增加方法：`StringUtils#forechWindow` （遍历匹配项周围一个区域的文本）
+- ✅ 工具类增加方法：`StringUtils#foreachWindow`（遍历匹配项周围一个区域的文本）
 - ✅ `MostDateTime` 支持解析中文字符日期格式，例如：`二〇二六年六月二十六日` ，日期时间提取识别更宽松
 - ✅ `rabbit-sql-spring-boot-starter` 更新版本 `5.3.10`
 - ✅ **Rabbit SQL CLI** `3.0.1` 支持除存储过程/函数以外的 SQL 和 redis 查询结果导出文件（连接 redis 至少需要 jdk11）
@@ -106,7 +106,7 @@
 ## 10.3.7
 
 - ✅ 修复只有一个关键字时 SQL 高亮产生的bug
-- ✅ XQL 内联模版引用格式化优化
+- ✅ XQL 内联模板引用格式化优化
 - ✅ `IOutput` 工具重构优化
 - ✅ 新增方法 `BakiDao#databaseInfo` ，内部调用优化，支持重写：
   - 默认情况下初始化一次，单数据源和多实例多数据源默认即可
@@ -187,13 +187,13 @@ last as isLast] ...
 
 ### XQL 管理器
 
-- ✅ `XQLFileManager` 增加支持内联模版解析，其他 SQL 可根据名字直接引用，避免单独提取为模版片段对象：
+- ✅ `XQLFileManager` 增加支持内联模板解析，其他 SQL 可根据名字直接引用，避免单独提取为模板片段对象：
   ```sql
   -- //TEMPLATE-BEGIN:<name> 
   ... 
   -- //TEMPLATE-END
   ```
-  内联模版不可嵌套，且必须成对，如下例子：
+  内联模板不可嵌套，且必须成对，如下例子：
   ```sql
   /*[queryList]*/
   select * from guest where
@@ -234,7 +234,7 @@ last as isLast] ...
 - ✅ `Baki#entity.query` 第一个可选参数作为查询 ID 带入参数中，可通过 `Baki#identifier` 获取，为根据参数拦截 SQL 提供帮助
 - ✅ XQL 接口映射参数解析优化
 - ✅ SQL 异常拦截统一包装为：`com.github.chengyuxing.sql.exceptions.DataAccessException`
-- ✅ Spring boot starter (5.2.1) 实现 SQL 异常翻译对接到 Spring 的 `DataAccessException`，支持拦截如 `DuplicateKeyException` 等
+- ✅ Spring Boot Starter（5.2.1）实现 SQL 异常翻译对接到 Spring 的 `DataAccessException`，支持拦截 `DuplicateKeyException` 等异常
 - ⚠️ 包名 `com.github.chengyuxing.sql.utils` 重命名为 `com.github.chengyuxing.sql.util`
 - ⚠️ 包名 `com.github.chengyuxing.common.utils` 重命名为 `com.github.chengyuxing.common.util`
 - ⚠️ 重命名以及性能优化：
@@ -267,7 +267,7 @@ last as isLast] ...
 - ✅ 新增简单实体操作接口方法：`Baki#entity`
 - ✅ 新增实体解析通用接口：`EntityMetaProvider`
 - ❌ 移除接口：`EntityValueMapper` ，`EntityFieldMapper`
-- ✅ Spring boot starter (5.1.1) 增加自动配置 Bean：`EntityMetaProvider`
+- ✅ Spring Boot Starter（5.1.1）增加自动配置 Bean：`EntityMetaProvider`
 
 ## 10.0.9
 
@@ -288,8 +288,8 @@ last as isLast] ...
   @NotNull Stream<DataRow> get(@NotNull String sql, Map<String, ?> args, @NotNull RawQueryProvider provider);
   ```
 - ✅ XQL 映射拦截注入接口重构优化，提高自由度
-- ❌ Spring boot starter (5.0.8) 自动配置移除了多数据源配置项
-- ✅ Spring boot starter (5.0.8) 默认单数据源自动注入配置优化，`BakiDao` 中所有接口对象类型属性都支持自动配置（`@Bean` 或 `@Component`），例如：
+- ❌ Spring Boot Starter（5.0.8）自动配置移除了多数据源配置项
+- ✅ Spring Boot Starter（5.0.8）默认单数据源自动注入配置优化，`BakiDao` 中所有接口对象类型属性都支持自动配置（`@Bean` 或 `@Component`），例如：
   ```java
   @Component
   public class RedisCacheManager implements QueryCacheManager {
@@ -303,7 +303,7 @@ last as isLast] ...
 
 - ✅ 兼容 spring boot 4.0
 - ⚠️ 移除了 `SqlParseChecker`，功能迁移到 `SqlInterceptor`
-- ✅ `BakiDao` 内置分页查询优化，sql名解析为条数查询和记录查询语句优化
+- ✅ `BakiDao` 内置分页查询优化，SQL 名解析为条数查询和记录查询语句优化
 
 ## 10.0.5
 
@@ -327,7 +327,7 @@ last as isLast] ...
     select 2;--
    end;
    ```
-- ❌ 字符串模版 `${}` 解析优化，移除 `TemplateFormatter` , `NamedParamFormatter`
+- ❌ 字符串模板 `${}` 解析优化，移除 `TemplateFormatter`、`NamedParamFormatter`
 - ✅ 动态 SQL 解析参数覆盖逻辑调整：用户参数覆盖内部 `#var` 定义的参数
 - ✅ `PagedResource` 增加方法：`to`
 
@@ -365,7 +365,7 @@ last as isLast] ...
 
 ## 10.0.0
 
-- ⚠️ Rabbit SQL 从 `10.0.0` 开始，将只维护一个版本，默认支持最低 JDK 为 1.8，对于 Starter 的支持 Springboot 最低兼容版本为 2.7（JDK 1.8）
+- ⚠️ Rabbit SQL 从 `10.0.0` 开始，将只维护一个版本，默认最低支持 JDK 1.8；Starter 最低兼容 Spring Boot 2.7（JDK 1.8）
 - ❌ 移除了对于内置 JPA 实体映射的支持，转而采用更灵活的映射接口扩展来支持自定义实现：
   - ✅ `EntityFieldMapper`
   - ✅ `EntityValueMapper`

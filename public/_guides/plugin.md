@@ -6,7 +6,7 @@
 
 ## 安装插件
 
-- 通过IDEA插件商店进行安装：<kbd>Preferences(Settings)</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search and find <b>"rabbit sql"</b></kbd> > <kbd>Install Plugin</kbd>；
+- 通过 IDEA 插件商店安装：<kbd>Preferences(Settings)</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search and find <b>"rabbit sql"</b></kbd> > <kbd>Install Plugin</kbd>；
 - 通过插件[资源库](https://plugins.jetbrains.com/plugin/21403-rabbit-sql/versions)手动下载安装：<kbd>Preferences(Settings)</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd> > 选择插件安装包（不需要解压）。
 
 ## XQL File Manager 工具窗口
@@ -15,7 +15,7 @@
 
 ### 新建配置文件
 
-工具窗口内会识别出所有标准的 maven 项目，如果是其他项目，需要手动创建目录：
+工具窗口内会识别出所有标准的 Maven 项目，如果是其他项目，需要手动创建目录：
 
 ```
 src/main/resources
@@ -28,11 +28,11 @@ src/main/resources
 - 如果 `resources` 目录下没有 `xql-file-manager.yml` ，则自动创建；
 - 如果有，则填入一个新的名称创建  `xql-file-manager-*.yml` ；
 
-> [Rabbit SQL Spring Boot Starter](documents/with-spring-boot) 默认加载名为 `xql-file-manager.yml` 的配置文件，其他则通过属性：`xql-file-manager.config-location` 来指定。
+> [Rabbit SQL Spring Boot Starter](documents/spring-boot) 默认加载名为 `xql-file-manager.yml` 的配置文件，其他则通过属性：`xql-file-manager.config-location` 来指定。
 
 ### 新建 XQL 文件
 
-xql-file-mnager.yml 右键 <kbd>New</kbd> 弹出表单新建一个 XQL 文件 ：
+xql-file-manager.yml 右键 <kbd>New</kbd> 弹出表单新建一个 XQL 文件：
 
 ![](../images/plugin-new-xql.png)
 
@@ -40,7 +40,7 @@ xql-file-mnager.yml 右键 <kbd>New</kbd> 弹出表单新建一个 XQL 文件 �
 
 #### 新建 SQL 片段
 
-可以选择手动编辑 XQL 文件或者通过插件来创建，XQL 文件右键 <kbd>New</kbd> 弹出表单填入相关信息来创建一个 SQL 片段，将自动在 XQL 文件结尾插入一个 SQL 片段模版：
+可以选择手动编辑 XQL 文件，或者通过插件创建。在 XQL 文件上右键 <kbd>New</kbd>，弹出表单填入相关信息来创建一个 SQL 片段，插件会自动在 XQL 文件结尾插入一个 SQL 片段模板：
 
 ```sql
 /*[queryUsers]*/
@@ -49,10 +49,10 @@ xql-file-mnager.yml 右键 <kbd>New</kbd> 弹出表单新建一个 XQL 文件 �
 ;
 ```
 
-XQL 文件支持 **Live Template** ，通过输入关键字 `xql` 弹出建议，快速生成模版，例如：
+XQL 文件支持 **Live Template**，通过输入关键字 `xql` 弹出建议，快速生成模板，例如：
 
--  `xql:new` 自动生成一个 SQL 片段模版；
-- `xql:if` 自动生成动态 SQL 脚本 IF 表达式模版；
+- `xql:new` 自动生成一个 SQL 片段模板；
+- `xql:if` 自动生成动态 SQL 脚本 IF 表达式模板；
 
 ![](../images/plugin-live-template.png)
 
@@ -64,17 +64,17 @@ XQL 文件支持 **Live Template** ，通过输入关键字 `xql` 弹出建议�
 
 默认情况下，会根据 SQL 名前缀来自动识别出 SQL Type，如果不准确可手动选择，返回类型如果有 `PagedResource`，并且有同名 SQL 其后缀为 `_count` `Count` `-count`，则此 SQL 将自动配置为分页查询的条数查询 SQL 。
 
-选择返回类型，特殊分页情况，如不需要内部包装分页 SQL ，填写 **Disable defualt page SQL** 属性值即可，具体说明参考[自定义分页](documents/xql-interface-mapping#md-head-5)。
+选择返回类型。特殊分页情况下，如果不需要框架自动包装分页 SQL，填写 **Disable default page SQL** 属性即可，具体说明参考[自定义分页](documents/xql-interface-mapping#md-head-5)。
 
 ![](../images/return-types-dialog.png)
 
 配置完成后，点击 <kbd>Generate</kbd> 将在指定包下面生成接口文件，并在 XQL 相同路径下生成对应的接口配置文件：`my.xql.rbm` ，请勿手动修改或删除。
 
-若项目为 Spring Boot 项目，可与 [Rabbit SQL 集成](documents/with-spring-boot)，直接注入生成的 `*Mapper.java` 即可执行相应的操作。
+若项目为 Spring Boot 项目，可与 [Rabbit SQL 集成](documents/spring-boot)，直接注入生成的 `*Mapper.java` 即可执行相应的操作。
 
 ## 测试动态 SQL
 
-插件最主要的核心功能就是测试[动态 SQL](documents/dynamic-sql)，测试动态 SQL 的按钮 <kbd>Execute '...'</kbd> 可在这些地方找到：
+插件最主要的核心功能就是测试[动态 SQL](documents/xql-dynamic-sql)，测试动态 SQL 的按钮 <kbd>Execute '...'</kbd> 可在这些地方找到：
 
 - 工具窗口 SQL 片段右键；
 - XQL 文件中 SQL 名 `/*[queryUsers]*/` 按下快捷键 <kbd>Alt</kbd> + <kbd>Enter</kbd> 或者点击 黄色小灯泡 💡弹出菜单；
@@ -84,18 +84,18 @@ XQL 文件支持 **Live Template** ，通过输入关键字 `xql` 弹出建议�
 
 ### 参数格式
 
-在弹出的窗口中已识别出 SQL 中所有的命名参数 `:key` 和 模版占位符 `${key}` ，参数格式将自动识别：
+在弹出的窗口中，插件已识别出 SQL 中所有的命名参数 `:key` 和模板占位符 `${key}`，参数格式会自动识别：
 
 - 数字：`10` ， `3.14` 
 - 字符串：`''` ， `""` 或者非数字 `a1`（可以不用加引号）;
-- JSON 对象：标准的 JSON 数组 `{"name":"cyx", "age", 32}` ；
-- JSON（对象）数组：标准的 JSON （对象）数组 `["a", "b", "c"]`；
+- JSON 对象：`{"name":"cyx","age":32}`；
+- JSON 数组：`["a","b","c"]`；
 - 常量值：`null` ，`blank` （`null` 、空白字符串、空数组、空集合）， `true` ， `false` ；
 
-没有配置数据源则进行动态 SQL 解析查看解析效果，如果配置有数据源，可在动态 SQL 解析完成后真实的执行 SQL 访问数据库查看生成环境中的效果。
+未配置数据源时，只进行动态 SQL 解析并查看结果；配置数据源后，可以在动态 SQL 解析完成后真实执行 SQL，查看生产环境中的实际效果。
 
 在动态 SQL 测试完成之后，尤其是 **非查询语句** （DML，DDL），请务必点击结果窗口上的回滚按钮 <kbd>回滚事务</kbd> ，毕竟这只是测试！
 
-## 多配置文件切换激活
+## 切换激活多个配置文件
 
-如果项目中存在多个不同的数据库，那么大概率相应的也会存在多个 `xql-file-manager-*.yml` 配置文件，Java 文件中若要获得自动完成建议（字符串中输入 `&` 开头会弹出候选 SQL 片段），则工具窗口 xql-file-manager-*.yml 右键：<kbd>Toggle to Active</kbd> 来激活这个配置。
+如果项目连接多个数据库，通常会存在多个 `xql-file-manager-*.yml` 配置文件。要在 Java 文件中获得自动补全建议（输入 `&` 开头会弹出候选 SQL 片段），可以在工具窗口中右键对应的 `xql-file-manager-*.yml`，选择 <kbd>Toggle to Active</kbd> 激活该配置。

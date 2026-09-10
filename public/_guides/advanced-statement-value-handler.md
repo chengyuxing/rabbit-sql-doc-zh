@@ -1,19 +1,19 @@
 # 扩展预编译 SQL 值处理器
 
-Rabbit SQL 默认支持的值类型都比较少，在不同的框架中还有其特有的值类型，每次都手动处理转换比较麻烦，通过实现接口 `com.github.chengyuxing.sql.plugins.StatementValueHandler` 并[配置到 BakiDao](documents/api-config#md-head-4) 来轻松扩展：
+Rabbit SQL 默认内置支持的值类型有限，而不同框架还会有各自的特殊值类型。如果每次都手动转换会比较麻烦，可以通过实现接口 `com.github.chengyuxing.sql.plugins.StatementValueHandler` 并[配置到 BakiDao](documents/core-api-config#md-head-4) 来扩展：
 
 ```java
 public class MyStatementValueHandler implements StatementValueHandler {
     @Override
     public void handle(@NotNull PreparedStatement ps, @Range(from = 1, to = Integer.MAX_VALUE) int index, @Nullable Object value, @NotNull DatabaseInfo info) throws SQLException {
       // ...
-      // 这是一个内部实现作为兜底的方法，除非完全自己实现
+      // 这是内部兜底实现，除非你完全自己处理参数，否则建议调用它
       JdbcUtil.setStatementValue(ps, index, value);
     }
 }
 ```
 
-处理 Spring boot **MultipartFile** ，甚至于如果您有文件服务器或其他存储文件中间件的话，可以截获处理所有文件类型，将文件存储到文件服务器，数据库仅存储文件路径即可：
+例如处理 Spring Boot 的 **MultipartFile**。如果还有文件服务器或其他文件存储中间件，可以拦截所有文件类型，把文件保存到文件服务器，数据库只保存文件路径：
 
 ```java
 if (value instanceof MultipartFile) {
@@ -26,7 +26,7 @@ if (value instanceof MultipartFile) {
 }
 ```
 
-如果传入的值类型为 **Map** 或 **List** ，在大多数数据库中并没有与之对应的数据类型，那么默认情况下可序列化为 **JSON** 较为合理：
+如果传入值是 **Map** 或 **List**，大多数数据库没有对应的原生类型，此时默认序列化为 **JSON** 比较合理：
 
 ```java
 if (value instanceof Map<?, ?> || value instanceof List<?>) {
@@ -43,4 +43,4 @@ if(info.getName().equals("postgresql")){
 }
 ```
 
-在信创中，面对随时更换五花八门的国产数据库，此方法显得尤为重要！
+在信创场景中，需要面对随时更换、种类繁多的国产数据库，这个扩展点会显得尤为重要。

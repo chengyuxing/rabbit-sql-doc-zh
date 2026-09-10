@@ -2,64 +2,64 @@
   "host": "_guides/",
   "resources": [
     {
-      "id": "initialization",
-      "title": "初始化",
-      "description": "添加 Rabbit-SQL 框架到项目中配置初始化。"
+      "id": "getting-started-standalone",
+      "title": "单独使用初始化",
+      "description": "不依赖 Spring Boot，在普通 Java 或 Maven 项目中初始化 Rabbit SQL。"
     },
     {
-      "id": "spring-boot-starter",
-      "title": "集成 Spring boot",
-      "description": "通过集成 Spring boot 来快速搭建项目，利用自动配置来更进一步简化开发。"
+      "id": "getting-started-spring-boot",
+      "title": "与 Spring Boot 集成",
+      "description": "通过 Spring Boot Starter 快速搭建项目，并利用自动配置简化开发。"
     },
     {
       "id": "plugin",
       "title": "IDEA 插件",
-      "description": "通过安装插件来为使用 Rabbit SQL 进一步提供便利，本地测试动态 SQL。"
+      "description": "安装 Rabbit SQL 插件，提升 XQL 开发、接口生成和动态 SQL 测试效率。"
+    },
+    {
+      "id": "advanced-prepared-sql",
+      "title": "预编译 SQL 科普",
+      "description": "了解预编译 SQL 的基础原理，避免低级 SQL 注入问题。"
+    },
+    {
+      "id": "advanced-statement-value-handler",
+      "title": "扩展预编译 SQL 值处理器",
+      "description": "支持更多特殊值类型，在信创和国产数据库场景中尤其重要。"
+    },
+    {
+      "id": "advanced-jpa",
+      "title": "实体兼容 JPA 等其他框架",
+      "description": "通过实体映射扩展兼容 JPA 或自定义注解实体映射规则。"
+    },
+    {
+      "id": "advanced-dynamic-sql",
+      "title": "动态 SQL 实用小技巧",
+      "description": "了解更多动态 SQL 特性，在项目实战中发挥更大作用。"
+    },
+    {
+      "id": "advanced-sql-template",
+      "title": "SQL 模板复用技巧",
+      "description": "使用内联模板声明模板片段，规避 IDE 语法高亮和格式化异常。"
+    },
+    {
+      "id": "cache-redis",
+      "title": "实现基于 Redis 的缓存管理器",
+      "description": "实现软过期、硬过期和双重检查的 Redis 查询缓存管理器。"
+    },
+    {
+      "id": "cache-memory",
+      "title": "实现基于内存的缓存管理器",
+      "description": "实现软过期、硬过期和双重检查的内存查询缓存管理器。"
+    },
+    {
+      "id": "advanced-dynamic-datasource",
+      "title": "整合动态数据源",
+      "description": "让 BakiDao 适配动态数据源框架，无需大规模改造。"
     },
     {
       "id": "utils",
-      "title": "工具类",
-      "description": "整理了一些框架内在使用的实用工具类。"
-    },
-    {
-      "id": "prepared-sql",
-      "title": "预编译 SQL 科普",
-      "description": "最基础的预防 SQL 注入的方式，避免项目中出现低级 BUG 引起生产问题！"
-    },
-    {
-      "id": "statement-value-handler-extends",
-      "title": "扩展预编译 SQL 值处理器",
-      "description": "支持更多的特殊值类型，在信创中，面对随时更换五花八门的国产数据库，此方法显得尤为重要。"
-    },
-    {
-      "id": "jpa-supports",
-      "title": "实体映射扩展",
-      "description": "通过实体映射扩展方法来支持 JPA ，甚至自定义注解实体映射规则。"
-    },
-    {
-      "id": "dynamic-sql-details",
-      "title": "动态 SQL 实用小技巧",
-      "description": "了解更多的动态 SQL 特性，在项目实战中尽可能发挥更多的作用。"
-    },
-    {
-      "id": "redis-query-cache-manager",
-      "title": "实现基于 Redis 的缓存管理器",
-      "description": "实现一个 软过期 + 硬过期 + 双重检查 的 redis 查询缓存管理器。"
-    },
-    {
-      "id": "memory-query-cache-manager",
-      "title": "实现基于内存的缓存管理器",
-      "description": "实现一个 软过期 + 硬过期 + 双重检查 的内存查询缓存管理器。"
-    },
-    {
-      "id": "dynamic-routing-datasource",
-      "title": "整合动态数据源",
-      "description": "为 BakiDao 配置适配动态数据源，以兼容动态数据源框架，无需进行大改。"
-    },
-    {
-      "id": "sql-template",
-      "title": "SQL 模版复用技巧",
-      "description": "使用内联模版语法来声明模版片段，规避 IDE 的语法高亮错误和格式化异常，提升 SQL 完整性。"
+      "title": "实用工具",
+      "description": "整理框架内部使用的实用工具类。"
     }
   ]
 }
