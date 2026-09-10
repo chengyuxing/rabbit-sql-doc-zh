@@ -6,6 +6,8 @@ const config = {
   outputDir: `./dist/static-pages`,
 }
 
+const versions = JSON.parse(fs.readFileSync('./src/versions.json', 'utf8'));
+
 const htmlTemplate = (title, body) => `<!doctype html>
 <html lang="en">
 <head>
@@ -139,7 +141,9 @@ function convertMdFiles(dir, call) {
     if (file.isDirectory()) {
       convertMdFiles(path.join(fullPath));
     } else if (file.isFile() && file.name.endsWith('.md')) {
-      const mdContent = fs.readFileSync(fullPath, 'utf8');
+      const mdContent = fs.readFileSync(fullPath, 'utf8')
+        .replaceAll('{{rabbitSqlVersion}}', versions.rabbitSqlVersion)
+        .replaceAll('{{starterVersion}}', versions.starterVersion);
       const htmlContent = marked.parse(mdContent);
 
       const outputName = fullPath.replace(/\.md$/, '.html');

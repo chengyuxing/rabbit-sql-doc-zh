@@ -38,12 +38,6 @@ export class MainComponent implements OnInit {
     img.onload = () => {
       this.showYoutube = true;
     };
-    img.onerror = () => {
-    };
-    setTimeout(() => {
-      if (!img.complete) {
-      }
-    }, 3000);
   }
 
   protected readonly github = github;

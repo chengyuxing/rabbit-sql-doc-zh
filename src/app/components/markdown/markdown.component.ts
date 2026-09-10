@@ -1,10 +1,12 @@
 import {
   AfterViewInit,
   Component, effect, HostListener,
+  DestroyRef,
   inject,
   input, OnInit,
   output, ViewEncapsulation
 } from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {HttpClient} from '@angular/common/http';
 import {marked} from 'marked';
 import {SafehtmlPipe} from '../../pipes/safehtml.pipe';
@@ -23,7 +25,7 @@ import {MatTooltip} from '@angular/material/tooltip';
 import {MatDialog} from '@angular/material/dialog';
 import {QrcodeComponent} from '../qrcode/qrcode.component';
 import {Confirm} from '../confirm/confirm';
-import {appName} from '../../common/global';
+import {appName, rabbitSqlVersion, starterVersion} from '../../common/global';
 import {ThemeService} from '../../common/theme.service';
 import {UiStatesService} from '../../common/ui-states.service';
 
@@ -57,6 +59,7 @@ export class MarkdownComponent implements AfterViewInit, OnInit {
   dialog = inject(MatDialog);
   themeService = inject(ThemeService);
   uiStatesService = inject(UiStatesService);
+  destroyRef = inject(DestroyRef);
 
   content?: string;
   titles: MarkDownHead[] = [];
@@ -89,13 +92,13 @@ export class MarkdownComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.themeService.observe().subscribe(() => {
+    this.themeService.observe().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       if (this.content) {
         this.content = this.content + `<!-- render:${Date.now()} -->`;
       }
       this.rerenderMermaid();
     });
-    this.route.fragment.subscribe(id => {
+    this.route.fragment.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(id => {
       if (id) {
         this.currentHash = id;
         if (this.anAction) {
@@ -141,9 +144,18 @@ export class MarkdownComponent implements AfterViewInit, OnInit {
     }
     if (classList.contains('internal-link')) {
       event.preventDefault();
-      const uri = target.getAttribute('href');
+      const anchor = target as HTMLAnchorElement;
+      const uri = anchor.getAttribute('href');
       if (uri) {
-        this.router.navigateByUrl(uri).then(() => {
+        if (uri.startsWith('#')) {
+          this.router.navigate([], {relativeTo: this.route, fragment: uri.substring(1)});
+          return;
+        }
+        const url = new URL(uri, location.origin);
+        const path = url.origin === location.origin
+          ? `${url.pathname}${url.search}${url.hash}`
+          : uri;
+        this.router.navigateByUrl(path).then(() => {
           if (!location.hash) {
             window.scrollTo({top: 0});
           }
@@ -166,7 +178,10 @@ export class MarkdownComponent implements AfterViewInit, OnInit {
         this.navToHome('没有找到文档，正在跳转...');
         return;
       }
-      const html = marked(res) as string;
+      const mdContent = res
+        .replaceAll('{{rabbitSqlVersion}}', rabbitSqlVersion)
+        .replaceAll('{{starterVersion}}', starterVersion);
+      const html = marked(mdContent) as string;
       const myContent = this.parsing(html);
       const h1 = this.titles[0];
       if (h1) {
@@ -198,6 +213,7 @@ export class MarkdownComponent implements AfterViewInit, OnInit {
   parsing(content: string): string {
     const div = document.createElement('div');
     div.innerHTML = content;
+    this.sanitizeHtml(div);
     const titles: MarkDownHead[] = [];
     let idx = 0;
     for (const child of div.children) {
@@ -263,9 +279,9 @@ export class MarkdownComponent implements AfterViewInit, OnInit {
     const imgs = div.querySelectorAll('img');
     if (imgs && imgs.length > 0) {
       for (const img of imgs) {
-        const src = img.src;
-        if (src.startsWith('../images')) {
-          img.src = src.substring(3);
+        const src = img.getAttribute('src');
+        if (src && src.startsWith('../images')) {
+          img.setAttribute('src', src.substring(3));
         }
       }
     }
@@ -283,6 +299,19 @@ export class MarkdownComponent implements AfterViewInit, OnInit {
     version.id = 'render-' + Date.now();
     div.appendChild(version);
     return div.innerHTML;
+  }
+
+  sanitizeHtml(root: HTMLElement) {
+    root.querySelectorAll('script, style, link, meta').forEach(el => el.remove());
+    root.querySelectorAll('*').forEach(el => {
+      Array.from(el.attributes).forEach(attr => {
+        const name = attr.name.toLowerCase();
+        const value = attr.value;
+        if (name.startsWith('on') || /^\s*(javascript|vbscript):/i.test(value)) {
+          el.removeAttribute(attr.name);
+        }
+      });
+    });
   }
 
   getLanguageName(classList: DOMTokenList) {

@@ -14,7 +14,7 @@ import {
 } from '@angular/router';
 import {UiStatesService} from './common/ui-states.service';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
-import {appName, appTitle, github} from './common/global';
+import {appName, appTitle, appVersion, github} from './common/global';
 import {ResourceService} from './common/resource.service';
 import {MatProgressBar} from '@angular/material/progress-bar';
 import {LoadingService} from './common/loading.service';
@@ -99,6 +99,7 @@ export class AppComponent implements OnInit {
 
   protected readonly github = github;
   protected readonly appName = appName;
+  protected readonly appVersion = appVersion;
 
   toggleSideNav() {
     const currentState = this.uiStatesService.currentDocumentToggleState;
