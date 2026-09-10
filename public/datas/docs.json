@@ -2,6 +2,11 @@
   "host": "_documents/",
   "resources": [
     {
+      "id": "quickstart-overview",
+      "pid": null,
+      "title": "快速开始"
+    },
+    {
       "id": "core-overview",
       "pid": null,
       "title": "核心使用"
@@ -52,21 +57,6 @@
       "title": "配置项"
     },
     {
-      "id": "core-execution-plugins",
-      "pid": "core-overview",
-      "title": "SQL 执行扩展点"
-    },
-    {
-      "id": "core-security",
-      "pid": "core-overview",
-      "title": "安全与审计"
-    },
-    {
-      "id": "core-testing",
-      "pid": "core-overview",
-      "title": "动态 SQL 测试"
-    },
-    {
       "id": "core-bakidao",
       "pid": "core-overview",
       "title": "BakiDao 低级执行方法"
@@ -92,6 +82,41 @@
       "title": "XQL 接口映射"
     },
     {
+      "id": "database-overview",
+      "pid": null,
+      "title": "数据库与数据源"
+    },
+    {
+      "id": "database-compatibility",
+      "pid": "database-overview",
+      "title": "数据库兼容性"
+    },
+    {
+      "id": "core-datasource",
+      "pid": "database-overview",
+      "title": "数据源与 DatabaseInfo"
+    },
+    {
+      "id": "extension-overview",
+      "pid": null,
+      "title": "安全与扩展"
+    },
+    {
+      "id": "core-execution-plugins",
+      "pid": "extension-overview",
+      "title": "SQL 执行扩展点"
+    },
+    {
+      "id": "core-security",
+      "pid": "extension-overview",
+      "title": "安全与审计"
+    },
+    {
+      "id": "core-testing",
+      "pid": "extension-overview",
+      "title": "动态 SQL 测试"
+    },
+    {
       "id": "integration-overview",
       "pid": null,
       "title": "集成"
@@ -107,19 +132,14 @@
       "title": "Spring Boot 配置项"
     },
     {
+      "id": "ecosystem-overview",
+      "pid": null,
+      "title": "生态与工具"
+    },
+    {
       "id": "cli",
-      "pid": "integration-overview",
+      "pid": "ecosystem-overview",
       "title": "CLI 命令行工具"
-    },
-    {
-      "id": "database-compatibility",
-      "pid": "integration-overview",
-      "title": "数据库兼容性"
-    },
-    {
-      "id": "core-datasource",
-      "pid": "integration-overview",
-      "title": "数据源与 DatabaseInfo"
     },
     {
       "id": "best-practice",

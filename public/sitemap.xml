@@ -3,6 +3,7 @@
   <url><loc>https://rabbit-sql.com/</loc></url>
 
   <url><loc>https://rabbit-sql.com/documents</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/quickstart-overview</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-overview</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-baki</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-query-executor</loc></url>
@@ -21,12 +22,15 @@
   <url><loc>https://rabbit-sql.com/documents/xql-file-manager</loc></url>
   <url><loc>https://rabbit-sql.com/documents/xql-dynamic-sql</loc></url>
   <url><loc>https://rabbit-sql.com/documents/xql-interface-mapping</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/database-overview</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/extension-overview</loc></url>
   <url><loc>https://rabbit-sql.com/documents/integration-overview</loc></url>
   <url><loc>https://rabbit-sql.com/documents/spring-boot</loc></url>
   <url><loc>https://rabbit-sql.com/documents/spring-boot-configuration</loc></url>
   <url><loc>https://rabbit-sql.com/documents/cli</loc></url>
   <url><loc>https://rabbit-sql.com/documents/database-compatibility</loc></url>
   <url><loc>https://rabbit-sql.com/documents/core-datasource</loc></url>
+  <url><loc>https://rabbit-sql.com/documents/ecosystem-overview</loc></url>
   <url><loc>https://rabbit-sql.com/documents/best-practice</loc></url>
   <url><loc>https://rabbit-sql.com/documents/best-practice-project-init</loc></url>
   <url><loc>https://rabbit-sql.com/documents/best-practice-xql</loc></url>
@@ -53,6 +57,7 @@
 
   <url><loc>https://rabbit-sql.com/static-pages/index.html</loc></url>
 
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/quickstart-overview.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-overview.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-baki.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-query-executor.html</loc></url>
@@ -71,12 +76,15 @@
   <url><loc>https://rabbit-sql.com/static-pages/_documents/xql-file-manager.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/xql-dynamic-sql.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/xql-interface-mapping.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/database-overview.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/extension-overview.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/integration-overview.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/spring-boot.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/spring-boot-configuration.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/cli.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/database-compatibility.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/core-datasource.html</loc></url>
+  <url><loc>https://rabbit-sql.com/static-pages/_documents/ecosystem-overview.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice-project-init.html</loc></url>
   <url><loc>https://rabbit-sql.com/static-pages/_documents/best-practice-xql.html</loc></url>
