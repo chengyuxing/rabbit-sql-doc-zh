@@ -1,10 +1,12 @@
+import {DataNode} from './tree';
+
 export interface Guide {
   id: string;
   title: string;
   description: string;
 }
 
-export interface Docs {
+export interface Docs extends DataNode<Docs, string> {
   id: string;
   title: string;
 }

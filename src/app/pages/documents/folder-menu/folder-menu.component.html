@@ -1,0 +1,30 @@
+<ul>
+  <div class="title-bar" (click)="backwardMenu()">
+    @if (path.length > 0) {
+      <mat-icon>chevron_left</mat-icon>
+    }
+    <span><b>{{ menuTitle || '文档大纲' }}</b></span>
+  </div>
+  <div class="search">
+    <input type="text" placeholder="搜索..." #search
+           (input)="searchMenu(search.value)"
+           (keydown.enter)="searchMenu(search.value)">
+    @if (search.value) {
+      <mat-icon (click)="search.value = '';search.focus();searchTerms$.next('')">close</mat-icon>
+    }
+    @if (!search.value) {
+      <mat-icon (click)="search.focus()">search</mat-icon>
+    }
+  </div>
+  @for (item of displayData; track item.id) {
+    <li>
+      <a mat-ripple (click)="forwardMenu(item)" [class.link-active]="item.id === currentId">
+        <span>{{ item.title }}</span>
+        <div class="spacer"></div>
+        @if (item.children!.length > 0) {
+          <mat-icon>chevron_right</mat-icon>
+        }
+      </a>
+    </li>
+  }
+</ul>

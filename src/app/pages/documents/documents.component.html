@@ -1,12 +1,8 @@
 <main>
   <nav [class.close]="!isOpen" class="slide-container">
-    <ul>
-      @for (doc of docs; track doc.id) {
-        <li><a mat-ripple [routerLink]="['/documents', doc.id]"
-               routerLinkActive="doc-active">{{ doc.title }}</a>
-        </li>
-      }
-    </ul>
+    @if (docs.length > 0) {
+      <app-folder-menu [datasource]="docs" [currentId]="docId" (forward)="navigateTo($event)"/>
+    }
   </nav>
   <div class="content">
     <router-outlet/>

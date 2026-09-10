@@ -172,10 +172,7 @@
 ⚠️ 动态 SQL `#for` 指令语法调整，最新的语法结构为：
 
 ```sql
-#for
-item of :list [| pipe1 | pipeN | ... ] [;index
-as i] [;
-last as isLast] ...
+#for item of :list [| pipe1 | pipeN | ... ] [;index as i] [;last as isLast] ...
 ...
 #done
 ```
@@ -198,9 +195,9 @@ last as isLast] ...
   /*[queryList]*/
   select * from guest where
   -- //TEMPLATE-BEGIN:myInLineCnd
-  -- #if :id
-  id = :id
-  -- #fi
+    -- #if :id
+    id = :id
+    -- #fi
   -- //TEMPLATE-END
   ;
   

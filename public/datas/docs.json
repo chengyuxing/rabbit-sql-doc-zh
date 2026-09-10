@@ -3,62 +3,77 @@
   "resources": [
     {
       "id": "core-baki",
+      "pid": null,
       "title": "核心接口 Baki"
     },
     {
       "id": "core-sql-params",
+      "pid": null,
       "title": "SQL 参数占位符"
     },
     {
       "id": "core-transaction",
+      "pid": null,
       "title": "事务"
     },
     {
       "id": "core-api-config",
+      "pid": null,
       "title": "配置项"
     },
     {
       "id": "xql-file-manager",
+      "pid": null,
       "title": "XQL 文件管理器"
     },
     {
       "id": "xql-dynamic-sql",
+      "pid": null,
       "title": "动态 SQL"
     },
     {
       "id": "xql-interface-mapping",
+      "pid": null,
       "title": "XQL 接口映射"
     },
     {
       "id": "spring-boot",
+      "pid": null,
       "title": "集成 Spring Boot"
     },
     {
       "id": "cli",
+      "pid": null,
       "title": "CLI 命令行工具"
     },
     {
       "id": "best-practice",
+      "pid": null,
       "title": "最佳实践"
     },
     {
       "id": "best-practice-project-init",
+      "pid": "best-practice",
       "title": "项目初始化"
     },
     {
       "id": "best-practice-xql",
+      "pid": "best-practice",
       "title": "XQL 编写最佳实践"
     },
     {
       "id": "best-practice-mapper",
+      "pid": "best-practice",
       "title": "接口映射与插件"
     },
     {
       "id": "best-practice-performance",
+      "pid": "best-practice",
       "title": "性能、安全与部署"
     },
     {
       "id": "changes",
+      "pid": null,
       "title": "变更日志"
     }
   ]
