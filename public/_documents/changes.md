@@ -2,7 +2,7 @@
 
 ## 10.3.17
 
-- ✅ `MostDateTime` 优化重构，支持格式化包含时区 `XXX` ，例如：`yyyy-MM-dd'T'HH:mm:ss.SSSXXX`
+- ✅ `MostDateTime` 优化重构，支持格式化包含时区 `XXX` ，例如：`MostDateTime#toString("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")`
 - ✅ 脚本解析引擎增加方法：`RabbitScriptEngine#eval` ：支持传入一个布尔条件表达式执行独立解析，例如：`:id != null`
 - ✅ IDEA 插件 **Rabbit SQL** 更新版本 `2.4.62` ：
   - ✅ 主要针对修复了 IDEA 2026.3 的 XQL 管理器树节点双击跳转定义的 bug
