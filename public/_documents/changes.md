@@ -1,5 +1,9 @@
 # 框架变更日志
 
+## 10.3.18
+
+- ✅ 修复 `Baki#entity` 操作实体子类无法找到父类字段的 bug
+
 ## 10.3.17
 
 - ✅ `MostDateTime` 优化重构，支持格式化包含时区 `XXX` ，例如：`MostDateTime#toString("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")`
