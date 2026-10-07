@@ -64,3 +64,8 @@ Param.IN_OUT(56, StandardOutParamType.INTEGER);
 
 具体用法可参考 [Baki 核心接口](documents/core-baki)。
 
+## 继承属性与自定义列名
+
+`Args.ofEntity(...)`、`DataRow.ofEntity(...)` 和 `DataRow#toEntity(...)` 使用 JavaBean 属性和对应字段。字段可来自多层父类，子类同名字段优先；子类重写 getter 不会丢失父类字段元数据。没有对应字段的计算属性不会映射。
+
+自定义列名时，实体转参数和结果转实体两侧应采用一致的映射规则。需要解析 JPA 等注解时，通过 [实体元数据提供者](documents/core-entity) 配置框架中的映射。

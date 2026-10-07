@@ -31,3 +31,20 @@ List<DataRow> rows = baki.query("&example.queryUsers")
 
 对于 DML / DDL 测试，注意回滚或使用测试数据库，避免污染真实数据。
 
+## 框架源码回归测试
+
+在 rabbit-sql 源码仓库中执行：
+
+```shell
+mvn test
+```
+
+默认只运行 `*RegressionTest`，使用自包含的回归用例，无需启动外部数据库；涵盖实体继承、主键校验、批处理、事务异常、Mapper、分页和 XQL 重载等行为。相关 JDBC 集成回归使用 SQLite，不代表所有数据库驱动均已完成真实环境验证。
+
+需要运行已有外部数据库集成用例时，先按源码测试配置准备相应测试数据库，再启用：
+
+```shell
+mvn -Pintegration-tests test
+```
+
+这些命令用于框架源码验证，业务项目仍应针对使用的数据库与驱动执行自己的集成测试。

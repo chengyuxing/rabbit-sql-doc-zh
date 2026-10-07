@@ -121,7 +121,8 @@ PagedResource<DataRow> res = baki.query("&data.custom_paged")
 ## 增删改
 
 - `execute(sql, Map?)` ：支持 select ， ddl ， dml 和  plsql 语句；
-- `execute(sql, Collection)`：批量操作，支持非预编译的 DDL 和 DML 语句；
+- `execute(sql, Iterable)`：使用参数集合执行预编译批处理，各行生成的 SQL 结构必须一致；
+- `execute(Iterable<String>)`：批量执行原始 SQL，可用于 DDL、DML；
 
 ## 单表实体操作
 
@@ -167,7 +168,7 @@ baki.entity(Guest.class)
 
 在实现接口方法 `EntityManager.ColumnMeta columnMeta(Field field)` 时，可根据自定义注解或 JPA 注解属性来配置字段约束：
 
-- **primaryKey** ：主键，不允许更新，不允许为 `null`
+- **primaryKey** ：唯一主键，不允许更新；按主键更新及 `NONE` 策略插入时不允许为 `null`，`IDENTITY` 策略插入时由数据库生成
 - **insertable** ：是否可插入
 - **updatable** ：是否可更新
 - **ignore**：是否忽略字段（为 `true` 则不参与 SQL 的生成）
@@ -212,7 +213,7 @@ baki.entity(Guest.class)
 
 默认情况下 `update()` 和 `insert()` 操作集合为循环遍历。
 
-通过调用方法 `enableBatch()` 执行底层 JDBC 的批量操作。
+通过调用方法 `enableBatch()` 执行底层 JDBC 的批量操作。插入、更新支持空输入和只能遍历一次的 `Iterable`，每行参数映射只调用一次。各行 SQL 结构必须一致，整批回滚需要事务，详见 [批量操作](documents/best-practice-performance)。
 
 按条件更新和删除通过方法 `by(column, ...)` 实现，内部会用 `and` 把多个字段构建为等式连接：
 

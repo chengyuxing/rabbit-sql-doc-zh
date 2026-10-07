@@ -39,6 +39,8 @@ SQL 拦截器。在 **SQL 解析开始**时，可以通过抛出特定异常拦�
 - `java.io.File`
 - `java.nio.file.Path`
 
+默认处理器通过 `Files.readAllBytes` 将 `File` / `Path` 内容读入内存，并调用 `PreparedStatement#setBytes` 绑定。大文件如需流式传输，可传入 `InputStream`；调用方需保持流打开直到执行结束，并负责关闭。自定义处理器自行管理其打开的资源，示例见 [扩展预编译 SQL 值处理器](guides/advanced-statement-value-handler)。
+
 ### executionWatcher
 
 SQL 执行观察者，可用于记录 SQL 执行开始时间和结束时间，可用于记录日志、统计 SQL 耗时、性能分析、SQL 审计等操作。
@@ -49,7 +51,7 @@ SQL 执行观察者，可用于记录 SQL 执行开始时间和结束时间，�
 
 ### batchSize
 
-JDBC 底层批量操作大小，默认为 1000。
+JDBC 底层每次执行的批量大小，默认为 1000，必须大于 `0`。它不表示事务提交次数；整批回滚需要事务。各行预编译 SQL 必须一致，详见 [批量操作](documents/best-practice-performance)。
 
 ### pageKey
 
@@ -75,7 +77,7 @@ JDBC 底层批量操作大小，默认为 1000。
 
 ### entityMetaProvider
 
-框架内部接口涉及到实体返回实体的操作都将使用此函数来对字段进行映射匹配和值的转换。
+默认使用类简单名、字段名及值类型适配，不识别 JPA 注解或自动标记主键。可自定义表名、列元数据和值转换，框架的实体结果映射使用此配置。更换提供者会清除缓存，已有实体执行器需重新获取，详见 [实体操作](documents/core-entity)。
 
 ### databaseInfoProvider
 

@@ -11,10 +11,14 @@
 对于批量插入、更新等操作，推荐使用批量提交，减少数据库的网络交互次数，提升性能。
 
 ```java
-baki.execute("&<sql名>", <Collection>);
+baki.execute("&guest.insert", rows);
 ```
 
-> `insert`、`update`、`delete` 通过传入集合来执行批量操作。
+> 预编译批处理可向 `baki.execute(sql, rows)` 传入 `Iterable`；`table(...).enableBatch()` 的插入、更新也使用 JDBC 批处理。输入仅遍历一次，参数映射函数每行调用一次，单表批量插入、更新接受空输入。
+
+每行动态 SQL 和参数都会重新解析，包括 `#for` 生成的参数。所有行最终生成的预编译 SQL 必须相同；如果 `#if` 改变列集合、`#for` 改变占位符数量等导致 SQL 结构变化，会明确报错。应先按 SQL 结构分组，或逐条执行。
+
+`batchSize` 必须大于 `0`，只控制每次 JDBC 执行的条数。前面的分批可能已经执行，后面的错误本身不会撤销它们；要求整批原子性时，请使用 [事务](documents/core-transaction)。
 
 ### 缓存重复查询
 

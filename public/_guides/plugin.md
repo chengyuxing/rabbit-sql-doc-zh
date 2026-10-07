@@ -4,6 +4,8 @@
 
 <iframe width="100%" height="270px" src="https://plugins.jetbrains.com/embeddable/card/21403"></iframe>
 
+当前版本为 `2.4.63.231-263`，兼容 IDEA `2023.1–2026.3`（build `231–263.*`）。插件内置 `rabbit-sql 10.3.20` 与 `rabbit-common 3.2.12`，推荐项目依赖使用 Rabbit SQL `{{rabbitSqlVersion}}`、Starter `{{starterVersion}}`，使动态 SQL 解析行为保持一致。
+
 ## 安装插件
 
 - 通过 IDEA 插件商店安装：<kbd>Preferences(Settings)</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search and find <b>"rabbit sql"</b></kbd> > <kbd>Install Plugin</kbd>；
@@ -99,3 +101,15 @@ XQL 文件支持 **Live Template**，通过输入关键字 `xql` 弹出建议，
 ## 切换激活多个配置文件
 
 如果项目连接多个数据库，通常会存在多个 `xql-file-manager-*.yml` 配置文件。要在 Java 文件中获得自动补全建议（输入 `&` 开头会弹出候选 SQL 片段），可以在工具窗口中右键对应的 `xql-file-manager-*.yml`，选择 <kbd>Toggle to Active</kbd> 激活该配置。
+
+## 保存刷新与自定义管道重载
+
+保存已经注册到配置文件的 `.xql` 或 `.sql` 文件会刷新相应 SQL 资源。配置重载保留当前激活项，多配置切换后的解析仍使用当前激活配置。
+
+修改自定义管道后，先完成项目编译，再在工具窗口重载对应配置。插件从 Maven 的 `target/classes` 或 Gradle 的 `build/classes/java/main` 等编译输出目录读取类，并刷新类加载器；源码尚未编译时，无法加载新实现。管道类及其依赖必须可从项目编译输出或依赖中加载。
+
+## 多文件控制台与资源释放
+
+不同文件的动态 SQL 控制台和数据库执行会话分别管理，不会复用其他文件的连接或事务状态。提交、回滚应在对应文件的执行会话中完成。项目关闭时插件会清理配置、执行会话及相关资源。
+
+插件可生成 Mapper 并管理相应配置文件，输出目录需要可写；生成失败时按错误提示检查目标路径。完整修复记录见 [变更日志](documents/changes)。

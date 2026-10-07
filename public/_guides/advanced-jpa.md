@@ -9,7 +9,7 @@
 
 为了避免混乱，从 Rabbit SQL `10.1.0` 和 Starter `5.1.1` 开始，框架提供 `com.github.chengyuxing.sql.EntityManager.EntityMetaProvider` 接口，用于兼容 JPA 或其他框架注解标注的实体，它同时也是框架内部实体映射的核心接口。
 
-实体映射在 Rabbit SQL 中是辅助能力，主要为了兼容其他框架而存在，因此没有默认实现。下面以 JPA 为例，基于 Spring Boot 单数据源自动配置来说明如何适配 JPA 注解：
+实体映射是辅助能力。当前默认实现使用类简单名和字段名，并适配查询结果值的类型，但不识别 JPA 注解，也不会自动指定主键。下面以 JPA 为例，基于 Spring Boot 单数据源自动配置说明如何替换默认提供者，适配单表操作所需的注解：
 
 ```java
 @Component
@@ -78,7 +78,7 @@ public EntityManager.ColumnMeta columnMeta(Field field) {
 }
 ```
 
-实现以上方法后，基本就完成了 JPA 单表兼容。无论使用 JPA 的单表操作，还是 Baki 的单表操作，都能获得一致的逻辑。其他框架也可以按类似方式实现。
+实现以上方法后，Rabbit SQL 可复用这些字段注解进行单表操作。它只采用提供者明确实现的元数据规则，不提供完整的 JPA 运行时语义。其他框架也可以按类似方式适配。
 
 还有一个数据库查询数据列映射为实体字段类型的值转换方法简单实现：
 
@@ -90,3 +90,15 @@ public Object columnValue(Field field, Object value) {
 ```
 
 实现这个接口后，框架内部所有数据库操作中的实体字段映射和值转换都会统一通过它完成；但列约束只在 `Baki#entity()` 中生效。
+
+## 继承与支持范围
+
+实体字段沿继承链查找，支持多层父类及子类重写 getter；子类同名字段优先。提供者的 `columnMeta(Field)` 可读取实际字段上的 `@Id`、`@Column` 等注解，布尔属性可使用 `isXxx()` getter。仅声明字段而没有 JavaBean 访问方法，或只有计算 getter 而没有对应字段，不会自动映射。
+
+字段继承不等于 JPA 的继承表映射。`tableName(Class)` 接收传入的实体类，表名和类级注解的继承策略由提供者负责；这里的示例不实现 `@Inheritance`、多表继承或关联关系。
+
+单表 CRUD 只支持一个主键，拒绝 `@Id` 标记多个列的复合主键；不支持 `@EmbeddedId`。`NONE` 策略的插入及按主键更新必须提供非空主键。上述示例只将 `GenerationType.IDENTITY` 映射到数据库生成主键，其余策略仍按 `NONE` 处理，不会自动生成 ID 或回填数据库生成的主键。
+
+当前未实现 JPA 的级联、延迟加载、持久化上下文、`@Version` 乐观锁或自动 `AttributeConverter` 适配。需要这些行为时，应继续由 JPA 负责，或通过显式 SQL 实现。
+
+更换提供者会清除元数据缓存，但已获取的实体执行器需要重新创建。建议在启动阶段完成配置，具体规则见 [实体操作](documents/core-entity)。

@@ -42,7 +42,9 @@ public interface ExampleMapper {
 - 存储过程： `@Procedure`
 - 函数： `@Function`
 
-接口方法不能定义默认实现 `default` 方法。
+接口方法不能定义默认实现 `default` 方法，调用时会明确报错。
+
+继承方法的父接口未标记 `@XQLMapper` 时，使用代理子接口上的别名；父接口自身已标记时，保留父接口的别名。代理的 `equals` 使用对象身份比较，`hashCode` 使用身份哈希，`toString` 输出代理说明，均不会触发 SQL 执行。
 
 ## 映射规则
 

@@ -82,3 +82,7 @@ PagedResource<Guest> queryGuests(DataRow args);
 .pageable(1, 10)
 .pageHelper(new MyPageHelperProvider())
 ```
+
+## 参数范围
+
+页码 `page` 和每页条数 `size` 必须大于 `0`，记录总数不能为负数。分页偏移超出支持的整数范围时会明确报错，避免溢出后生成错误 SQL。Oracle 分页也会检查起始行范围，结束行使用整数上限保护。分页页数计算使用更大的中间值，避免记录总数接近整数上限时溢出。
