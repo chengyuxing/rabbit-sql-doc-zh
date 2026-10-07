@@ -5,7 +5,7 @@
 动态 SQL 的内置控制指令包括：
 
 - [变量定义](documents/xql-dynamic-sql#md-head-3)：`#var`
-- [断言检查](documents/xql-dynamic-sql#md-head-2)：`#check`
+- [前置检查](documents/xql-dynamic-sql#md-head-2)：`#check`
 
 - [If 逻辑判断](documents/xql-dynamic-sql#md-head-4)：`#if` , `#else` , `#fi`
 - [守卫语句](documents/xql-dynamic-sql#md-head-5)：`#guard` , `#throw`
@@ -34,14 +34,14 @@
 
 每个控制指令都有其特定的语法结构，为了能更方便的理解，以下进行详细的介绍，包括其细节和一些使用技巧。
 
-### 断言检查
+### 前置检查
 
-前置条件检查语句，如果**满足条件** （`true`）则抛出 `throw` 异常信息（`CheckViolationException`），并终止后面的所有操作。
+`#check` 的表达式描述需要拒绝的情况：结果为 **`true`** 时抛出 `CheckViolationException`，异常信息为 `throw` 后的字符串，并终止后续解析；结果为 **`false`** 时继续解析 SQL。
 
-在数据库真正执行 SQL 之前，对参数做一次合法性验证，避免数据库层面的参数类型错误异常，以节省资源。
+下面的例子中，`id = 11` 会抛出“ID 不能大于 10”，`id = 10` 会继续解析。这里写的是触发异常的条件，不是参数合法的条件。检查在动态 SQL 解析阶段完成，失败时不执行后续 SQL。
 
 ```sql
--- #check :id > 10 throw 'ID cannot gt 10.'
+-- #check :id > 10 throw 'ID 不能大于 10'
 ...
 ```
 
@@ -83,7 +83,7 @@ IF 条件判断语句，逻辑和编程语言中的 if 一样，是使用频率�
 
 ### 守卫语句
 
-如果条件满足则执行分支处理逻辑，否则执行 `#throw` 抛出异常信息并终止后面的所有操作。看上去和 `#check` 指令功能上有重叠，但他们却是有不同的职责，当同时满足条件时使用守卫语句：
+`#guard` 的条件为 `true` 时解析其 SQL 分支，为 `false` 时通过 `#throw` 抛出异常。这里的条件描述允许继续执行的情况；`#check` 的条件则描述需要拒绝的情况。需要同时完成以下两项工作时，可使用守卫语句：
 
 1. 需要拼接动态 SQL；
 2. 需要校验参数合法性；
@@ -94,7 +94,7 @@ IF 条件判断语句，逻辑和编程语言中的 if 一样，是使用频率�
 -- #throw 'message'
 ```
 
-> 对于需要拼动态 SQL 的部分，相当于 `#check` 和 `#if` 指令的组合使用，守卫语句则更加简洁。
+> 要用 `#check` 表达相同校验，需要将守卫条件取反。例如 `#guard :user <> blank` 对应的检查是 `#check :user == blank throw 'message'`，然后再编写 SQL 分支。
 
 ### SWITCH 分支判断
 

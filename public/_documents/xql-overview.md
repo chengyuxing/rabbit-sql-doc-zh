@@ -8,10 +8,12 @@ XQL 是 Rabbit SQL 的核心能力，用于在不破坏原生 SQL 的前提下�
 
 ## 一个典型 XQL
 
+`#check` 写的是需要拒绝的条件，条件为 `true` 时抛出指定异常。下面的例子会拒绝空值及小于等于 `0` 的 `id`，正数则继续执行。
+
 ```sql
 /*[queryUsers]*/
 /*#查询用户#*/
--- #check :id > 0 throw 'id 必须大于 0'
+-- #check :id == null || :id <= 0 throw 'id 必须大于 0'
 select * from test.user
 where
 -- #if :name

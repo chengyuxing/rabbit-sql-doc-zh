@@ -23,10 +23,10 @@ String sql = "select * from test.user where name = '" + userInput + "'";
 
 ## 使用 #check 做前置校验
 
-在动态 SQL 中校验参数，提前拒绝非法请求：
+在动态 SQL 中校验参数，提前拒绝非法请求。`#check` 的条件应描述非法情况：条件为 `true` 时抛出 `CheckViolationException`，异常信息为 `throw` 后的字符串；为 `false` 时继续解析 SQL。
 
 ```sql
--- #check :id > 0 throw 'id 必须大于 0'
+-- #check :id == null || :id <= 0 throw 'id 必须大于 0'
 select * from test.user where id = :id;
 ```
 

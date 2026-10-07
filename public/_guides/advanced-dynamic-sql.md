@@ -6,7 +6,7 @@
 
 在 SQL 到达数据库之前，对 SQL 的参数做一次合法性验证，并提前抛出异常，而不是等数据库来抛出异常，避免获取一次无效的 connection 对象。
 
-特别是在无法确定这条 SQL 会在几个地方以不同的方式调用，以免程序代码中无法做到一致性的参数校验，此时 check 就发挥作用了，统一校验。
+同一条 SQL 被多个地方调用时，`#check` 可以统一校验参数。表达式应描述非法情况：结果为 `true` 时抛出 `throw` 后指定信息的 `CheckViolationException`；结果为 `false` 时继续解析。
 
 ```sql
 -- #check :id == null throw 'ID不能为null'
