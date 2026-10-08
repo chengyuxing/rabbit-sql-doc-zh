@@ -93,6 +93,7 @@ $theme: mat.m2-define-light-theme((
   --td-border-color: rgba(0, 0, 0, 0.12);
   --link-color: #7e2dbf;
   --mask-color: #ebd0ff;
+  --semi-transparent: rgba(255, 255, 255, 0.5);
 
   @include mat.toolbar-overrides((
     container-background-color: #7e2dbf,
@@ -108,6 +109,7 @@ html.dark {
   --td-border-color: rgba(228, 228, 228, 0.12);
   --link-color: #9751d1;
   --mask-color: rgba(117, 30, 255, .22);
+  --semi-transparent: rgba(30, 30, 30, 0.5);
 
   @include mat.toolbar-overrides((
     container-background-color: #5a1e8c,
