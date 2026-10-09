@@ -9,23 +9,13 @@
     <button mat-icon-button (click)="toggleSideNav()" class="btn-doc-outline-toggle">
       <mat-icon>dehaze</mat-icon>
     </button>
-    <button mat-icon-button [matMenuTriggerFor]="outlineMenu" class="btn-doc-outline-menus">
+    <button mat-icon-button [matMenuTriggerFor]="outlineMenu.menu" class="btn-doc-outline-menus">
       <mat-icon>dehaze</mat-icon>
     </button>
-    <mat-menu #outlineMenu=matMenu>
-      @for (doc of docs; track doc.id) {
-        @if (doc.external) {
-          <a mat-menu-item [href]="doc.external" target="_blank">
-            <mat-icon>open_in_new</mat-icon>
-            {{ doc.title }}
-          </a>
-        } @else {
-          <button mat-menu-item [routerLink]="['documents', doc.id]" routerLinkActive="active">
-            {{ doc.title }}
-          </button>
-        }
-      }
-    </mat-menu>
+    <app-nested-menu #outlineMenu
+                     [nodes]="docsTree"
+                     [selectedNodeId]="docId"
+                     (forward)="navigateTo($event)"/>
   }
   <button mat-icon-button [routerLink]="['']">
     <mat-icon svgIcon="rabbit-sql"></mat-icon>

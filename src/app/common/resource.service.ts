@@ -4,6 +4,7 @@ import {Docs, Guide} from './types';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {catchError, of} from 'rxjs';
 import {toSignal} from '@angular/core/rxjs-interop';
+import {Tree} from './tree';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +27,17 @@ export class ResourceService {
     return of(null);
   })));
 
+  private readonly _docsTree = computed(() => new Tree(this._docs()?.resources || []));
+
   readonly isDocsLoaded = computed(() => !!this._docs());
   readonly isGuidesLoaded = computed(() => !!this._guides());
 
   get docs() {
     return this._docs()?.resources || [];
+  }
+
+  get docsTree() {
+    return this._docsTree();
   }
 
   get guides() {

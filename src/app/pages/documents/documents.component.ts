@@ -1,4 +1,5 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {UiStatesService} from '../../common/ui-states.service';
 import {Router, RouterOutlet} from '@angular/router';
 import {ResourceService} from '../../common/resource.service';
@@ -15,6 +16,7 @@ import {Docs} from '../../common/types';
   styleUrl: './documents.component.scss',
 })
 export class DocumentsComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   resourceService = inject(ResourceService);
   uiStatesService = inject(UiStatesService);
   router = inject(Router);
@@ -28,8 +30,10 @@ export class DocumentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.docId = location.pathname.split('/').pop();
-    this.uiStatesService.showDocumentToggleBtn.subscribe(toggle => {
+    this.uiStatesService.currentDocId.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(docId => {
+      this.docId = docId;
+    });
+    this.uiStatesService.showDocumentToggleBtn.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(toggle => {
       this.isOpen = toggle;
     });
   }

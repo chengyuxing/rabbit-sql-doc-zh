@@ -1,4 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {MatToolbar} from '@angular/material/toolbar';
 import {MatIcon, MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer, Title} from '@angular/platform-browser';
@@ -22,10 +23,12 @@ import {CommonModule} from '@angular/common';
 import {MatTooltip} from '@angular/material/tooltip';
 import mermaid from 'mermaid';
 import {ThemeService} from './common/theme.service';
+import {NestedMenuComponent} from './pages/documents/nested-menu/nested-menu.component';
+import {Docs} from './common/types';
 
 @Component({
   selector: 'rabbit-sql-root',
-  imports: [CommonModule, MatToolbar, MatIconButton, MatIcon, MatIconAnchor, RouterOutlet, RouterLink, MatButton, RouterLinkActive, MatMenu, MatMenuItem, MatMenuTrigger, MatProgressBar, MatTooltip],
+  imports: [CommonModule, MatToolbar, MatIconButton, MatIcon, MatIconAnchor, RouterOutlet, RouterLink, MatButton, RouterLinkActive, MatMenu, MatMenuItem, MatMenuTrigger, MatProgressBar, MatTooltip, NestedMenuComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -48,24 +51,29 @@ export class AppComponent implements OnInit {
     {icon: 'dark_mode', name: '深色'}
   ];
 
+  docId?: string;
+
   currentTheme?: string;
 
   showToggleButton = false;
 
   loading = false;
 
-  get docs() {
-    return this.resourceService.docs;
+  get docsTree() {
+    return this.resourceService.docsTree.roots;
   }
 
   constructor() {
-    this.router.events.subscribe((event: any) => {
+    this.router.events.pipe(takeUntilDestroyed()).subscribe(event => {
       if (event instanceof NavigationStart) {
         this.loading = true;
       } else {
         if (event instanceof NavigationEnd) {
-          const currentUrl = (event as NavigationEnd).urlAfterRedirects;
-          this.showToggleButton = currentUrl.startsWith('/documents');
+          const currentUrl = event.urlAfterRedirects;
+          const segments = this.router.parseUrl(currentUrl).root.children['primary']?.segments || [];
+          this.showToggleButton = segments[0]?.path === 'documents';
+          this.docId = this.showToggleButton && segments.length === 2 ? segments[1].path : undefined;
+          this.uiStatesService.setCurrentDocId(this.docId);
           if (!/\/(documents|guides)\/\w+/.test(currentUrl)) {
             this.title.setTitle(appTitle);
           }
@@ -100,6 +108,14 @@ export class AppComponent implements OnInit {
   protected readonly github = github;
   protected readonly appName = appName;
   protected readonly appVersion = appVersion;
+
+  protected navigateTo(docs: Docs) {
+    if (docs.external) {
+      window.open(docs.external, '_blank');
+      return;
+    }
+    this.router.navigate(['/documents', docs.id]);
+  }
 
   toggleSideNav() {
     const currentState = this.uiStatesService.currentDocumentToggleState;
