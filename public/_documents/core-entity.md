@@ -20,6 +20,22 @@ Rabbit SQL 支持简单的单表实体操作，通过 `Baki#entity(Class)` 使�
 
 建议在首次使用前完成提供者配置。更换 `EntityMetaProvider` 会清除缓存，但已经取得的实体执行器仍持有原元数据，需要重新调用 `baki.entity(...)` 获取。
 
+## 按主键查询一条记录
+
+`EntityExecutor.findById(id)` 根据提供者标记的单一主键查询，返回 `Optional<T>`：
+
+```java
+Optional<Guest> guest = baki.entity(Guest.class).findById(42L);
+guest.ifPresent(value -> {
+    value.setAddress("Kunming");
+    baki.entity(Guest.class).update().save(value);
+});
+```
+
+主键列取自实体元数据，适配器可以提供 JPA 的 `@Id`、`@Column` 或其他框架规则，支持继承字段及自定义列名。ID 使用预编译参数绑定，不能为 `null`；未匹配记录时返回 `Optional.empty()`。
+
+`query(queryId)` 的参数仍是查询标识，不会生成主键条件。按主键查一条记录使用 `findById(id)`；组合查询条件使用下方的 `query().where(...)`。
+
 ## 查询
 
 ```java
@@ -70,6 +86,23 @@ baki.entity(Guest.class)
 ```
 
 插入时通过 `.set(...)` 指定字段，同一字段最后一次赋值生效，`save()` 不会重新覆盖为初始值。
+
+## 日期字段映射
+
+声明为 `java.util.Date` 的字段会得到普通 `Date`，保留毫秒时间值。数据库返回 `java.sql.Date`、`Time` 或 `Timestamp` 时，公共转换会按字段声明类型适配，因此查询得到实体后可以调用 `toInstant()` 并直接执行更新。
+
+自定义提供者的值转换可以复用公共入口，无需在 `columnValue` 中先判断 SQL 日期子类并手动复制：
+
+```java
+@Override
+public Object columnValue(Field field, Object value) {
+    return ValueUtils.adaptValue(field.getType(), value);
+}
+```
+
+显式声明为 `java.sql.Date`、`Time`、`Timestamp` 的字段保留对应 SQL 类型；SQL `Date`、`Time` 本身不支持 `toInstant()`，需要时请显式适配到 `Date` 或 `Instant`。纳秒精度应使用 `Timestamp` 或支持纳秒的 Java 时间类型，普通 `Date` 只能保留毫秒。
+
+日期和时间字符串转换完整校验输入，非法日期或未识别的前后缀会报错。转换规则见 [实用工具](guides/utils)，参数绑定规则见 [配置项](documents/core-api-config)。
 
 ## 更新
 

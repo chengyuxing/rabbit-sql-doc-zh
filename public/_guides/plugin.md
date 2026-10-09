@@ -4,7 +4,7 @@
 
 <iframe width="100%" height="270px" src="https://plugins.jetbrains.com/embeddable/card/21403"></iframe>
 
-当前版本为 `2.4.63.231-263`，兼容 IDEA `2023.1–2026.3`（build `231–263.*`）。插件内置 `rabbit-sql 10.3.20` 与 `rabbit-common 3.2.12`，推荐项目依赖使用 Rabbit SQL `{{rabbitSqlVersion}}`、Starter `{{starterVersion}}`，使动态 SQL 解析行为保持一致。
+当前版本为 `2.4.64.231-263`，兼容 IDEA `2023.1–2026.3`（build `231–263.*`）。插件内置 `rabbit-sql 10.3.21` 与 `rabbit-common 3.2.13`，推荐项目依赖使用 Rabbit SQL `{{rabbitSqlVersion}}`、Starter `{{starterVersion}}`，使动态 SQL 解析行为保持一致。
 
 ## 安装插件
 

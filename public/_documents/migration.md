@@ -42,9 +42,20 @@ baki.execute("delete from test.user where id = :id", args);
 
 完整变更记录见 [变更日志](documents/changes)。
 
+## 升级到 10.3.21
+
+版本组合为 Rabbit SQL `10.3.21`、rabbit-common `3.2.13`、Starter `5.3.22` 和插件 `2.4.64.231-263`。发布 Maven 构件时依次发布 common、SQL、Starter；项目显式锁定核心依赖版本时需同步更新。
+
+- 日期和时间字符串转换使用 `MostDateTime.parse(String)` 校验完整输入；非法日期、未识别的前后缀会报错，需要从文本提取日期时改用 `MostDateTime.of(String)`。
+- 纯时间使用其所属时区的今天；显式传入 `of(Temporal, ZoneId)` 的时区表示目标时区，不传时区时保留输入已有的时区。
+- 旧的无参 `toZonedDateTime()` 已更名为 `toLocalDateTime()`，原调用需要修改；需要带时区的结果时使用 `getZonedDateTime()`。静态的 `MostDateTime.toZonedDateTime(String)` 仍提供文本提取。
+- `java.util.Date` 字段会得到普通 `Date`，保留毫秒值；需要纳秒精度时使用 `Timestamp` 或支持纳秒的 Java 时间类型。查询实体后可直接更新，无需自行复制 SQL 日期子类。
+- 新增 `entity(...).findById(id)`；`query(queryId)` 的参数仍是查询标识。
+- SQL 高亮将 dollar quoted 内容作为完整字符串处理；自定义 `SqlHighlighter` 回调会以 `QUOTE_STRING` 接收整个 dollar quoted 片段。
+
 ## 升级到 10.3.20
 
-本次版本组合为 Rabbit SQL `{{rabbitSqlVersion}}`、rabbit-common `3.2.12`、Starter `{{starterVersion}}` 和插件 `2.4.63.231-263`。发布 Maven 构件时依次发布 common、SQL、Starter；升级 Starter 可带入相应 SQL 依赖，显式锁定旧版本的项目需同步更新。
+本次版本组合为 Rabbit SQL `10.3.20`、rabbit-common `3.2.12`、Starter `5.3.21` 和插件 `2.4.63.231-263`。发布 Maven 构件时依次发布 common、SQL、Starter；升级 Starter 可带入相应 SQL 依赖，显式锁定旧版本的项目需同步更新。
 
 升级前检查以下行为：
 

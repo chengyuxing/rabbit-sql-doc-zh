@@ -91,6 +91,20 @@ public Object columnValue(Field field, Object value) {
 
 实现这个接口后，框架内部所有数据库操作中的实体字段映射和值转换都会统一通过它完成；但列约束只在 `Baki#entity()` 中生效。
 
+## 主键查询与日期转换
+
+配置了上述提供者后，可直接根据 `@Id` 对应的列查询一条实体，无需再写 `where`：
+
+```java
+Optional<Guest> guest = baki.entity(Guest.class).findById(42L);
+```
+
+支持继承的主键字段和 `@Column` 自定义列名；`null` 主键会报错，未匹配记录时返回 `Optional.empty()`。`query(queryId)` 仍是查询标识，不表示主键条件。
+
+`columnValue` 中的 `ValueUtils.adaptValue(field.getType(), value)` 统一处理 JDBC 日期子类。目标字段为 `java.util.Date` 时得到普通 `Date`，查询后可以调用 `toInstant()` 或更新实体，无需添加手动复制 `java.sql.Date` 的分支。目标字段为 SQL 日期类型时保留对应类型，`Timestamp` 和支持纳秒的 Java 时间类型可保留纳秒精度。
+
+日期和时间字符串使用完整校验，非法日期及未识别的前后缀会报错。详细规则见 [实用工具](guides/utils)。
+
 ## 继承与支持范围
 
 实体字段沿继承链查找，支持多层父类及子类重写 getter；子类同名字段优先。提供者的 `columnMeta(Field)` 可读取实际字段上的 `@Id`、`@Column` 等注解，布尔属性可使用 `isXxx()` getter。仅声明字段而没有 JavaBean 访问方法，或只有计算 getter 而没有对应字段，不会自动映射。

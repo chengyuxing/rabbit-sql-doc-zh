@@ -104,3 +104,5 @@ baki.entity(Guest.class)
     .list();
 ```
 
+
+实体查询的 `query(queryId)` 是业务查询标识，不会按主键过滤。查询某个主键对应的实体使用 `baki.entity(Guest.class).findById(id)`，返回 `Optional<Guest>`，详见 [实体操作](documents/core-entity)。

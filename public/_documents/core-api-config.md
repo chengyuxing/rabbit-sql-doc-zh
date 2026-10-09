@@ -32,12 +32,28 @@ SQL 拦截器。在 **SQL 解析开始**时，可以通过抛出特定异常拦�
 
 自定义预编译 SQL 参数值处理器，默认实现支持的特殊值类型包括：
 
-- `java.util.Date`
+- `java.util.Date`，以及 `java.sql.Date`、`java.sql.Time`、`java.sql.Timestamp`
 - java8 新的日期时间：`LocalDateTime` ， `LocalDate` ，`LocalTime` ， `OffsetDateTime` ， `OffsetTime` ， `ZonedDateTime` ， `Instant` 
 - `java.util.UUID`
 - `java.io.InputStream`
 - `java.io.File`
 - `java.nio.file.Path`
+
+日期参数按实际类型绑定：
+
+| 参数值类型 | JDBC 绑定方法 |
+| --- | --- |
+| `java.sql.Date` | `setDate` |
+| `java.sql.Time` | `setTime` |
+| `java.sql.Timestamp` | `setTimestamp`，保留纳秒 |
+| 普通 `java.util.Date` | 用毫秒值构造 `Timestamp`，再调用 `setTimestamp` |
+| `LocalDate` | `setDate` |
+| `LocalTime` | `setTime` |
+| `LocalDateTime` | `setTimestamp` |
+| `Instant`、`OffsetDateTime`、`ZonedDateTime` | 按其时刻构造 `Timestamp`，调用 `setTimestamp` |
+| `OffsetTime` | 取本地时间部分调用 `setTime` |
+
+日期或时间单独使用时，建议选择对应 SQL 类型或 `LocalDate`、`LocalTime`。实体字段如何适配 JDBC 返回类型，见 [实体操作](documents/core-entity)；公共类型转换见 [实用工具](guides/utils)。
 
 默认处理器通过 `Files.readAllBytes` 将 `File` / `Path` 内容读入内存，并调用 `PreparedStatement#setBytes` 绑定。大文件如需流式传输，可传入 `InputStream`；调用方需保持流打开直到执行结束，并负责关闭。自定义处理器自行管理其打开的资源，示例见 [扩展预编译 SQL 值处理器](guides/advanced-statement-value-handler)。
 
@@ -71,7 +87,8 @@ JDBC 底层每次执行的批量大小，默认为 1000，必须大于 `0`。它
 
 - `query()` 
 - `executeQueryStream()` 
-- `entity(class).query()` 
+- `entity(class).query()`
+- `entity(class).findById(id)`
 
 详细配置参考[查询缓存管理](guides/cache-redis)。
 

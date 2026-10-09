@@ -45,7 +45,7 @@ end;
 
 ## 继承实体找不到父类字段
 
-确认使用 rabbit-common `3.2.12` 和 Rabbit SQL `{{rabbitSqlVersion}}`，且属性具有 JavaBean getter/setter 与对应字段。字段支持多层继承和子类重写 getter，但计算属性或仅声明字段的实体不会自动映射。子类同名字段覆盖父类字段，注解应标在实际采用的字段上。
+确认使用 rabbit-common `3.2.13` 和 Rabbit SQL `{{rabbitSqlVersion}}`，且属性具有 JavaBean getter/setter 与对应字段。字段支持多层继承和子类重写 getter，但计算属性或仅声明字段的实体不会自动映射。子类同名字段覆盖父类字段，注解应标在实际采用的字段上。
 
 ## 实体元数据或主键校验失败
 
@@ -62,3 +62,20 @@ end;
 ## XQL 重载失败
 
 重载失败后保留上次成功的资源与管道。检查配置、文件语法及管道类加载错误，修正后重新初始化；不要把“还能读取旧 SQL”误认为新配置已生效。
+
+
+## 查询实体后调用 toInstant 或更新时抛出异常
+
+实体声明为 `java.util.Date`，查询值的运行时类型可能是 `java.sql.Date` 或 `java.sql.Time`；它们继承了 `Date`，但不支持 `toInstant()`。rabbit-common `3.2.13` 的公共转换会在目标为 `Date` 时复制为普通 `Date`，Rabbit SQL `{{rabbitSqlVersion}}` 的 JDBC 绑定也会分别处理 SQL 日期、时间和时间戳。
+
+自定义 `EntityMetaProvider.columnValue` 时调用 `ValueUtils.adaptValue(field.getType(), value)`。字段显式声明为 SQL `Date` 或 `Time` 时仍保留 SQL 类型，需要时显式适配到普通 `Date` 或 `Instant`。普通 `Date` 为毫秒精度，纳秒需求使用 `Timestamp` 或支持纳秒的 Java 时间类型。
+
+## 日期字符串转换现在报错
+
+公共转换改用 `MostDateTime.parse(String)` 完整校验，不会接受未识别的前后缀，也不会自动修正非法日期。检查输入格式；确实需要从文本提取日期时，显式调用 `MostDateTime.of(String)`。旧的无参 `toZonedDateTime()` 调用迁移到 `toLocalDateTime()`，带时区结果使用 `getZonedDateTime()`，详见 [实用工具](guides/utils)。
+
+## SQL 高亮缺少分号、换行或误判字符串内容
+
+Rabbit SQL `{{rabbitSqlVersion}}` 的 `SqlHighlighter` 直接扫描原文，修复末尾字符丢失、字符串占位符碰撞和字符串内注释误判。去除 ANSI 颜色后应与原 SQL 完全一致。
+
+自定义高亮使用三参数 `highlight(sql, commentStyleCleaner, replacer)`。dollar quoted 片段整体以 `QUOTE_STRING` 传入；RabbitScript 等特殊注释保留内部表达式配色。回调抛出异常时会返回完整原文。方法和标签说明见 [实用工具](guides/utils)。

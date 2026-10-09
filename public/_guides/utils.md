@@ -6,20 +6,41 @@
 
 `com.github.chengyuxing.sql.util.SqlHighlighter`
 
-在支持 XTERM 的终端中，可输出带有语法高亮的 SQL 字符串：
+直接生成 ANSI 高亮，或根据 `System.console()` 和 `TERM` 判断是否启用终端配色：
 
 ```java
-String highlightIfAnsiCapable(String sql);
-String ansi(String sql);
+String sql = "select :id, '/* 普通内容 */';\n";
+String colored = SqlHighlighter.ansi(sql);
+String consoleText = SqlHighlighter.highlightIfAnsiCapable(sql);
 ```
 
-或者通过此方法自己实现 HTML 高亮：
+高亮按原始 SQL 片段拼接，保留分号、空白、换行和字符串内容。字符串、双引号或反引号标识符、普通注释中的 `:name` 不会被标记为 SQL 参数；支持重复引号转义、跨行字符串、PostgreSQL `E'...'` 转义字符串和嵌套块注释。
+
+PostgreSQL `$$...$$`、`$tag$...$tag$` 作为完整字符串着色，分隔符紧贴正文也能识别。它们内部的 SQL、注释和参数文本不会再次进行 SQL 高亮。RabbitScript 指令、元数据和内联模版注释仍保留内部表达式配色。
+
+高亮只处理显示，不校验 SQL 合法性。未闭合的引号、注释和 dollar quoted 片段会保留原文；自定义回调抛出异常时，方法返回完整原 SQL。
+
+### 自定义输出
+
+使用三参数方法定制识别到的片段：
 
 ```java
-String highlight(String sql, BiFunction<TAG, String, String> replacer);
+String highlight(String sql,
+                 Function<String, String> commentStyleCleaner,
+                 BiFunction<SqlHighlighter.TAG, String, String> replacer);
 ```
 
-`replacer` 会迭代各种类型，通过此方法包裹 HTML 标签。
+`commentStyleCleaner` 在分类注释前移除已有样式，例如使用 `Printer::removeStyle`；原始纯文本也可使用 `Function.identity()`。`replacer` 接收词法标签和原文片段，未识别为词法片段的空白及符号原样保留。
+
+```java
+String original = SqlHighlighter.highlight(sql, Function.identity(),
+        (tag, content) -> content);
+// original 与 sql 完全一致
+```
+
+主要标签包括 `KEYWORD`、`FUNCTION`、`NUMBER`、`QUOTE_STRING`、`NAMED_PARAMETER`、`ASTERISK`、`LINE_COMMENT`、`BLOCK_COMMENT`，以及三种特殊注释标签 `RABBIT_SCRIPT_COMMENT`、`METADATA_DEFINE_COMMENT`、`INLINE_TEMPLATE_COMMENT`。
+
+`NAMED_PARAMETER` 的回调内容不包含前导冒号，例如 `:user.id` 对应 `user.id`；冒号由高亮器原样保留。dollar quoted 片段整体使用 `QUOTE_STRING`，不再按 `POSTGRESQL_FUNCTION_BODY_SYMBOL` 分别处理其分隔符。
 
 ## 元组
 
@@ -79,48 +100,71 @@ DataRow pick(String name, String... more);
 
 `com.github.chengyuxing.common.MostDateTime`
 
-字符串转日期时间类型：
+### 完整解析与文本提取
+
+`parse(String)` 校验完整输入，适合数据库值和业务参数；非法日期、未识别的前后缀及多余的小数秒位数会报错。`of(String)` 保留从文本中提取日期的能力：
 
 ```java
-MostDateTime of(String datetime)
+MostDateTime value = MostDateTime.parse("2026-10-09T12:34:56.123456789Z");
+MostDateTime extracted = MostDateTime.of("决定书二〇〇一年十二月二十一日的");
 ```
 
-字符串日期格式支持：
+支持的输入包括：
 
-- 13 位时间戳
-- 10 位时间戳
-- `yyyyMMddHHmmssSSS`
-- `yyyyMMddHHmmss`
-- `yyyyMMdd`
-- `yyyy[-/年]MM[-/月]dd[日]`
-- `yyyy[-/年]MM[-/月]dd[日] HH[:时点]mm[:分]ss[秒]`
-- `yyyy[-/]MM[-/]dd HH:mm:ss.[SSS|ffffff|nnnnnnnnn]`
-- 中文日期，例如： `二〇二六年六月二十六日`
-- ISO ，例如： `2019-09-26T03:45:36.656+0800`
-- RFC_1123 ， 例如： `Wed, 04 Jan 2023 09:36:48 GMT`
-- RFC-like ， 例如： `Wed Jan 04 2023 17:36:48 GMT+0800`
-- RFC-like ， 例如： `Wed Jan 04 18:52:01 CST 2023`
+- 13 位毫秒时间戳、10 位秒时间戳。
+- 紧凑格式 `yyyyMMddHHmmssSSS`、`yyyyMMddHHmmss`、`yyyyMMdd`。
+- 普通日期，例如 `2026-10-09`、`2026/10/09`、`2026.10.09`、`2026年10月9日`。
+- 普通日期时间，例如 `2026-10-09 12:34:56.1234`、`2026年10月9日 12时34分56秒`。
+- 中文日期，例如 `二〇二六年六月二十六日`。
+- ISO，例如 `2026-10-09T12:34:56.1Z`、`2019-09-26T03:45:36.656+0800`，标准格式也支持区域时区。
+- RFC_1123，例如 `Wed, 04 Jan 2023 09:36:48 GMT`。
+- RFC-like，例如 `Wed Jan 04 2023 17:36:48 GMT+0800`、`Wed Jan 04 18:52:01 CST 2023`。
 
-时间部分的加减操作：
+小数秒支持 1～9 位，按小数位数补齐纳秒，例如 `.1234` 对应 `123400000` 纳秒。紧凑日期和指定格式严格校验，不会把 `20260230` 自动修正成月底。
+
+指定格式使用 `of(datetime, pattern)`，按完整输入解析，保留格式中的偏移或区域时区；引号中的格式字母按字面量处理：
 
 ```java
-MostDateTime minus(long amount, TemporalUnit unit);
-MostDateTime plus(long amount, TemporalUnit unit);
+MostDateTime utc = MostDateTime.of("2026-10-09 12:34:56 +00:00",
+        "yyyy-MM-dd HH:mm:ss XXX");
+MostDateTime literal = MostDateTime.of("2026-10-09 H", "yyyy-MM-dd 'H'");
 ```
 
-格式化：
+### 时区和缺省日期
+
+`of(Temporal)` 保留输入已有的时区或偏移；无时区的本地值使用系统默认时区。`of(Temporal, ZoneId)` 将带时区的输入转换到目标时区，保留同一个时刻；本地日期和时间在目标时区解释：
 
 ```java
-String toString(String format);
+OffsetDateTime source = OffsetDateTime.parse("2026-10-09T12:34:56+08:00");
+MostDateTime utc = MostDateTime.of(source, ZoneId.of("UTC"));
+// utc.toInstant() 为 2026-10-09T04:34:56Z
 ```
 
-转换为各种类型的日期时间：
+纯时间统一以其所属时区的今天为日期，纯时间字符串使用系统默认时区；缺少年份使用当前年份。RFC-like 中的 `CST` 有歧义，为兼容原有解析规则仍按系统默认时区解释；需要确定时区时使用明确偏移或区域时区。
+
+`of(Date, ZoneId)` 按源对象的 epoch 时间值转换，支持 JDBC 日期子类；`Timestamp` 保留纳秒。SQL 日期转 `LocalDate`、SQL 时间转 `LocalTime` 时，使用 [ValueUtils](guides/utils) 的对应类型转换以保留日历值。
+
+### 转换、运算和格式化
+
+转换方法均在实例上调用，不接收日期字符串：
+
+| 方法 | 返回类型与含义 |
+| --- | --- |
+| `toLocalDateTime()` | `LocalDateTime`，本地日期时间，不包含时区 |
+| `getZonedDateTime()` | `ZonedDateTime`，保留区域时区或偏移 |
+| `toLocalDate()` | `LocalDate`，日期部分 |
+| `toLocalTime()` | `LocalTime`，时间部分 |
+| `toInstant()` | `Instant`，时间线上的绝对时刻 |
+| `toDate()` | 普通 `java.util.Date`，毫秒精度 |
+| `toEpochMilli()` | epoch 毫秒时间值 |
 
 ```java
-Instant toInstant(String datetime);
-long toEpochMilli(String datetime);
-...
+MostDateTime next = value.plus(1, ChronoUnit.DAYS);
+MostDateTime previous = value.minus(30, ChronoUnit.MINUTES);
+String formatted = value.toString("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 ```
+
+旧的无参 `toZonedDateTime()` 实际返回 `LocalDateTime`，已更名为 `toLocalDateTime()`，旧调用需要修改；带时区结果使用 `getZonedDateTime()`。静态方法 `MostDateTime.toZonedDateTime(String)` 仍提供文本提取，验证完整字符串使用 `parse(String)`。
 
 ## 字符串模板格式化工具
 
@@ -181,6 +225,32 @@ UncheckedCloseable nest(AutoCloseable closeable);
 ## 对象值工具
 
 `com.github.chengyuxing.common.util.ValueUtils`
+
+### 日期和时间类型适配
+
+```java
+Date date = ValueUtils.adaptValue(Date.class, java.sql.Date.valueOf("2026-10-09"));
+Instant instant = date.toInstant();
+LocalDate localDate = ValueUtils.adaptValue(LocalDate.class,
+        java.sql.Date.valueOf("2026-10-09"));
+```
+
+转换规则如下：
+
+| 目标类型或转换 | 行为 |
+| --- | --- |
+| SQL 日期子类 → `java.util.Date` | 复制成普通 `Date`，保留毫秒值，避免运行时仍为 SQL 日期子类 |
+| 显式 SQL 日期类型 | 保留或转换到 `java.sql.Date`、`Time`、`Timestamp` 对应类型 |
+| `java.sql.Date` → `LocalDate` | 保留日期日历值，不按其他时区移动日期 |
+| `java.sql.Time` → `LocalTime` | 保留时间日历值 |
+| 日期对象 → 其他支持的 Java 时间类型 | 按 epoch 时间值和时区转换；`Timestamp` 保留纳秒 |
+| 字符串 → 日期或 Java 时间类型 | 使用 `MostDateTime.parse(String)` 校验完整输入 |
+
+`toTemporal(targetType, date, zoneId)` 可指定转换时区；不传 `zoneId` 的重载使用系统默认时区。支持 `LocalDateTime`、`ZonedDateTime`、`OffsetDateTime`、`LocalDate`、`LocalTime`、`OffsetTime`、`Instant`。原值为 `null` 时，`adaptValue` 返回 `null`。
+
+普通 `Date` 只能保存毫秒。字符串或 `Timestamp` 转到 `Timestamp`、`Instant`、`LocalDateTime` 等支持纳秒的类型时保留支持的精度。实体自定义值转换可直接调用 `ValueUtils.adaptValue(field.getType(), value)`，详见 [实体兼容 JPA 等其他框架](guides/advanced-jpa)。
+
+### 其他对象值工具
 
 平铺 IF-ELSE-ELSE-IF-ELSE 值比较返回满足的值，效果类似 Oracle 的 `decode` 函数：
 

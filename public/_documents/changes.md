@@ -1,5 +1,33 @@
 # 框架变更日志
 
+## 10.3.21
+
+本次同步更新：`rabbit-common 3.2.13`、`rabbit-sql 10.3.21`、`rabbit-sql-spring-boot-starter 5.3.22`、IDEA 插件 `2.4.64.231-263`。
+
+### 实体查询与 JDBC 日期处理
+
+- 新增 `baki.entity(Entity.class).findById(id)`，使用实体元数据提供的单一主键查询，支持继承字段及自定义列名。主键通过预编译参数绑定，拒绝 `null`，未匹配记录时返回 `Optional.empty()`；现有 `query(queryId)` 仍表示查询标识。
+- JDBC 日期子类映射到 `java.util.Date` 字段时转换为普通 `Date`，保留毫秒时间值，解决查询实体后调用 `toInstant()` 或更新时的异常；显式声明的 SQL 日期类型保留对应类型。
+- JDBC 参数按实际类型分别使用 `setDate`、`setTime`、`setTimestamp`；普通 `Date` 按毫秒值绑定为时间戳，`Timestamp` 保留纳秒精度。
+
+### MostDateTime 与公共类型转换
+
+- 修复中文时间读取错误、小数秒精度丢失、RFC 月份大小写处理，以及自定义格式忽略时区的问题；支持 1～9 位小数秒，紧凑日期和指定格式严格校验非法日期。
+- 新增 `MostDateTime.parse(String)` 完整校验输入；`of(String)` 保留从文本提取日期的能力。`ValueUtils.adaptValue` 的日期和时间字符串转换使用完整校验，转换到 `Timestamp` 和支持纳秒的 Java 时间类型时保留精度。
+- 明确 `of(Temporal, ZoneId)` 的时区为目标时区，保留源时刻；不传时区时保留输入已有的时区。纯时间统一使用其所属时区的今天，缺少年份使用当前年份。
+- 新增 `toLocalDateTime()`、`getZonedDateTime()`；旧的无参 `toZonedDateTime()` 已更名为 `toLocalDateTime()`，旧调用需要修改。
+- SQL 日期转 `LocalDate`、SQL 时间转 `LocalTime` 保留日历值，其他转换使用 epoch 时间值和指定时区；`MostDateTime` 同步修复 SQL 日期子类不支持 `toInstant()` 的问题。
+
+### SQL 日志高亮
+
+- `SqlHighlighter` 改为直接扫描原始 SQL，修复末尾分号和换行丢失、大量字符串占位符碰撞，以及字符串内注释标记被误识别的问题。
+- 支持反引号、PostgreSQL dollar quoting、嵌套块注释、单字母函数和相邻数字；dollar quoted 内容整体作为字符串着色，RabbitScript、元数据和内联模版注释保留内部表达式配色。
+
+升级注意：日期和时间字符串转换会拒绝未识别的前后缀和非法日期；需要文本提取时请显式使用 `MostDateTime.of(String)`。`java.util.Date` 为毫秒精度，需要纳秒精度时使用 `Timestamp` 或支持纳秒的 Java 时间类型。
+
+
+相关用法已同步到 [实体操作](documents/core-entity)、[配置项](documents/core-api-config)、[JPA 适配](guides/advanced-jpa)、[实用工具](guides/utils)、[故障排查](documents/troubleshooting) 和 [升级与迁移](documents/migration)。
+
 ## 10.3.20
 
 本次同步更新：`rabbit-common 3.2.12`、`rabbit-sql 10.3.20`、`rabbit-sql-spring-boot-starter 5.3.21`、IDEA 插件 `2.4.63.231-263`。
