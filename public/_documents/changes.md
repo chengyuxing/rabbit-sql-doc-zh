@@ -1,5 +1,17 @@
 # 框架变更日志
 
+## 10.3.22
+
+本次同步更新：`rabbit-common 3.2.14`、`rabbit-sql 10.3.22`、`rabbit-sql-spring-boot-starter 5.3.23`、IDEA 插件 `2.4.65.231-263`。
+
+- 修复公共类型转换改用完整解析后，对 SQL 风格带偏移时间字符串的兼容性回退。`2026-10-10 10:35:57.672+08` 可直接映射到日期或 Java 时间类型，时刻为 `2026-10-10T02:35:57.672Z`。
+- 兼容日期与时间以空格分隔、秒数省略、偏移量前一个空格，以及 `+08`、`+0800`、`+08:30`、带秒偏移和 `Z` 等已有偏移表示；支持的小数秒仍为 1～9 位。
+- 修复 `MostDateTime.of(String)` 从文本提取 SQL 风格时间时忽略偏移量的问题；ISO/SQL 和 RFC-like GMT 提取不会再把 `+08:30` 截成 `+08`。`createISODateTime` 与 `createRFCLikeDateTime` 同步修复。
+- `ValueUtils.adaptValue` 继续使用 `MostDateTime.parse(String)` 完整校验，解析失败不退回文本提取；非法日期、非法偏移和未识别的前后缀仍会报错。
+- SQL、Starter 和 IDEA 插件同步升级内置或传递依赖。显式锁定 `rabbit-common` 的项目也需更新到 `3.2.14`。
+
+相关用法见 [实用工具](guides/utils)、[实体操作](documents/core-entity)、[故障排查](documents/troubleshooting) 和 [升级与迁移](documents/migration)。
+
 ## 10.3.21
 
 本次同步更新：`rabbit-common 3.2.13`、`rabbit-sql 10.3.21`、`rabbit-sql-spring-boot-starter 5.3.22`、IDEA 插件 `2.4.64.231-263`。

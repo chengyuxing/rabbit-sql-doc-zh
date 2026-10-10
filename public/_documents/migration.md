@@ -42,6 +42,16 @@ baki.execute("delete from test.user where id = :id", args);
 
 完整变更记录见 [变更日志](documents/changes)。
 
+## 升级到 10.3.22
+
+版本组合为 Rabbit SQL `10.3.22`、rabbit-common `3.2.14`、Starter `5.3.23` 和插件 `2.4.65.231-263`。发布 Maven 构件时依次发布 common、SQL、Starter；项目显式锁定核心依赖版本时需同步更新。
+
+- 数据库中的 `2026-10-10 10:35:57.672+08` 等合法时间文本可直接通过 `ValueUtils.adaptValue` 映射；无需将空格手动改为 `T`，也不要删除偏移量。
+- `MostDateTime.of` 从文本提取时间时会使用显式偏移确定时刻。旧版忽略偏移或将 `+08:30` 截成 `+08` 的结果可能变化，这是时区解析修复。
+- `parse` 与公共类型转换继续完整校验；格式兼容在解析器内部完成，不会在失败后退回 `of`。业务确实需要从描述性文本提取时间时，显式使用 `of`。
+
+完整格式与映射示例见 [实用工具](guides/utils) 和 [实体操作](documents/core-entity)。
+
 ## 升级到 10.3.21
 
 版本组合为 Rabbit SQL `10.3.21`、rabbit-common `3.2.13`、Starter `5.3.22` 和插件 `2.4.64.231-263`。发布 Maven 构件时依次发布 common、SQL、Starter；项目显式锁定核心依赖版本时需同步更新。

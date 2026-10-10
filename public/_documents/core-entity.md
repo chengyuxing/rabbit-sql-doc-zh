@@ -102,6 +102,8 @@ public Object columnValue(Field field, Object value) {
 
 显式声明为 `java.sql.Date`、`Time`、`Timestamp` 的字段保留对应 SQL 类型；SQL `Date`、`Time` 本身不支持 `toInstant()`，需要时请显式适配到 `Date` 或 `Instant`。纳秒精度应使用 `Timestamp` 或支持纳秒的 Java 时间类型，普通 `Date` 只能保留毫秒。
 
+从 rabbit-common `3.2.14` 起，VARCHAR 列中的合法 SQL 风格时间文本也可映射到日期或 Java 时间字段，例如 `2026-10-10 10:35:57.672+08` 对应 `2026-10-10T02:35:57.672Z`。偏移量会保留，无需在 `columnValue` 中删除 `+08` 或手动替换空格；公共入口会统一处理。新建表时仍建议用适合业务含义的数据库日期或时间类型。
+
 日期和时间字符串转换完整校验输入，非法日期或未识别的前后缀会报错。转换规则见 [实用工具](guides/utils)，参数绑定规则见 [配置项](documents/core-api-config)。
 
 ## 更新
