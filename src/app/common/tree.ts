@@ -235,6 +235,16 @@ export class Tree<T extends DataNode<T, ID>, ID = string | number> {
     return new Tree<T, ID>(filtered);
   }
 
+  getPath(id: ID): T[] {
+    const node = this.getNode(id);
+    if (!node) {
+      return [];
+    }
+    const result = this.getAncestors(id).reverse();
+    result.push(node);
+    return result;
+  }
+
   getAncestors(id: ID): T[] {
     const result: T[] = [];
     let parent: T | undefined = this.getNode(id)?.parent;
