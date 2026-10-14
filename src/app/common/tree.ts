@@ -113,6 +113,44 @@ export class Tree<T extends DataNode<T, ID>, ID = string | number> {
     }
   }
 
+  /**
+   * 将节点及其子树移到目标父节点末尾，pid 为 null 或 undefined 时移到根节点末尾。
+   * 保留节点实例和索引顺序；目标父节点不变时保持原位置。
+   * 节点不存在或移动会形成环时抛出异常，原树保持不变。
+   */
+  moveNode(id: ID, pid?: ID | null): void {
+    const node = this.getNode(id);
+    if (!node) {
+      throw new Error(`Node not found: ${id}`);
+    }
+    const parent = pid == null ? undefined : this.getNode(pid);
+    if (pid != null && !parent) {
+      throw new Error(`Parent node not found: ${pid}`);
+    }
+    const visited = new Set<ID>();
+    for (let current = parent; current; current = current.parent) {
+      if (current === node || visited.has(current.id)) {
+        throw new Error(`Move would create a cycle: ${id} -> ${pid}`);
+      }
+      visited.add(current.id);
+    }
+    if (node.parent === parent && (node.pid === pid || (node.pid == null && pid == null))) {
+      return;
+    }
+    const siblings = node.parent ? node.parent.children : this.treeNodes;
+    const index = siblings?.indexOf(node) ?? -1;
+    if (index >= 0) {
+      siblings!.splice(index, 1);
+    }
+    node.pid = pid ?? null;
+    node.parent = parent;
+    if (parent) {
+      (parent.children ??= []).push(node);
+    } else {
+      this.treeNodes.push(node);
+    }
+  }
+
   updateNode(id: ID, updates: Omit<Partial<T>, 'children' | 'parent'>) {
     const node = this.getNode(id);
     if (node) {
@@ -158,6 +196,43 @@ export class Tree<T extends DataNode<T, ID>, ID = string | number> {
     };
     traverse(this.treeNodes);
     return result;
+  }
+
+  /**
+   * 返回仅保留命中节点及其祖先的新树；父节点命中不会自动保留其后代。
+   * predicate 按索引顺序对每个节点调用一次，包括父节点缺失的孤立节点。
+   * 保留当前根节点和兄弟节点顺序（包括移动后的顺序），新树按遍历顺序建立索引。
+   * 节点为浅拷贝，父子引用在新树内重建，业务对象属性仍共享；原树不变。
+   * 孤立分支仍保留在索引中，不会自动提升为根节点。
+   */
+  filterTree(predicate: (node: T) => boolean): Tree<T, ID> {
+    const retained = new Set<ID>();
+    for (const node of this.indexes.values()) {
+      if (predicate(node)) {
+        for (let current: T | undefined = node; current && !retained.has(current.id); current = current.parent) {
+          retained.add(current.id);
+        }
+      }
+    }
+    const forest = [...this.treeNodes];
+    for (const node of this.indexes.values()) {
+      if (node.parent == null && node.pid != null) {
+        forest.push(node);
+      }
+    }
+    const pending = forest.reverse();
+    const filtered: T[] = [];
+    while (pending.length > 0) {
+      const node = pending.pop()!;
+      if (retained.has(node.id)) {
+        filtered.push(node);
+      }
+      const children = node.children ?? [];
+      for (let i = children.length - 1; i >= 0; i--) {
+        pending.push(children[i]);
+      }
+    }
+    return new Tree<T, ID>(filtered);
   }
 
   getAncestors(id: ID): T[] {
