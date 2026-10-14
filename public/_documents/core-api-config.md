@@ -39,6 +39,23 @@ SQL 拦截器。在 **SQL 解析开始**时，可以通过抛出特定异常拦�
 - `java.io.File`
 - `java.nio.file.Path`
 
+从 Rabbit SQL `10.3.23` 起，UUID 使用 `ps.setString(index, uuid.toString())` 绑定标准 36 位格式，文本列需能容纳 36 个字符。之前去横线写入的 32 位文本主键需统一存储格式，见 [升级与迁移](documents/migration)。
+
+`setObject(UUID)` 的行为依赖数据库和 JDBC 驱动，不作为统一默认策略。使用 PostgreSQL 原生 `uuid` 列时可在现有处理器中专门绑定，其余类型继续复用默认逻辑：
+
+```java
+// 此示例针对 PostgreSQL 原生 uuid 列，不作为跨数据库通用绑定策略。
+baki.setStatementValueHandler((ps, index, value, metadata) -> {
+    if (value instanceof UUID) {
+        ps.setObject(index, value);
+    } else {
+        JdbcUtils.setStatementValue(ps, index, value);
+    }
+});
+```
+
+同一项目若同时使用原生 UUID 列和文本列，应按实际语句、列类型选择绑定方式。二进制列也需根据数据库约定显式编码，不能仅替换为 `setObject`。
+
 日期参数按实际类型绑定：
 
 | 参数值类型 | JDBC 绑定方法 |

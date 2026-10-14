@@ -239,6 +239,20 @@ UncheckedCloseable nest(AutoCloseable closeable);
 
 `com.github.chengyuxing.common.util.ValueUtils`
 
+### UUID 类型适配
+
+从 rabbit-common `3.2.15` 起，支持标准 36 位 UUID 字符串及无横线的 32 位十六进制字符串：
+
+```java
+UUID id = ValueUtils.adaptValue(UUID.class, "550e8400-e29b-41d4-a716-446655440000");
+UUID same = ValueUtils.adaptValue(UUID.class, "550e8400e29b41d4a716446655440000");
+// id.equals(same) == true
+```
+
+支持大小写，已有 UUID 对象直接返回，`null` 保持为 `null`。空串、非法十六进制字符、错误长度、缩短或超长分组会抛出 `IllegalArgumentException`；不自动去除首尾空格。
+
+`DataRow.toEntity()` 可直接映射 UUID 属性；自定义实体提供者可在 `columnValue` 中复用 `ValueUtils.adaptValue(field.getType(), value)`。这只负责查询值转换，SQL 参数的存储格式见 [配置项](documents/core-api-config)，旧数据处理见 [升级与迁移](documents/migration)。
+
 ### 日期和时间类型适配
 
 ```java

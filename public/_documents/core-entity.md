@@ -87,6 +87,23 @@ baki.entity(Guest.class)
 
 插入时通过 `.set(...)` 指定字段，同一字段最后一次赋值生效，`save()` 不会重新覆盖为初始值。
 
+## 映射失败的定位信息
+
+rabbit-common `3.2.15` 会在查询值转换或 setter 调用失败时，说明实体类、属性、来源列名、来源值类型、目标类型及 setter。异常类型为 `IllegalStateException`，原始转换或 setter 异常保留在 `getCause()`；继承字段及自定义列名同样适用。
+
+实体转 Map 时调用 getter 失败，也会说明实体、属性、列名及 getter，并保留原始原因。排查顺序和示例见 [故障排查](documents/troubleshooting)。
+
+## UUID 字段与主键
+
+从 Rabbit SQL `10.3.23`、rabbit-common `3.2.15` 起，使用默认值转换或在 `columnValue` 中调用 `ValueUtils.adaptValue` 时，实体 UUID 属性可以接收 UUID 对象、标准 36 位或紧凑 32 位十六进制字符串。字段仍需提供 JavaBean getter/setter；主键仍需由元数据提供者标记，例如通过 JPA 适配器识别 `@Id`。
+
+```java
+UUID id = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
+Optional<UuidGuest> guest = baki.entity(UuidGuest.class).findById(id);
+```
+
+UUID 参数使用 `setString` 写入标准 36 位字符串，文本列需能容纳 36 个字符。旧的 32 位文本主键虽然可以查询映射为 UUID，但直接按该 UUID 查询、更新、删除时绑定的是 36 位格式，需先统一存储格式。原生 UUID 列与二进制列的绑定按驱动定制，详见 [配置项](documents/core-api-config) 和 [升级与迁移](documents/migration)。
+
 ## 日期字段映射
 
 声明为 `java.util.Date` 的字段会得到普通 `Date`，保留毫秒时间值。数据库返回 `java.sql.Date`、`Time` 或 `Timestamp` 时，公共转换会按字段声明类型适配，因此查询得到实体后可以调用 `toInstant()` 并直接执行更新。

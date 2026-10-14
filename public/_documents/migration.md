@@ -42,6 +42,16 @@ baki.execute("delete from test.user where id = :id", args);
 
 完整变更记录见 [变更日志](documents/changes)。
 
+## 升级到 10.3.23
+
+版本组合为 Rabbit SQL `10.3.23`、rabbit-common `3.2.15`、Starter `5.3.24`。按 common、SQL、Starter 的顺序发布；显式锁定依赖的项目同步更新。IDEA 插件保持现有版本和内置依赖。
+
+UUID 查询结果可以是 UUID 对象、标准 36 位字符串或紧凑 32 位字符串。自定义 `EntityMetaProvider.columnValue` 时调用 `ValueUtils.adaptValue(field.getType(), value)` 即可复用转换。
+
+UUID 参数现在通过 `setString` 绑定标准 36 位格式，原来使用 `varchar(32)` 的列需检查并扩容。对于已有的 32 位文本主键，仅扩容不会改变旧数据；需同时统一主键、外键及关联表中的存储格式，再使用 UUID 参数执行主键查询、更新和删除。未迁移时仍可读取映射为 UUID，但 UUID 参数不会自动匹配原来的 32 位文本；可通过显式 SQL 绑定原始 32 位字符串，或定制 `StatementValueHandler` 保留旧的紧凑写入约定。
+
+PostgreSQL 原生 `uuid` 列、其他数据库的 UUID 类型和二进制列按驱动要求定制参数绑定，不将 `setObject(UUID)` 作为所有数据库的默认策略。校验注解不受 UUID 转换影响，仍需在业务调用 Rabbit 前显式验证，见 [JPA 适配](guides/advanced-jpa)。
+
 ## 升级到 10.3.22
 
 版本组合为 Rabbit SQL `10.3.22`、rabbit-common `3.2.14`、Starter `5.3.23` 和插件 `2.4.65.231-263`。发布 Maven 构件时依次发布 common、SQL、Starter；项目显式锁定核心依赖版本时需同步更新。

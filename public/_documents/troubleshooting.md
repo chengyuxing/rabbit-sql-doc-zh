@@ -20,6 +20,12 @@ Spring Boot 中使用 Starter 后，请使用 Spring 事务或 `com.github.cheng
 
 检查指令是否独立成行、`#if` / `#fi` 是否成对、`#for` / `#done` 是否成对，以及管道名是否已注册。
 
+## 动态 SQL 异常缺少文件或 SQL 名称
+
+Rabbit SQL `10.3.23` 的动态 SQL 编译异常包含资源文件、完整 SQL 名称（例如 `home.find`）和原始原因；模板、常量展开后重新编译失败时也保留这些信息。词法错误（例如字符串引号未闭合）补充行位置，语法错误保留 token 的行列位置。
+
+这些位置属于实际编译的 SQL 片段，经过去空行和模板展开时，与原 XQL 文件的物理行号可能不同。运行期的管道或表达式错误定位到文件及 SQL 名称，原始异常保留在 `XQLParseException.getCause()`。`#check` 与 `#guard` 仍直接抛出各自的业务异常，保持原有类型和自定义提示。
+
 ## XQL 文件分号解析异常
 
 每个 SQL 对象以单个 `;` 分隔。如果存储过程或 PLSQL 内部包含多个 `;`，请在需要保留的分号后追加行注释 `--`：
@@ -69,6 +75,28 @@ end;
 实体声明为 `java.util.Date`，查询值的运行时类型可能是 `java.sql.Date` 或 `java.sql.Time`；它们继承了 `Date`，但不支持 `toInstant()`。rabbit-common `3.2.14` 的公共转换会在目标为 `Date` 时复制为普通 `Date`，Rabbit SQL `{{rabbitSqlVersion}}` 的 JDBC 绑定也会分别处理 SQL 日期、时间和时间戳。
 
 自定义 `EntityMetaProvider.columnValue` 时调用 `ValueUtils.adaptValue(field.getType(), value)`。字段显式声明为 SQL `Date` 或 `Time` 时仍保留 SQL 类型，需要时显式适配到普通 `Date` 或 `Instant`。普通 `Date` 为毫秒精度，纳秒需求使用 `Timestamp` 或支持纳秒的 Java 时间类型。
+
+## 实体值转换或 getter/setter 调用失败
+
+从 rabbit-common `3.2.15` 起，`DataRow.toEntity()` 的字段转换或 setter 调用失败会抛出包含映射上下文的 `IllegalStateException`，例如：
+
+```text
+Failed to map column 'created_at' (source type: java.lang.String) to entity com.example.Guest, property 'createdAt' (target type: java.util.Date, setter: setCreatedAt): ...
+```
+
+先根据列名和属性名定位字段，再检查来源类型与目标类型，最后查看 `getCause()` 中的日期解析、UUID 格式、自定义转换或 setter 原始异常。继承字段和自定义列名也会带上相同信息。`DataRow.ofEntity()` 调用 getter 失败时，错误中包含实体、属性、列名和 getter，原因直接指向 getter 抛出的异常。
+
+`ValueUtils.adaptValue()` 直接调用时保持原有转换异常；通过实体映射调用时，原始转换异常作为 `IllegalStateException` 的 cause 保留，业务可据此判断具体原因。
+
+## UUID 字段转换失败或主键操作找不到记录
+
+字符串映射到 UUID 字段需使用 rabbit-common `3.2.15` 或更新版本，并在自定义 `columnValue` 中复用 `ValueUtils.adaptValue(field.getType(), value)`。接受标准 36 位或无横线的 32 位十六进制字符串，非法格式和首尾空格会报错。
+
+Rabbit SQL `10.3.23` 将 UUID 参数绑定为带横线的 36 位字符串。若数据库保存的是旧的 32 位文本主键，读取映射可以成功，但按 UUID 查询、更新或删除可能匹配不到记录；需同步统一主键及关联列格式，或通过显式 SQL 绑定原始字符串。列长度不足则需检查并扩容，详见 [升级与迁移](documents/migration)。原生 UUID 列和二进制列的驱动绑定方式见 [配置项](documents/core-api-config)。
+
+## 校验注解存在但保存时未提前报错
+
+`@Column(length)` 不会触发 Rabbit 的长度校验；`@Size`、`@NotNull` 也需由 Bean Validation 实现显式执行。检查控制器入参是否启用 `@Valid`，或在调用 `insert`、`update` 前执行 `validator.validate(entity)` 并处理校验结果，见 [JPA 适配](guides/advanced-jpa)。
 
 ## 日期字符串转换现在报错
 

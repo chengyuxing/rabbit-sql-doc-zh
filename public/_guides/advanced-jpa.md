@@ -105,6 +105,35 @@ Optional<Guest> guest = baki.entity(Guest.class).findById(42L);
 
 日期和时间字符串使用完整校验，非法日期及未识别的前后缀会报错。详细规则见 [实用工具](guides/utils)。
 
+## UUID 字段
+
+JPA 适配器中的 `columnValue` 使用 `ValueUtils.adaptValue(field.getType(), value)`，可复用 rabbit-common `3.2.15` 的 UUID 转换。`@Id` 字段可声明为 UUID；支持 UUID 查询对象及标准、紧凑字符串，主键增删改查仍按同一列元数据执行。
+
+Rabbit SQL `10.3.23` 默认将 UUID 参数绑定为带横线的标准 36 位字符串。文本列容量及旧主键存储格式需要统一；不自动转换二进制 UUID，也不统一使用 `setObject(UUID)`。完整说明见 [实体操作](documents/core-entity) 和 [升级与迁移](documents/migration)。
+
+## 映射注解与数据校验
+
+`@Column(length = 100)` 的长度属性主要用于 JPA 建表元数据，本页适配器不会将它解释为存储前长度检查，也不会修改已有数据库列。实体可同时使用独立的 Bean Validation 注解：
+
+```java
+@Column(length = 100)
+@Size(max = 100)
+@NotNull
+private String name;
+```
+
+映射与校验注解互不冲突，但仅添加注解不会执行校验。`@Size` 自身允许 `null`，必填需另加 `@NotNull`。使用 Spring MVC 时，可在控制器的请求对象参数上添加 `@Valid`，并配置 Bean Validation 实现；直接调用 Rabbit 时可先手动验证：
+
+```java
+Set<ConstraintViolation<Guest>> violations = validator.validate(guest);
+if (!violations.isEmpty()) {
+    throw new ConstraintViolationException(violations);
+}
+baki.entity(Guest.class).insert().save(guest);
+```
+
+`validator` 由业务提供或注入。Spring Boot 2.x 使用 `javax.validation` 命名空间，并需引入可用的校验实现，例如 `spring-boot-starter-validation`。Rabbit 的 `insert`、`update` 不自动执行 Bean Validation；Hibernate 的实体生命周期校验属于 JPA 实现的行为，不会因复用 JPA 注解而在 Rabbit 中生效。数据库约束仍由实际表结构执行。
+
 ## 继承与支持范围
 
 实体字段沿继承链查找，支持多层父类及子类重写 getter；子类同名字段优先。提供者的 `columnMeta(Field)` 可读取实际字段上的 `@Id`、`@Column` 等注解，布尔属性可使用 `isXxx()` getter。仅声明字段而没有 JavaBean 访问方法，或只有计算 getter 而没有对应字段，不会自动映射。

@@ -1,5 +1,27 @@
 # 框架变更日志
 
+## 10.3.23
+
+本次同步更新：`rabbit-common 3.2.15`、`rabbit-sql 10.3.23`、`rabbit-sql-spring-boot-starter 5.3.24`。IDEA 插件不因本次 UUID 更新递增版本，也不调整内置依赖。
+
+- `ValueUtils.adaptValue(UUID.class, value)` 兼容标准 36 位 UUID 字符串和无横线的 32 位十六进制字符串，支持大小写；UUID 对象及 `null` 保持不变，非法格式会报错，不接受缩短分组或超长分组的宽松解析。
+- `DataRow.toEntity()` 和使用 `ValueUtils.adaptValue` 的实体元数据提供者可将查询字符串映射为 UUID 字段，支持 UUID 类型的单一主键。
+- UUID 参数改用 `setString` 绑定带横线的标准 36 位字符串，不统一改成 `setObject(UUID)`。文本列需能容纳 36 个字符；旧的 32 位文本主键仍可读取，但按 UUID 参数查询、更新或删除前需统一存储格式，或按原始字符串显式执行 SQL。
+- 补充 UUID 转换、参数绑定和实体主键增删改查回归测试，连同错误信息回归测试，在 Java 8、Java 17 下各通过 72 项相关测试；实体增删改查使用 SQLite 文本列验证，未将原生 UUID 列视为跨数据库通用能力。
+- 改善实体映射异常：查询转换与 setter 失败时包含实体、属性、列名、来源类型、目标类型及 setter；实体转 Map 的 getter 失败同样带上上下文，原始原因保留为 cause。
+- 改善动态 SQL 编译及执行异常：包含资源文件、完整 SQL 名称和原始原因，覆盖词法错误、模板及常量展开后的重新编译；语法位置信息以实际编译的 SQL 片段为准。`#check`、`#guard` 保留业务异常类型和自定义提示。
+- 补充实体校验说明：`@Column(length)` 不触发存储前长度检查，`@Size`、`@NotNull` 与映射独立，业务需通过 `@Valid` 或 `Validator` 显式触发校验。
+
+相关用法见 [实体操作](documents/core-entity)、[JPA 适配](guides/advanced-jpa)、[配置项](documents/core-api-config)、[实用工具](guides/utils) 和 [升级与迁移](documents/migration)。
+
+### IDEA 插件 2.4.66
+
+插件此前已递增到 `2.4.66.231-263`：修复 IDEA 数据库表重命名触发的异常，XQL 文件监听器忽略非本地虚拟文件，保留本地 SQL 文件的自动重载。该插件仍内置 `rabbit-sql 10.3.22` 和 `rabbit-common 3.2.14`。
+
+### IDEA 插件待发布修复
+
+新建 Pipe 弹窗的初始预览改用合法示例类名 `MyPipe`，避免把 `<IPipe>` 当作文件名导致 Windows 的非法路径字符异常。覆盖预览文件名及输入变化的回归测试已加入；本次不调整插件版本和内置依赖。
+
 ## 10.3.22
 
 本次同步更新：`rabbit-common 3.2.14`、`rabbit-sql 10.3.22`、`rabbit-sql-spring-boot-starter 5.3.23`、IDEA 插件 `2.4.65.231-263`。

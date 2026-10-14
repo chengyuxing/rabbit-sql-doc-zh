@@ -4,7 +4,11 @@
 
 <iframe width="100%" height="270px" src="https://plugins.jetbrains.com/embeddable/card/21403"></iframe>
 
-当前版本为 `2.4.65.231-263`，兼容 IDEA `2023.1–2026.3`（build `231–263.*`）。插件内置 `rabbit-sql 10.3.22` 与 `rabbit-common 3.2.14`，推荐项目依赖使用 Rabbit SQL `{{rabbitSqlVersion}}`、Starter `{{starterVersion}}`，使动态 SQL 解析行为保持一致。
+当前版本为 `2.4.66.231-263`，兼容 IDEA `2023.1–2026.3`（build `231–263.*`）。插件内置 `rabbit-sql 10.3.22` 与 `rabbit-common 3.2.14`，推荐项目依赖使用 Rabbit SQL `{{rabbitSqlVersion}}`、Starter `{{starterVersion}}`，使动态 SQL 解析行为保持一致。
+
+插件 `2.4.66` 已修复 IDEA 数据库表重命名触发的虚拟文件异常。本次核心库 UUID 更新不调整插件版本及内置依赖，项目依赖按上面的当前版本使用。
+
+待发布修复：新建 Pipe 弹窗的初始预览不再将 `<IPipe>` 解析成文件路径，避免 Windows 报 `Illegal char <...> ... <IPipe>.java`。遇到该问题可升级到包含此修复的插件构建。
 
 ## 安装插件
 
