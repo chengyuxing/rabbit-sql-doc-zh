@@ -2,6 +2,86 @@
 
 这里总结了一些比较实用的工具类。
 
+## 树状数据工具
+
+从 rabbit-common `3.2.15` 起，提供 `com.github.chengyuxing.common.tree.Tree`，用于将扁平数据组织为树，并执行查找、增删改、移动和筛选。它不依赖 UI、数据库或业务模型。
+
+### 定义节点与构建
+
+节点实现 `TreeNode<T, ID>`，其中 `T` 是节点自身类型，`ID` 是主键类型。例如 `TreeNode<Node, Long>`：
+
+```java
+import com.github.chengyuxing.common.tree.Tree;
+import com.github.chengyuxing.common.tree.TreeNode;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+class Node implements TreeNode<Node, Long> {
+    private Long id;
+    private Long pid;
+    private List<Node> children;
+    private Node parent;
+    private String label;
+
+    public Node() {}
+    public Node(Long id, Long pid, String label) {
+        this.id = id;
+        this.pid = pid;
+        this.label = label;
+    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Long getPid() { return pid; }
+    public void setPid(Long pid) { this.pid = pid; }
+    public List<Node> getChildren() { return children; }
+    public void setChildren(List<Node> children) { this.children = children; }
+    public Node getParent() { return parent; }
+    public void setParent(Node parent) { this.parent = parent; }
+    public String getLabel() { return label; }
+}
+```
+
+```java
+Tree<Node, Long> tree = new Tree<>(Arrays.asList(
+    new Node(1L, null, "产品"),
+    new Node(2L, 1L, "数据库"),
+    new Node(3L, 2L, "Rabbit SQL"),
+    new Node(4L, 1L, "其他")
+));
+
+List<Node> roots = tree.getRoots();
+Node node = tree.getNode(3L);          // 不存在时返回 null
+List<Node> path = tree.getPath(3L);    // [1, 2, 3]，从最高已知祖先到自身
+List<Long> ids = tree.search(n -> n.getLabel().contains("SQL"));
+tree.updateNode(3L, Collections.singletonMap("label", "Rabbit SQL 文档"));
+
+Tree<Node, Long> filtered = tree.filterTree(n -> n.getId().equals(3L));
+// filtered 保留 1、2、3，排除 4；原树不变。
+tree.moveNode(2L, null);               // 2 连同后代 3 移到根列表末尾
+List<Node> flat = tree.toFlat();       // 当前树按根优先顺序展开，清除父子引用
+```
+
+Java 版只有 `pid == null` 表示根节点，`0` 和空字符串均可作为普通 ID。构建时浅复制输入节点及继承的实例字段，忽略输入中的 `children`、`parent`，再根据 `id`、`pid` 建立关系。默认节点类需要无参构造器；也可通过 `new Tree<>(flatNodes, copier)` 提供复制函数，每次返回保留业务字段的新节点。
+
+### 移动与筛选
+
+`moveNode(id, pid)` 将节点及其子树追加到目标父节点的子列表末尾，`pid` 为 `null` 时追加到根列表末尾。节点实例及索引顺序保持不变；移动到当前父节点时不改变位置。源节点不存在、目标父节点不存在，或目标是自身/后代时抛出异常，校验失败不修改树。
+
+`filterTree(predicate)` 对每个索引节点按索引顺序调用一次条件函数，返回只包含命中节点及其已知祖先的新树。父节点命中不会自动保留后代，这一点与 `searchWithContext` 不同，后者返回命中节点、祖先和后代的 ID。
+
+筛选保留当前根节点、兄弟节点顺序，包括移动后的顺序；新树按遍历顺序建立索引。结果节点重新复制并建立内部父子引用，因此移动、删除结果中的节点不会改变原树。业务字段仍遵循浅复制规则，嵌套业务对象可能被共享。
+
+文档站前端的数据工具 `src/app/common/tree.ts` 同样提供 `moveNode(id, pid)` 和 `filterTree(predicate)`，上述移动、筛选行为与 Java 版一致。前端使用 `DataNode<T, ID>`，`pid` 为 `null` 或 `undefined` 都表示根节点；Java 使用 `TreeNode<T, ID>`。
+
+### 结构约束与孤立节点
+
+- Java 版构建时拒绝空节点、空 ID、重复 ID、自指和父链成环。`addNode(pid, node)` 支持携带子树，并在修改前检查目标父节点、重复 ID 和子树结构。
+- Java 版 `updateNode` 只更新已有的业务实例字段，字段值须与类型兼容；禁止修改 `id`、`pid`、`children`、`parent`。变更父节点使用 `moveNode`。
+- 缺失父节点的分支会保留在索引中，不自动成为根节点。`getSize()`、`getNode()`、`search()` 和 `filterTree()` 会包含这些节点；`getRoots()` 和 `toFlat()` 只从根节点开始，因此树可能有索引节点但 `isEmpty()` 仍为 `true`。筛选后的孤立分支继续保持这一规则，可用 `moveNode` 接回树中。
+- `getAncestors` 从直接父节点向上返回；`getPath` 从最高已知祖先返回到自身；`getDescendants` 返回全部后代。`getSiblings` 包含自身所在的兄弟列表，孤立节点沿用根列表规则；`getSibling` 支持 `NEXT`、`PREVIOUS`、`FIRST`、`LAST`。
+- `removeNode(id)` 连同后代一起从结构和索引中移除。查询返回的节点、根列表及子列表属于当前可变树，直接修改结构字段不会自动维护索引，应使用 Tree 提供的方法。该类不是线程安全的。
+
 ## SQL 字符串高亮工具
 
 `com.github.chengyuxing.sql.util.SqlHighlighter`

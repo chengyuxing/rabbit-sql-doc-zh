@@ -2,8 +2,10 @@
 
 ## 10.3.23
 
-本次同步更新：`rabbit-common 3.2.15`、`rabbit-sql 10.3.23`、`rabbit-sql-spring-boot-starter 5.3.24`。IDEA 插件不因本次 UUID 更新递增版本，也不调整内置依赖。
+本次同步更新：`rabbit-common 3.2.15`、`rabbit-sql 10.3.23`、`rabbit-sql-spring-boot-starter 5.3.24`。IDEA 插件同步更新到 `2.4.67.231-263`，内置 `rabbit-sql 10.3.23` 和 `rabbit-common 3.2.15`。
 
+- rabbit-common 新增 `com.github.chengyuxing.common.tree.Tree` 与 `TreeNode<T, ID>`，提供扁平数据建树、查找、路径、增删改、子树移动和保留祖先的筛选。Java 版校验重复 ID、父链成环及非法结构修改；保留缺失父节点的索引分支，支持深层树的迭代遍历。用法与边界见 [实用工具](guides/utils)。
+- 文档站前端 Tree 同步增加 `moveNode`、`filterTree`：移动保留子树实例，筛选返回独立结构并保留当前顺序；两端均覆盖孤立节点、非法移动和深层树的回归测试。
 - `ValueUtils.adaptValue(UUID.class, value)` 兼容标准 36 位 UUID 字符串和无横线的 32 位十六进制字符串，支持大小写；UUID 对象及 `null` 保持不变，非法格式会报错，不接受缩短分组或超长分组的宽松解析。
 - `DataRow.toEntity()` 和使用 `ValueUtils.adaptValue` 的实体元数据提供者可将查询字符串映射为 UUID 字段，支持 UUID 类型的单一主键。
 - UUID 参数改用 `setString` 绑定带横线的标准 36 位字符串，不统一改成 `setObject(UUID)`。文本列需能容纳 36 个字符；旧的 32 位文本主键仍可读取，但按 UUID 参数查询、更新或删除前需统一存储格式，或按原始字符串显式执行 SQL。
@@ -16,11 +18,11 @@
 
 ### IDEA 插件 2.4.66
 
-插件此前已递增到 `2.4.66.231-263`：修复 IDEA 数据库表重命名触发的异常，XQL 文件监听器忽略非本地虚拟文件，保留本地 SQL 文件的自动重载。该插件仍内置 `rabbit-sql 10.3.22` 和 `rabbit-common 3.2.14`。
+插件此前已递增到 `2.4.66.231-263`：修复 IDEA 数据库表重命名触发的异常，XQL 文件监听器忽略非本地虚拟文件，保留本地 SQL 文件的自动重载。该版本内置 `rabbit-sql 10.3.22` 和 `rabbit-common 3.2.14`。
 
-### IDEA 插件待发布修复
+### IDEA 插件 2.4.67
 
-新建 Pipe 弹窗的初始预览改用合法示例类名 `MyPipe`，避免把 `<IPipe>` 当作文件名导致 Windows 的非法路径字符异常。覆盖预览文件名及输入变化的回归测试已加入；本次不调整插件版本和内置依赖。
+新建 Pipe 弹窗的初始预览改用合法示例类名 `MyPipe`，避免把 `<IPipe>` 当作文件名导致 Windows 的非法路径字符异常。覆盖预览文件名及输入变化的回归测试已加入。插件升级到 `2.4.67.231-263`，内置 `rabbit-sql 10.3.23` 和 `rabbit-common 3.2.15`，同步 UUID 值转换、实体映射及动态 SQL 异常定位改进；推荐搭配 Starter `5.3.24`。
 
 ## 10.3.22
 

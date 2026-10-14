@@ -44,7 +44,9 @@ baki.execute("delete from test.user where id = :id", args);
 
 ## 升级到 10.3.23
 
-版本组合为 Rabbit SQL `10.3.23`、rabbit-common `3.2.15`、Starter `5.3.24`。按 common、SQL、Starter 的顺序发布；显式锁定依赖的项目同步更新。IDEA 插件保持现有版本和内置依赖。
+版本组合为 Rabbit SQL `10.3.23`、rabbit-common `3.2.15`、Starter `5.3.24`。按 common、SQL、Starter 的顺序发布；显式锁定依赖的项目同步更新。IDEA 插件更新到 `2.4.67.231-263`，同步内置 `rabbit-sql 10.3.23` 和 `rabbit-common 3.2.15`；构建插件前先准备这两个版本的依赖。
+
+本版新增通用树工具，导入 `com.github.chengyuxing.common.tree.Tree` 和 `TreeNode` 即可使用。节点实现 `TreeNode<T, ID>`；Java 根节点的 `pid` 使用 `null`，结构调整通过 `moveNode`、`addNode`、`removeNode` 完成，`updateNode` 只修改业务字段。完整示例及与前端 Tree 的差异见 [实用工具](guides/utils)。
 
 UUID 查询结果可以是 UUID 对象、标准 36 位字符串或紧凑 32 位字符串。自定义 `EntityMetaProvider.columnValue` 时调用 `ValueUtils.adaptValue(field.getType(), value)` 即可复用转换。
 
