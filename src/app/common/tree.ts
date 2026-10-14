@@ -151,9 +151,14 @@ export class Tree<T extends DataNode<T, ID>, ID = string | number> {
     }
   }
 
-  updateNode(id: ID, updates: Omit<Partial<T>, 'children' | 'parent'>) {
+  updateNode(id: ID, updates: Omit<Partial<T>, 'id' | 'pid' | 'children' | 'parent'>) {
     const node = this.getNode(id);
     if (node) {
+      for (const key of Object.keys(updates)) {
+        if (['id', 'pid', 'children', 'parent'].includes(key)) {
+          throw new Error(`Cannot update tree field: ${key}; use moveNode to change parent`);
+        }
+      }
       Object.assign(node, updates);
     }
   }
