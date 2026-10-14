@@ -16,6 +16,8 @@ export class Tree<T extends DataNode<T, ID>, ID = string | number> {
    * 根据扁平数组创建一个新实例。
    *
    * 根节点需要属性 `pid` 为 `null` 或 `undefined`。
+   * ID 不能为 null/undefined 或重复；父子关系不能形成循环。
+   * 缺失父节点的节点仍保留在索引中，不会自动成为根节点。
    * @param data flatten datasource
    */
   constructor(protected data: T[]) {
@@ -27,9 +29,28 @@ export class Tree<T extends DataNode<T, ID>, ID = string | number> {
     const roots: T[] = [];
     const idMap = new Map<ID, T>();
     for (const node of clonedNodes) {
+      if (node.id == null) {
+        throw new Error('Tree node ID must not be null or undefined');
+      }
+      if (idMap.has(node.id)) {
+        throw new Error(`Duplicate ID: ${node.id}`);
+      }
       node.children = [];
       node.parent = undefined;
       idMap.set(node.id, node);
+    }
+    // 沿 pid 迭代检查，每个节点仅完成一次校验，避免深树递归和重复遍历。
+    const checked = new Set<ID>();
+    for (const node of clonedNodes) {
+      const path = new Set<ID>();
+      for (let current: T | undefined = node; current && !checked.has(current.id);
+           current = current.pid == null ? undefined : idMap.get(current.pid)) {
+        if (path.has(current.id)) {
+          throw new Error(`Cycle detected at node: ${current.id}`);
+        }
+        path.add(current.id);
+      }
+      path.forEach(id => checked.add(id));
     }
     for (const node of clonedNodes) {
       if (node.pid === null || node.pid === undefined) {
