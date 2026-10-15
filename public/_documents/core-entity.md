@@ -36,6 +36,17 @@ guest.ifPresent(value -> {
 
 `query(queryId)` 的参数仍是查询标识，不会生成主键条件。按主键查一条记录使用 `findById(id)`；组合查询条件使用下方的 `query().where(...)`。
 
+## 按主键判断存在与删除（未发布）
+
+```java
+boolean present = baki.entity(Guest.class).existsById(42L);
+int deleted = baki.entity(Guest.class).deleteById(42L);
+```
+
+这两个方法与 `findById` 使用同一主键元数据，支持继承属性和自定义列名，并使用预编译参数绑定。`null` 主键会报错；记录不存在时分别返回 `false` 和 `0`。删除不需要先查询或构造实体。
+
+`existsById` 只查询常量并限制最多一行，不执行计数查询或实体映射。`existsById` 与后续插入、更新是独立操作，不能用“先判断再写入”替代数据库唯一约束或并发控制。
+
 ## 查询
 
 ```java
@@ -56,7 +67,19 @@ List<Guest> guests = baki.entity(Guest.class)
 - `findFirst()`
 - `pageable(page, size)`
 - `count()`
+- `exists()`（未发布）
 - `forEach(consumer)`
+
+条件存在性查询（未发布）：
+
+```java
+boolean present = baki.entity(Guest.class)
+    .query()
+    .where(w -> w.eq(Guest::getAddress, "Kunming"))
+    .exists();
+```
+
+不加 `where` 时判断表中是否存在记录。`exists()` 复用当前条件，忽略 `select` 和用户指定的排序，不改变查询对象的配置，也不加载实体或执行 `count()`。它使用现有数据库分页适配限制一行，并在结束时关闭查询资源；SQL Server 的分页语法需要内部按主键排序。自定义数据库需提供对应的 `PageHelper`。
 
 ## 插入
 
@@ -92,6 +115,23 @@ baki.entity(Guest.class)
 rabbit-common `3.2.15` 会在查询值转换或 setter 调用失败时，说明实体类、属性、来源列名、来源值类型、目标类型及 setter。异常类型为 `IllegalStateException`，原始转换或 setter 异常保留在 `getCause()`；继承字段及自定义列名同样适用。
 
 实体转 Map 时调用 getter 失败，也会说明实体、属性、列名及 getter，并保留原始原因。排查顺序和示例见 [故障排查](documents/troubleshooting)。
+
+## 枚举字段（未发布）
+
+枚举默认按 `name()` 写入字符串列，查询时按常量名称恢复；重写 `toString()` 不影响存储值。名称区分大小写，不会自动去除空白，也不会根据显示文本匹配枚举。
+
+```java
+enum Status { ACTIVE, BLOCKED }
+
+// 默认存为 "ACTIVE" 或 "BLOCKED"
+private Status status;
+```
+
+字段仍需提供 JavaBean getter/setter。实体单条/批量增删改、`only`/`exclude`、显式 `set` 和 `where` 中的枚举值保持一致，包括 `in`、`between` 和嵌套条件。数字列可按合法整数序号恢复枚举；小数、越界序号和未知名称会报错。数字字符串不会自动按序号解释。
+
+要按序号写入，在 `EntityMetaProvider.columnMeta` 中设置 `columnMeta.setEnumerated(EntityManager.ColumnEnumType.ORDINAL)`；`STRING` 或未配置时按名称写入。JPA 的 `@Enumerated(STRING/ORDINAL)` 适配示例见 [JPA 适配](guides/advanced-jpa)。核心不直接读取 JPA 注解。优先使用名称存储，避免枚举常量顺序调整后旧序号含义改变。
+
+原生 SQL 的参数没有实体字段元数据，枚举仍按 `name()` 绑定；需要序号时显式传入 `status.ordinal()`。数据库原生枚举类型的绑定仍按驱动需要配置 `StatementValueHandler`，不假定字符串绑定适用于所有原生枚举列。
 
 ## UUID 字段与主键
 
@@ -132,6 +172,55 @@ baki.entity(Guest.class)
     .update()
     .save(guest);
 ```
+
+### 本次更新选择字段（未发布）
+
+`only(...)` 表示只更新指定属性，`exclude(...)` 表示排除指定属性。两者都使用实体 getter 方法引用，支持继承属性和 `@Column(name = "...")` 映射，不需要填写数据库列名。单个实体与批量更新共用相同的调用方式。
+
+只更新指定字段：
+
+```java
+baki.entity(Guest.class)
+    .update()
+    .only(Guest::getAddress)
+    .save(guest);
+
+// 批量只更新 address；null 值也写入数据库，可用于清空字段
+baki.entity(Guest.class)
+    .update()
+    .only(Guest::getAddress)
+    .withNullValues()
+    .save(guests);
+```
+
+排除指定字段：
+
+```java
+// 单个实体：保留数据库中原来的 address
+baki.entity(Guest.class)
+    .update()
+    .exclude(Guest::getAddress)
+    .save(guest);
+
+// 批量：每个实体都排除 address，其余可更新字段允许写入 null
+baki.entity(Guest.class)
+    .update()
+    .exclude(Guest::getAddress)
+    .withNullValues()
+    .save(guests);
+```
+
+字段选择配置只属于当前 `Update` 对象，同一种方法重复调用会累加，重复字段自动去重；复用该对象时规则仍然生效。新建 `update()` 对象不继承之前的配置，也不会修改共享实体元数据。
+
+`only` 与 `exclude` 互斥：已经配置其中一种，再调用另一种时立即抛出异常，不按调用顺序覆盖或合并规则。`only` 至少需要一个可更新属性，指定主键、`updatable = false` 或未映射属性会报错，校验失败不改变已有配置。未配置 `only` 时，空参数的 `exclude()` 保持原配置不变。
+
+需要局部更新时优先使用 `only`，这样实体以后新增属性也不会自动进入本次更新。
+
+默认仍跳过 null 值；启用 `withNullValues()` 后，仅本次选中的可更新字段允许写入 null，批量时使用 JDBC batch。`@Column(updatable = false)` 等原有约束继续生效。即使排除主键属性，也只是从 `SET` 候选中排除，主键仍用于 `WHERE` 定位且必须非空。
+
+排除后没有可更新字段时，单条返回 `0`，批量每条对应一个 `0`，不执行更新 SQL。实体本身没有可更新列时仍按原有规则报错。引用未映射属性会报错；`only` 和 `exclude` 仅用于按主键 `save(entity)` / `save(entities)`，与下面的 `where().set()` 混用会在执行时被拒绝。按条件更新直接用 `set` 指定要更新的字段即可。
+
+### 按条件更新
 
 按条件更新部分字段：
 

@@ -1,5 +1,12 @@
 # 框架变更日志
 
+## 未发布
+
+- 新增实体主键方法 `existsById(id)`、`deleteById(id)` 和条件查询终态 `exists()`。存在性查询使用常量投影及一行分页，不加载实体、不执行计数，并关闭查询资源；空主键被拒绝，未匹配时分别返回 `false` / `0`。
+- 支持枚举字段：查询名称字符串或合法数字序号可转换为枚举，写入默认使用 `name()`。通过 `ColumnMeta.enumerated` 配置名称或序号存储，统一作用于实体单条/批量 CRUD、显式 setter、主键及字段条件，适配器在 `columnMeta` 中设置即可；JPA 文档补充 `@Enumerated(STRING/ORDINAL)` 适配。原生 SQL 枚举参数默认按名称绑定，不自动读取实体注解。
+
+- 实体更新新增 `update().only(Entity::getField)` 和 `update().exclude(Entity::getField)`，分别用于只更新指定字段和排除指定字段，支持单个实体和批量按主键更新。同种配置累加，两种模式在配置时互斥，且仅作用于当前 Update 对象。兼容继承属性、自定义列名和 `withNullValues()`，保留主键及不可更新列约束；排除全部更新字段时返回零行结果，不执行 SQL。`where().set()` 保持显式赋值方式，不与字段选择模式混用。完整说明见 [实体操作](documents/core-entity)。
+
 ## 10.3.23
 
 本次同步更新：`rabbit-common 3.2.15`、`rabbit-sql 10.3.23`、`rabbit-sql-spring-boot-starter 5.3.24`。IDEA 插件同步更新到 `2.4.67.231-263`，内置 `rabbit-sql 10.3.23` 和 `rabbit-common 3.2.15`。

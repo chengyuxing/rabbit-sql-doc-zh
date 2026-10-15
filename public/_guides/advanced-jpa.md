@@ -89,7 +89,38 @@ public Object columnValue(Field field, Object value) {
 }
 ```
 
-实现这个接口后，框架内部所有数据库操作中的实体字段映射和值转换都会统一通过它完成；但列约束只在 `Baki#entity()` 中生效。
+查询结果映射为实体时通过 `columnValue` 转换；枚举参数的存储方式由下方的 `ColumnMeta.enumerated` 配置。列约束只在 `Baki#entity()` 中生效。
+
+## 枚举列映射（未发布）
+
+`ValueUtils.adaptValue(field.getType(), value)` 支持将名称字符串或数字序号映射为枚举字段。名称需完全匹配；数字需为范围内的整数。`null` 保持为空，同类型枚举对象保持不变。
+
+写入方式由 `ColumnMeta.enumerated` 决定：`STRING` 使用常量的 `name()`，`ORDINAL` 使用从 0 开始的序号；不配置（`null`）时默认按名称存储。该配置用于实体单条/批量 CRUD、显式 `set`、按主键操作及字段条件，`in` 和 `between` 中的每个枚举绑定值也遵守同一规则。
+
+用户可以在自己的 `EntityMetaProvider.columnMeta(Field)` 中适配 JPA 注解。将下面的代码加入前文方法，在返回 `columnMeta` 前设置即可，无需新增提供者接口方法：
+
+```java
+Enumerated enumerated = field.getAnnotation(Enumerated.class);
+if (enumerated != null) {
+    columnMeta.setEnumerated(enumerated.value() == EnumType.ORDINAL
+            ? EntityManager.ColumnEnumType.ORDINAL
+            : EntityManager.ColumnEnumType.STRING);
+}
+```
+
+```java
+@Enumerated(EnumType.STRING)
+private Status status;        // 字符串列存常量名称
+
+@Enumerated(EnumType.ORDINAL)
+private Status ordinalStatus; // 数字列存从 0 开始的序号
+```
+
+不依赖 JPA 时，也可以直接根据业务规则调用 `columnMeta.setEnumerated(...)`，核心不读取 JPA 注解。示例中不标注 `@Enumerated` 时保留 Rabbit 默认的名称存储；显式标注 `@Enumerated` 而省略其参数时，注解默认值为 `ORDINAL`。这是适配器明确选择的规则，不表示完整实现了 JPA 的默认枚举推断。Spring Boot 2.x 使用 `javax.persistence`，使用 Jakarta Persistence 的应用替换成对应的 `jakarta.persistence` 导入。
+
+建议优先使用 `STRING`。调整枚举顺序会改变 `ORDINAL` 的含义；未知名称、小数、越界序号不会被静默转换。数字序号列应使用数据库数字类型，字符串 `"1"` 不会被当作序号。查询方向仍由 `columnValue` 负责，继续调用 `ValueUtils.adaptValue` 即可按返回值类型完成映射。
+
+原生 SQL、Map 参数没有实体列元数据，直接传枚举时 JDBC 按名称绑定，需要序号时显式传 `ordinal()`。此处仍未自动适配 `@Convert` / `AttributeConverter`。
 
 ## 主键查询与日期转换
 

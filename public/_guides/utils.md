@@ -319,6 +319,15 @@ UncheckedCloseable nest(AutoCloseable closeable);
 
 `com.github.chengyuxing.common.util.ValueUtils`
 
+### 枚举类型适配（未发布）
+
+```java
+Status state = ValueUtils.adaptValue(Status.class, "ACTIVE");
+Status first = ValueUtils.adaptValue(Status.class, 0);
+```
+
+字符串必须与枚举常量名称完全一致，不使用 `toString()`，不忽略大小写或空白。数字按从 0 开始的序号转换，必须为整数且在枚举范围内；数字字符串 `"0"` 不作序号解释。未知名称、小数、越界序号及其他不兼容类型会报错；`null` 和同类型枚举对象保持不变。`DataRow.toEntity` 及使用 `ValueUtils.adaptValue` 的元数据提供者可复用这项能力。
+
 ### UUID 类型适配
 
 从 rabbit-common `3.2.15` 起，支持标准 36 位 UUID 字符串及无横线的 32 位十六进制字符串：
