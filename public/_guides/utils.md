@@ -319,7 +319,7 @@ UncheckedCloseable nest(AutoCloseable closeable);
 
 `com.github.chengyuxing.common.util.ValueUtils`
 
-### 枚举类型适配（未发布）
+### 枚举类型适配（3.2.16 起）
 
 ```java
 Status state = ValueUtils.adaptValue(Status.class, "ACTIVE");
@@ -413,6 +413,32 @@ boolean isBasicType(Object value);
 ```java
 <T> T getInstance(Class<T> clazz, Object... constructorParameters);
 ```
+
+### 泛型返回类型解析（3.2.16 起）
+
+按从 0 开始的索引，获取方法返回类型中的一个泛型参数：
+
+```java
+// 方法签名：Map<String, User> findUsers();
+Class<?> keyType = ReflectUtils.getReturnGenericType(method, 0);   // String.class
+Class<?> valueType = ReflectUtils.getReturnGenericType(method, 1); // User.class
+```
+
+`List<Map<String, Object>>` 的第 0 个参数返回 `Map.class`；`List<String[]>` 返回 `String[].class`。该工具直接使用反射提供的类型对象，无需指定 ClassLoader，不重新按类名加载，也不初始化实体类。
+
+非参数化返回类型（例如 `String` 或原始 `List`）返回 `null`。负索引、超出参数化类型参数数量的索引抛出 `IndexOutOfBoundsException`；选中的参数是通配符、未确定的类型变量或泛型数组时抛出 `IllegalArgumentException`，并包含方法及参数信息。解析一个参数时不会要求其他参数也能解析。
+
+XQL Mapper 的 `protected getReturnGenericType(Method)` 默认调用索引 `0`，子类仍可重写；工具支持读取多个泛型参数，并不意味着 Mapper 自动支持任意泛型返回结构的组装。
+
+### Bean 候选类型判断（3.2.16 起）
+
+```java
+boolean candidate = ReflectUtils.isBindableObject(type);
+```
+
+用于初步判断是否适合按 JavaBean 属性读取或映射。排除 `java.*` / `javax.*` / `jakarta.*` 类型、接口、基本类型、数组、枚举及枚举常量的子类、合成类和 JDK 动态代理；也排除 `Number`、`CharSequence`、`Date`、`Calendar`、`Map`、`Iterable` 的业务子类。
+
+返回 `true` 只表示候选类型，不保证存在 getter、setter 或可用构造器。读取已存在的参数对象不需要无参构造器；创建查询结果实体时，由实际映射路径检查构造器与实例化能力，并保留异常原因。
 
 ## 字符串工具
 

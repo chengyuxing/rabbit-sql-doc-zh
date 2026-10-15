@@ -36,7 +36,7 @@ guest.ifPresent(value -> {
 
 `query(queryId)` 的参数仍是查询标识，不会生成主键条件。按主键查一条记录使用 `findById(id)`；组合查询条件使用下方的 `query().where(...)`。
 
-## 按主键判断存在与删除（未发布）
+## 按主键判断存在与删除（10.3.24 起）
 
 ```java
 boolean present = baki.entity(Guest.class).existsById(42L);
@@ -67,10 +67,10 @@ List<Guest> guests = baki.entity(Guest.class)
 - `findFirst()`
 - `pageable(page, size)`
 - `count()`
-- `exists()`（未发布）
+- `exists()`（10.3.24 起）
 - `forEach(consumer)`
 
-条件存在性查询（未发布）：
+条件存在性查询（10.3.24 起）：
 
 ```java
 boolean present = baki.entity(Guest.class)
@@ -116,7 +116,7 @@ rabbit-common `3.2.15` 会在查询值转换或 setter 调用失败时，说明�
 
 实体转 Map 时调用 getter 失败，也会说明实体、属性、列名及 getter，并保留原始原因。排查顺序和示例见 [故障排查](documents/troubleshooting)。
 
-## 枚举字段（未发布）
+## 枚举字段（10.3.24 起）
 
 枚举默认按 `name()` 写入字符串列，查询时按常量名称恢复；重写 `toString()` 不影响存储值。名称区分大小写，不会自动去除空白，也不会根据显示文本匹配枚举。
 
@@ -132,6 +132,21 @@ private Status status;
 要按序号写入，在 `EntityMetaProvider.columnMeta` 中设置 `columnMeta.setEnumerated(EntityManager.ColumnEnumType.ORDINAL)`；`STRING` 或未配置时按名称写入。JPA 的 `@Enumerated(STRING/ORDINAL)` 适配示例见 [JPA 适配](guides/advanced-jpa)。核心不直接读取 JPA 注解。优先使用名称存储，避免枚举常量顺序调整后旧序号含义改变。
 
 原生 SQL 的参数没有实体字段元数据，枚举仍按 `name()` 绑定；需要序号时显式传入 `status.ordinal()`。数据库原生枚举类型的绑定仍按驱动需要配置 `StatementValueHandler`，不假定字符串绑定适用于所有原生枚举列。
+
+## 布尔字段存储（10.3.24 起）
+
+实体使用 `boolean` / `Boolean`、数据库使用数字 `0/1`、字符串 `"0"/"1"` 或 `"N"/"Y"` 时，可以在 `EntityMetaProvider.columnMeta(Field)` 配置 `ColumnMeta.booleanStorage`，统一处理读取和实体参数绑定：
+
+```java
+// varchar 存储 "0" / "1"
+columnMeta.setBooleanStorage(EntityManager.BooleanStorage.ZERO_ONE_STRING);
+```
+
+数字列使用 `NUMERIC`，`"N"/"Y"` 字符串列使用 `YES_NO`。可通过用户自己的注解标记字段，完整示例见 [JPA 适配：布尔列存储](guides/advanced-jpa)。核心不要求使用 JPA 注解。
+
+该配置覆盖单条/批量实体操作、显式 `set` 和 WHERE 参数；例如 `.eq(User::getEnabled, true)` 按上述配置绑定字符串 `"1"`。参数仍传布尔值，`false` 会正常写入；`null` 保持为空，默认更新跳过 `null`，`withNullValues()` 可显式清空。
+
+配置仅适用于 `boolean` / `Boolean`，非法字段类型或存储值会报错。允许空值的列应使用 `Boolean`。未配置时保持原有行为；配置后的查询结果由框架按存储规则转换，不再调用该字段的提供者 `columnValue`。
 
 ## UUID 字段与主键
 
@@ -173,7 +188,7 @@ baki.entity(Guest.class)
     .save(guest);
 ```
 
-### 本次更新选择字段（未发布）
+### 本次更新选择字段（10.3.24 起）
 
 `only(...)` 表示只更新指定属性，`exclude(...)` 表示排除指定属性。两者都使用实体 getter 方法引用，支持继承属性和 `@Column(name = "...")` 映射，不需要填写数据库列名。单个实体与批量更新共用相同的调用方式。
 

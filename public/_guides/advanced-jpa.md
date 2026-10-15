@@ -89,9 +89,9 @@ public Object columnValue(Field field, Object value) {
 }
 ```
 
-查询结果映射为实体时通过 `columnValue` 转换；枚举参数的存储方式由下方的 `ColumnMeta.enumerated` 配置。列约束只在 `Baki#entity()` 中生效。
+查询结果映射为实体时默认通过 `columnValue` 转换；枚举参数的存储方式由下方的 `ColumnMeta.enumerated` 配置。显式配置 `ColumnMeta.booleanStorage` 的布尔字段由框架直接转换查询结果，不再调用该字段的 `columnValue`。列约束只在 `Baki#entity()` 中生效。
 
-## 枚举列映射（未发布）
+## 枚举列映射（10.3.24 起）
 
 `ValueUtils.adaptValue(field.getType(), value)` 支持将名称字符串或数字序号映射为枚举字段。名称需完全匹配；数字需为范围内的整数。`null` 保持为空，同类型枚举对象保持不变。
 
@@ -121,6 +121,79 @@ private Status ordinalStatus; // 数字列存从 0 开始的序号
 建议优先使用 `STRING`。调整枚举顺序会改变 `ORDINAL` 的含义；未知名称、小数、越界序号不会被静默转换。数字序号列应使用数据库数字类型，字符串 `"1"` 不会被当作序号。查询方向仍由 `columnValue` 负责，继续调用 `ValueUtils.adaptValue` 即可按返回值类型完成映射。
 
 原生 SQL、Map 参数没有实体列元数据，直接传枚举时 JDBC 按名称绑定，需要序号时显式传 `ordinal()`。此处仍未自动适配 `@Convert` / `AttributeConverter`。
+
+## 布尔列存储（10.3.24 起）
+
+通过 `ColumnMeta.booleanStorage`，实体的 `boolean` / `Boolean` 字段可以和以下存储形式双向转换：
+
+| `EntityManager.BooleanStorage` | `false` 写入值 | `true` 写入值 | 适用列 |
+| --- | --- | --- | --- |
+| `NUMERIC` | 整数 `0` | 整数 `1` | 数字列 |
+| `ZERO_ONE_STRING` | 字符串 `"0"` | 字符串 `"1"` | VARCHAR / CHAR |
+| `YES_NO` | 字符串 `"N"` | 字符串 `"Y"` | VARCHAR / CHAR |
+
+例如系统表使用 `varchar` 存储 `"0"/"1"`，应选择 `ZERO_ONE_STRING`。框架会绑定字符串，不依赖数据库把整数隐式转换成字符串。
+
+核心不需要新增实体注解，也不自动解析 JPA `@Convert`。用户可以定义自己的标记：
+
+```java
+import com.github.chengyuxing.sql.EntityManager.BooleanStorage;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+public @interface StoredBoolean {
+    BooleanStorage value();
+}
+```
+
+实体字段示例（需提供对应的 getter / setter）：
+
+```java
+@StoredBoolean(BooleanStorage.ZERO_ONE_STRING)
+private Boolean enabled;
+
+@StoredBoolean(BooleanStorage.YES_NO)
+private Boolean approved;
+
+@StoredBoolean(BooleanStorage.NUMERIC)
+private boolean deleted;
+```
+
+在现有的 `EntityMetaProvider.columnMeta(Field)` 返回元数据前，加入解析逻辑即可：
+
+```java
+StoredBoolean storedBoolean = field.getAnnotation(StoredBoolean.class);
+if (storedBoolean != null) {
+    columnMeta.setBooleanStorage(storedBoolean.value());
+}
+```
+
+也可以按项目统一规则或外部配置直接设置 `columnMeta.setBooleanStorage(...)`，不必使用注解。配置只能用于 `boolean` / `Boolean` 字段，类型不匹配会在实体元数据初始化时报错。
+
+实体单条/批量插入、更新、显式 `set`、按主键操作和 WHERE 参数共用存储规则；`only` / `exclude` 仍按原来的字段选择语义工作，`in` / `between` 的每个绑定值也会转换。实体 API 的参数应传 `Boolean`，例如：
+
+```java
+baki.entity(User.class).query()
+        .where(w -> w.eq(User::getEnabled, true)) // 绑定字符串 "1"
+        .list();
+
+baki.entity(User.class).update()
+        .where(w -> w.eq(User::getId, 42L))
+        .set(User::getEnabled, false) // 绑定字符串 "0"
+        .save();
+```
+
+读取覆盖实体查询的 `list` / `stream` / `top` / `pageable` / `findById`，以及原生查询的 `entities(Class)` / `findFirstEntity(Class)`。配置过的字段由框架直接转换为布尔值，其他字段继续由提供者的 `columnValue` 转换。
+
+`NUMERIC` 只接受值为 0 或 1 的 JDBC 数值（支持不同 Number 类型）；两种字符串规则要求精确匹配，不忽略大小写或空白。驱动已经返回 `Boolean` 时直接保留。非法值会报出实体属性、列名和存储规则，避免将未知数据静默转换成 `false`。
+
+`null` 保持为空：允许数据库空值的字段使用 `Boolean`；将空值赋给基本类型 `boolean` 仍会映射失败。默认更新继续跳过 `null`，显式清空需要 `withNullValues()`；`false` 是有效值，不会被跳过。
+
+未配置（`null`）时保持原来的提供者转换和 JDBC 布尔绑定，不会全局改变 `ValueUtils.adaptValue`。原生 SQL / Map 参数没有实体字段上下文，需自行传入匹配数据库列类型的值；直接使用 `DataRow.toEntity` 时也不会自动应用 `ColumnMeta`。
 
 ## 主键查询与日期转换
 

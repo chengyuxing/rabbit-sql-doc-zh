@@ -2,6 +2,16 @@
 
 本文列出从旧版本升级到当前版本时需要注意的破坏性变更。
 
+## 升级到 10.3.24
+
+版本组合为 Rabbit SQL `10.3.24`、rabbit-common `3.2.16`、Starter `5.3.25`。使用 Starter 的项目升级 Starter 即可获得配套 SQL/common 依赖；通过 dependencyManagement 或直接依赖锁定旧版本的项目需同步调整。发布顺序为 common、SQL、Starter，本次不更新 IDEA 插件及其内置依赖。
+
+- `update().only(...)` / `exclude(...)`、`existsById` / `deleteById` / `query().exists()` 是新增实体 API，已有 `where().set()` 更新语义不变，见 [实体操作](documents/core-entity)。
+- 枚举名称匹配严格区分大小写，数字序号必须是范围内的整数；JDBC 直接绑定枚举时使用 `name()`。需要按序号存储的实体字段应配置 `ColumnMeta.enumerated = ORDINAL`，不能依赖枚举的 `toString()` 或调整枚举声明顺序。
+- `ColumnMeta.booleanStorage` 默认不启用。显式配置后，实体字段、`set` 和 WHERE 参数使用布尔值，框架负责转为数字 `0/1`、字符串 `"0"/"1"` 或 `"N"/"Y"`。配置字段的查询值由框架直接解码，不再调用该字段的 `EntityMetaProvider.columnValue`；其他字段继续使用原来的提供者转换。可空列使用 `Boolean`，自定义注解示例见 [JPA 适配](guides/advanced-jpa)。
+- `ReflectUtils.getReturnGenericType(method, index)` 复用已有反射类型；Mapper 保留原有 `protected` 方法，默认取第一个泛型参数。通配符和未确定的类型变量仍不自动推断实体类型，错误信息现在明确指出方法和参数。
+- Bean 候选判断更严格：原先被误识别为 Bean 的 JDK 代理、带实现体的枚举常量和基础值类型子类，不再自动展开为实体参数。标量参数使用 `@Arg` 显式命名；Map / Iterable 参数继续走对应处理路径。
+
 ## 事务 API
 
 Spring Boot 环境请使用：
